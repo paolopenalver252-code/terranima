@@ -844,7 +844,8 @@ html.js .hero__img {
 html.js .hero__img img {
   scale: 1.22;
 }
-html.js .hero__title .line > span {
+html.js .hero__title .line > span,
+html.js .svc-hero__title .line > span {
   transform: translateY(108%);
 }
 html.js [data-intro] {
@@ -862,7 +863,8 @@ html.is-ready .hero__img img {
   scale: 1;
   transition: scale 1.9s var(--ease-out);
 }
-html.is-ready .hero__title .line > span {
+html.is-ready .hero__title .line > span,
+html.is-ready .svc-hero__title .line > span {
   transform: none;
   transition: transform 1s var(--ease-mask) 0.55s;
 }
@@ -1799,7 +1801,7 @@ html.js .footer__mark.is-in .ch {
 }
 @media (min-width: 760px) {
   .footer__cols {
-    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
   }
 }
 .footer__heading {
@@ -1892,6 +1894,7 @@ html.rm .preview img {
   scale: 1;
 }
 html.rm .hero__title .line > span,
+html.rm .svc-hero__title .line > span,
 html.rm [data-lines] .ln__in,
 html.rm .footer__mark .ch,
 html.rm [data-intro],

@@ -1,0 +1,108 @@
+      <!-- ============ CONTACTO (compartido) ============ -->
+      <section class="contact" id="contacto" aria-labelledby="contacto-title">
+        <div class="contact__grid">
+          <figure class="contact__media" data-reveal="clip" data-dir="center">
+            <div class="contact__img" data-scale>
+              <img
+                data-pic="contacto-costa"
+                sizes="(min-width: 960px) 45vw, 100vw"
+                alt="Casa encalada con contraventanas verdes frente al mar y los riscos de Lanzarote"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <figcaption class="contact__overlay">
+              <span class="display contact__overlay-title" data-lines>Hablemos de tu obra.</span>
+              <span class="mono">Arrecife · Lanzarote</span>
+            </figcaption>
+          </figure>
+
+          <div class="contact__body">
+            <p class="label"><span class="label__num">{{num}}</span> Contacto</p>
+            <h2 class="section-title" id="contacto-title" data-lines>Cuéntanos tu proyecto.</h2>
+            <p class="contact__intro" data-fade>
+              Explícanos qué quieres construir, reformar, rehabilitar o reparar. No hace falta que lo
+              tengas todo definido: con una descripción clara podemos estudiar el caso y plantearte
+              los siguientes pasos.
+            </p>
+
+            <div class="contact__helps" data-fade>
+              <p class="mono contact__helps-title">Para valorarlo, nos ayuda saber</p>
+              <ol class="contact__helps-list">
+                <li>Dónde está el inmueble o la parcela (municipio o zona).</li>
+                <li>Qué tipo de edificio es y para qué se usa: vivienda, local, edificio…</li>
+                <li>Qué te gustaría hacer y qué te preocupa del estado actual.</li>
+                <li>Si tienes proyecto, planos o fotos, y cuándo te gustaría empezar.</li>
+              </ol>
+            </div>
+
+            <form class="form" data-form novalidate>
+              <div class="form__row form__row--2">
+                <div class="field">
+                  <label for="f-nombre">Nombre</label>
+                  <input id="f-nombre" name="nombre" type="text" autocomplete="name" required minlength="2" aria-describedby="e-nombre" />
+                  <p class="field__error" id="e-nombre" data-error-for="nombre"></p>
+                </div>
+                <div class="field">
+                  <label for="f-email">Correo electrónico</label>
+                  <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-email" />
+                  <p class="field__error" id="e-email" data-error-for="email"></p>
+                </div>
+              </div>
+
+              <div class="form__row form__row--2">
+                <div class="field">
+                  <label for="f-telefono">Teléfono <span class="field__opt">(opcional)</span></label>
+                  <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="e-telefono" />
+                  <p class="field__error" id="e-telefono" data-error-for="telefono"></p>
+                </div>
+                <div class="field">
+                  <label for="f-tipo">Tipo de obra</label>
+                  <div class="select">
+                    <select id="f-tipo" name="tipo" required aria-describedby="e-tipo">
+                      <option value="">Selecciona una opción</option>
+                      <option>Obra nueva</option>
+                      <option>Reforma</option>
+                      <option>Rehabilitación</option>
+                      <option>Reparación y conservación</option>
+                      <option>Otro</option>
+                    </select>
+                  </div>
+                  <p class="field__error" id="e-tipo" data-error-for="tipo"></p>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="f-mensaje">Tu proyecto</label>
+                <textarea id="f-mensaje" name="mensaje" rows="5" required minlength="20" aria-describedby="h-mensaje e-mensaje" placeholder="Por ejemplo: vivienda de los años setenta en Arrecife, queremos reformar la cocina y los baños y revisar la cubierta…"></textarea>
+                <p class="field__hint" id="h-mensaje">Mínimo 20 caracteres.</p>
+                <p class="field__error" id="e-mensaje" data-error-for="mensaje"></p>
+              </div>
+
+              <div class="field field--check">
+                <input id="f-consent" name="consent" type="checkbox" required aria-describedby="e-consent" />
+                <label for="f-consent">
+                  Acepto que CB Terra Anima utilice estos datos para responder a mi solicitud.
+                </label>
+                <p class="field__error" id="e-consent" data-error-for="consent"></p>
+              </div>
+
+              <div class="form__actions">
+                <button class="btn btn--primary" type="submit" data-submit>
+                  <span class="btn__label">Enviar solicitud</span>
+                  <span class="btn__arrow" aria-hidden="true">→</span>
+                </button>
+              </div>
+              <div class="form__status" role="status" aria-live="polite" data-form-status></div>
+            </form>
+
+            <ul class="contact__details" data-contact-details>
+              <li>
+                <span class="mono">Sede</span>
+                <span>Arrecife, Lanzarote</span>
+              </li>
+              <!-- Teléfono, correo y WhatsApp se añaden desde src/config.js cuando se confirmen. -->
+            </ul>
+          </div>
+        </div>
+      </section>

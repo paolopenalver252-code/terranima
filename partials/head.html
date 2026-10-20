@@ -1,0 +1,28 @@
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f3f0e9" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="CB Terra Anima" />
+    <meta property="og:image" content="%SITE_URL%/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Activa las animaciones de entrada; si el JS principal no llega a cargar,
+      // se desactivan para que el contenido nunca quede oculto.
+      document.documentElement.classList.add('js');
+      // Movimiento reducido: preferencia del sistema o ?motion=reduce (para revisarlo).
+      if (
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        /[?&]motion=reduce\b/.test(location.search)
+      ) {
+        document.documentElement.classList.add('rm');
+      }
+      setTimeout(function () {
+        if (!window.__ta) document.documentElement.classList.remove('js');
+      }, 3000);
+    </script>
+    <script type="module" src="/src/main.js"></script>

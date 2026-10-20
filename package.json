@@ -4,9 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "npm run pages && vite",
+    "build": "npm run pages && vite build",
     "preview": "vite preview",
+    "pages": "node scripts/build-pages.mjs",
     "images": "node scripts/optimize-images.mjs"
   },
   "devDependencies": {

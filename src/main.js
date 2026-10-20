@@ -2,6 +2,7 @@ import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource/ibm-plex-mono/latin-400.css';
 import '@fontsource/ibm-plex-mono/latin-500.css';
 import './styles.css';
+import './pages.css';
 
 import images from './images.json';
 import { CONTACT, FORM_ENDPOINT } from './config.js';
@@ -94,19 +95,29 @@ window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
 /* ---------- Enlace activo en la navegación ---------- */
 // Se calcula en el bucle de scroll: el hero es sticky y nunca deja de intersectar,
 // así que un IntersectionObserver no sabría cuándo volver a «ninguno».
+// Solo cuentan los enlaces que apuntan a una sección de la página actual (/#estudio en la
+// portada, #contacto en cualquier página). En las páginas de servicio queda marcado «Servicios».
 const navLinks = $$('.nav__link');
-const navSections = navLinks.map((a) => $(a.getAttribute('href')));
-let currentNav = null;
+const navTargets = navLinks.map((a) => {
+  const url = new URL(a.href);
+  return url.pathname === location.pathname && url.hash
+    ? document.getElementById(url.hash.slice(1))
+    : null;
+});
+const isServicePage = document.body.classList.contains('page-service');
+let currentNav;
 function updateNav(vh) {
   let current = null;
-  navSections.forEach((section) => {
-    if (section && section.getBoundingClientRect().top <= vh * 0.5) current = section.id;
+  navTargets.forEach((target, i) => {
+    if (target && target.getBoundingClientRect().top <= vh * 0.5) current = i;
   });
   if (current === currentNav) return;
   currentNav = current;
-  navLinks.forEach((a) =>
-    a.setAttribute('aria-current', String(a.getAttribute('href') === `#${current}`)),
-  );
+  navLinks.forEach((a, i) => {
+    const active =
+      i === current || (current === null && isServicePage && a.dataset.nav === 'servicios');
+    a.setAttribute('aria-current', String(active));
+  });
 }
 
 /* ---------- Titulares por líneas reales ---------- */
@@ -114,7 +125,6 @@ function updateNav(vh) {
 // de una máscara. Se recalcula al cambiar el ancho para que los cortes sigan siendo reales.
 function splitLines(el) {
   const text = el.dataset.text || (el.dataset.text = el.textContent.trim().replace(/\s+/g, ' '));
-  el.setAttribute('aria-label', text);
   el.textContent = '';
   const words = text.split(' ').map((word) => {
     const span = document.createElement('span');
@@ -134,12 +144,12 @@ function splitLines(el) {
   lines.forEach((line, i) => {
     const outer = document.createElement('span');
     outer.className = 'ln';
-    outer.setAttribute('aria-hidden', 'true');
     const inner = document.createElement('span');
     inner.className = 'ln__in';
     inner.style.setProperty('--i', i);
     inner.textContent = line.words.join(' ');
-    outer.append(inner);
+    // El espacio final mantiene separadas las palabras para los lectores de pantalla.
+    outer.append(inner, ' ');
     el.append(outer);
   });
 }
@@ -260,22 +270,23 @@ if (services.length) {
   );
   services.forEach((s) => {
     serviceObserver.observe(s);
-    // Ratón: al pasar por encima. Táctil y teclado de lectura: al tocar la fila.
+    // Ratón: al pasar por encima. Teclado: al enfocar el enlace. En táctil la activa el scroll,
+    // y tocar la fila abre la página del servicio (toda la fila es el enlace).
     s.addEventListener('pointerenter', (e) => {
       if (e.pointerType !== 'mouse') return;
       hoverLock = true;
       setService(Number(s.dataset.service));
     });
-    s.addEventListener('click', () => setService(Number(s.dataset.service)));
+    s.addEventListener('focusin', () => setService(Number(s.dataset.service)));
   });
   serviceList.addEventListener('pointerleave', () => (hoverLock = false));
 }
 
 /* ---------- Bucle de scroll ---------- */
 const sequence = $('[data-sequence]');
-const frames = $$('.frame', sequence);
-const steps = $$('[data-step]', sequence);
-const ticks = $$('[data-tick]', sequence);
+const frames = sequence ? $$('.frame', sequence) : [];
+const steps = sequence ? $$('[data-step]', sequence) : [];
+const ticks = sequence ? $$('[data-tick]', sequence) : [];
 const seqCount = $('[data-seq-count]');
 const scaleEls = $$('[data-scale]');
 const parallaxEls = $$('[data-parallax]');
@@ -348,11 +359,27 @@ function updateImages(vh) {
   });
 }
 
+// Índice de las páginas de servicio: marca el apartado que se está leyendo
+const tocLinks = $$('[data-toc]');
+const tocTargets = tocLinks.map((a) => document.getElementById(a.hash.slice(1)));
+let currentToc;
+function updateToc(vh) {
+  if (!tocLinks.length) return;
+  let current = -1;
+  tocTargets.forEach((t, i) => {
+    if (t && t.getBoundingClientRect().top <= vh * 0.35) current = i;
+  });
+  if (current === currentToc) return;
+  currentToc = current;
+  tocLinks.forEach((a, i) => a.setAttribute('aria-current', String(i === current)));
+}
+
 function update() {
   ticking = false;
   const vh = window.innerHeight;
   updateHeader(window.scrollY);
   updateNav(vh);
+  updateToc(vh);
   updateHero(vh);
   updateStatement(vh);
   updateSequence(vh);
@@ -392,6 +419,11 @@ const form = $('[data-form]');
 const statusBox = $('[data-form-status]');
 const submitBtn = $('[data-submit]');
 let attempted = false;
+
+// En las páginas de servicio, el tipo de obra llega preseleccionado
+const serviceType = document.body.dataset.serviceType;
+const typeSelect = form && form.elements.tipo;
+if (serviceType && typeSelect) typeSelect.value = serviceType;
 
 const rules = {
   nombre: (v) => (v.trim().length < 2 ? 'Indica tu nombre.' : ''),
@@ -466,6 +498,7 @@ form.addEventListener('submit', async (e) => {
     });
     if (!res.ok) throw new Error(String(res.status));
     form.reset();
+    if (serviceType && typeSelect) typeSelect.value = serviceType;
     attempted = false;
     showStatus('Solicitud enviada.', ' Gracias por escribirnos; nos pondremos en contacto contigo.', 'success');
   } catch {

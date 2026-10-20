@@ -1,0 +1,70 @@
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <!-- ============ CABECERA ============ -->
+    <header class="site-header" data-header>
+      <div class="site-header__inner container">
+        <a class="brand" href="/#top" aria-label="CB Terra Anima, ir a la portada">
+          <span class="brand__cb">CB</span>
+          <span class="brand__name">Terra Anima</span>
+        </a>
+
+        <nav class="nav" aria-label="Principal">
+          <ul class="nav__list">
+            <li><a class="nav__link" href="/#estudio">Estudio</a></li>
+            <li class="nav__item--sub">
+              <a class="nav__link" href="/#servicios" data-nav="servicios">Servicios</a>
+              <ul class="nav__sub" aria-label="Servicios">
+                <li><a href="/servicios/obra-nueva/"><span class="mono">01</span>Obra nueva</a></li>
+                <li><a href="/servicios/reformas/"><span class="mono">02</span>Reformas</a></li>
+                <li><a href="/servicios/rehabilitacion/"><span class="mono">03</span>Rehabilitación</a></li>
+                <li><a href="/servicios/reparacion-y-conservacion/"><span class="mono">04</span>Reparación y conservación</a></li>
+              </ul>
+            </li>
+            <li><a class="nav__link" href="/#proceso">Proceso</a></li>
+            <li><a class="nav__link" href="/#materialidad">Materialidad</a></li>
+            <li><a class="nav__link" href="#contacto">Contacto</a></li>
+          </ul>
+        </nav>
+
+        <div class="site-header__actions">
+          <a class="btn btn--primary btn--sm" href="#contacto">
+            <span class="btn__label"><span class="only-desktop">Solicitar presupuesto</span><span class="only-mobile">Presupuesto</span></span>
+          </a>
+          <button
+            class="menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            data-menu-toggle
+          >
+            <span class="sr-only" data-menu-label>Abrir menú</span>
+            <span class="menu-toggle__bars" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu" data-menu hidden>
+      <nav class="mobile-menu__nav container" aria-label="Menú móvil">
+        <ol class="mobile-menu__list">
+          <li><a href="/#estudio"><span class="mono">01</span>Estudio</a></li>
+          <li><a href="/#servicios"><span class="mono">02</span>Servicios</a></li>
+          <li><a href="/#proceso"><span class="mono">03</span>Proceso</a></li>
+          <li><a href="/#materialidad"><span class="mono">04</span>Materialidad</a></li>
+          <li><a href="#contacto"><span class="mono">05</span>Contacto</a></li>
+        </ol>
+        <ul class="mobile-menu__services" aria-label="Servicios">
+          <li><a href="/servicios/obra-nueva/">Obra nueva</a></li>
+          <li><a href="/servicios/reformas/">Reformas</a></li>
+          <li><a href="/servicios/rehabilitacion/">Rehabilitación</a></li>
+          <li><a href="/servicios/reparacion-y-conservacion/">Reparación y conservación</a></li>
+        </ul>
+        <div class="mobile-menu__foot">
+          <a class="btn btn--primary btn--block" href="#contacto">
+            <span class="btn__label">Solicitar presupuesto</span>
+            <span class="btn__arrow" aria-hidden="true">→</span>
+          </a>
+          <p class="mono mobile-menu__meta">Arrecife · Lanzarote</p>
+        </div>
+      </nav>
+    </div>
