@@ -1,0 +1,5 @@
+node_modules/
+dist/
+# Originales descargados por scripts/optimize-images.mjs (se regeneran con npm run images)
+assets-src/raw/
+.DS_Store

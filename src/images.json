@@ -1,0 +1,178 @@
+{
+  "hero-timanfaya": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1.332,
+    "color": "rgb(8 24 24)",
+    "author": "JP Files",
+    "page": "https://unsplash.com/photos/waBgf2zb2JQ"
+  },
+  "intro-cal-y-piedra": {
+    "widths": [
+      700,
+      1200,
+      1800
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(216 216 216)",
+    "author": "Andrea Huls Pareja",
+    "page": "https://unsplash.com/photos/1Zx7QminapQ"
+  },
+  "seq-1-piedra": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1.4977,
+    "color": "rgb(8 8 8)",
+    "author": "Gavin Allanwood",
+    "page": "https://unsplash.com/photos/9hKZvlqire4"
+  },
+  "seq-2-ferralla": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(248 248 248)",
+    "author": "Vadym Alyekseyenko",
+    "page": "https://unsplash.com/photos/qb4ja-lUA8w"
+  },
+  "seq-3-estructura": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1.2987,
+    "color": "rgb(184 216 248)",
+    "author": "Divaris Shirichena",
+    "page": "https://unsplash.com/photos/wQ27Z81wHNk"
+  },
+  "seq-4-terminada": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1,
+    "color": "rgb(232 232 232)",
+    "author": "Pixasquare",
+    "page": "https://unsplash.com/photos/4ojhpgKpS68"
+  },
+  "srv-obra-nueva": {
+    "widths": [
+      600,
+      1000,
+      1400
+    ],
+    "ratio": 0.7497,
+    "color": "rgb(232 232 232)",
+    "author": "Declan Sun",
+    "page": "https://unsplash.com/photos/RECjfdtDVLo"
+  },
+  "srv-reforma": {
+    "widths": [
+      600,
+      1000,
+      1400
+    ],
+    "ratio": 0.7499,
+    "color": "rgb(200 200 184)",
+    "author": "Laura Cleffmann",
+    "page": "https://unsplash.com/photos/z3drmcczVTc"
+  },
+  "srv-rehabilitacion": {
+    "widths": [
+      600,
+      1000,
+      1400
+    ],
+    "ratio": 0.6667,
+    "color": "rgb(216 216 216)",
+    "author": "elisadventure photographe",
+    "page": "https://unsplash.com/photos/qEvlPwGuIo8"
+  },
+  "srv-conservacion": {
+    "widths": [
+      600,
+      1000,
+      1400
+    ],
+    "ratio": 0.6667,
+    "color": "rgb(232 232 216)",
+    "author": "laura adai",
+    "page": "https://unsplash.com/photos/MpKiQTIJTP8"
+  },
+  "mat-la-geria": {
+    "widths": [
+      700,
+      1200,
+      1800
+    ],
+    "ratio": 1.4994,
+    "color": "rgb(8 8 8)",
+    "author": "Maria Lupan",
+    "page": "https://unsplash.com/photos/_wE11LaBn70"
+  },
+  "mat-cal-y-cactus": {
+    "widths": [
+      600,
+      1000,
+      1400
+    ],
+    "ratio": 0.6667,
+    "color": "rgb(232 232 232)",
+    "author": "Anna Jiménez Calaf",
+    "page": "https://unsplash.com/photos/8DIIz9Cxf1s"
+  },
+  "mat-volumen-blanco": {
+    "widths": [
+      600,
+      1000,
+      1400
+    ],
+    "ratio": 0.6667,
+    "color": "rgb(232 232 232)",
+    "author": "fabian jones",
+    "page": "https://unsplash.com/photos/gOjk0OeJH0g"
+  },
+  "mat-hormigon": {
+    "widths": [
+      700,
+      1200,
+      1800
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(24 24 8)",
+    "author": "Declan Sun",
+    "page": "https://unsplash.com/photos/HfVCzTL5eZk"
+  },
+  "mat-escalera-canaria": {
+    "widths": [
+      600,
+      1000,
+      1400
+    ],
+    "ratio": 0.6667,
+    "color": "rgb(40 88 120)",
+    "author": "Lorenzo Zunino",
+    "page": "https://unsplash.com/photos/lo2FEmADgMo"
+  },
+  "contacto-costa": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 0.6667,
+    "color": "rgb(40 40 40)",
+    "author": "Kevin Charit",
+    "page": "https://unsplash.com/photos/WJ73fqgncJI"
+  }
+}

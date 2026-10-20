@@ -1,0 +1,188 @@
+{
+  "_note": "Fotografías ilustrativas con Licencia Unsplash (https://unsplash.com/license). NO son obras de CB Terra Anima. Sustituir por fotografía propia cuando exista.",
+  "images": [
+    {
+      "name": "hero-timanfaya",
+      "id": "1574934282053-bf4d8c4b98ea",
+      "author": "JP Files",
+      "page": "https://unsplash.com/photos/waBgf2zb2JQ",
+      "location": "Lanzarote",
+      "widths": [
+        800,
+        1400,
+        2200
+      ]
+    },
+    {
+      "name": "intro-cal-y-piedra",
+      "id": "1776427035754-25c6ef85b6fc",
+      "author": "Andrea Huls Pareja",
+      "page": "https://unsplash.com/photos/1Zx7QminapQ",
+      "location": "Lanzarote",
+      "widths": [
+        700,
+        1200,
+        1800
+      ]
+    },
+    {
+      "name": "seq-1-piedra",
+      "quality": 38,
+      "id": "1521411771005-560244a0c8ce",
+      "author": "Gavin Allanwood",
+      "page": "https://unsplash.com/photos/9hKZvlqire4",
+      "widths": [
+        800,
+        1400,
+        2200
+      ]
+    },
+    {
+      "name": "seq-2-ferralla",
+      "quality": 42,
+      "id": "1783753445561-91f3d4fe9118",
+      "author": "Vadym Alyekseyenko",
+      "page": "https://unsplash.com/photos/qb4ja-lUA8w",
+      "widths": [
+        800,
+        1400,
+        2200
+      ]
+    },
+    {
+      "name": "seq-3-estructura",
+      "id": "1787672357923-ab85681ab58c",
+      "author": "Divaris Shirichena",
+      "page": "https://unsplash.com/photos/wQ27Z81wHNk",
+      "widths": [
+        800,
+        1400,
+        2200
+      ]
+    },
+    {
+      "name": "seq-4-terminada",
+      "id": "1523217582562-09d0def993a6",
+      "author": "Pixasquare",
+      "page": "https://unsplash.com/photos/4ojhpgKpS68",
+      "widths": [
+        800,
+        1400,
+        2200
+      ]
+    },
+    {
+      "name": "srv-obra-nueva",
+      "id": "1730170787463-53a7074137fa",
+      "author": "Declan Sun",
+      "page": "https://unsplash.com/photos/RECjfdtDVLo",
+      "widths": [
+        600,
+        1000,
+        1400
+      ]
+    },
+    {
+      "name": "srv-reforma",
+      "id": "1613324061338-19d4528a5be9",
+      "author": "Laura Cleffmann",
+      "page": "https://unsplash.com/photos/z3drmcczVTc",
+      "widths": [
+        600,
+        1000,
+        1400
+      ]
+    },
+    {
+      "name": "srv-rehabilitacion",
+      "id": "1680169258027-3677d4c8e4f5",
+      "author": "elisadventure photographe",
+      "page": "https://unsplash.com/photos/qEvlPwGuIo8",
+      "location": "Lanzarote",
+      "widths": [
+        600,
+        1000,
+        1400
+      ]
+    },
+    {
+      "name": "srv-conservacion",
+      "id": "1616587607568-f7f651637644",
+      "author": "laura adai",
+      "page": "https://unsplash.com/photos/MpKiQTIJTP8",
+      "widths": [
+        600,
+        1000,
+        1400
+      ]
+    },
+    {
+      "name": "mat-la-geria",
+      "id": "1776856792978-fc1e0c1e06d3",
+      "author": "Maria Lupan",
+      "page": "https://unsplash.com/photos/_wE11LaBn70",
+      "location": "Lanzarote",
+      "widths": [
+        700,
+        1200,
+        1800
+      ]
+    },
+    {
+      "name": "mat-cal-y-cactus",
+      "id": "1701865293743-94a7d79f7a77",
+      "author": "Anna Jiménez Calaf",
+      "page": "https://unsplash.com/photos/8DIIz9Cxf1s",
+      "widths": [
+        600,
+        1000,
+        1400
+      ]
+    },
+    {
+      "name": "mat-volumen-blanco",
+      "id": "1655025074116-119793238a0f",
+      "author": "fabian jones",
+      "page": "https://unsplash.com/photos/gOjk0OeJH0g",
+      "widths": [
+        600,
+        1000,
+        1400
+      ]
+    },
+    {
+      "name": "mat-hormigon",
+      "id": "1780362508232-606e0b8fffa4",
+      "author": "Declan Sun",
+      "page": "https://unsplash.com/photos/HfVCzTL5eZk",
+      "widths": [
+        700,
+        1200,
+        1800
+      ]
+    },
+    {
+      "name": "mat-escalera-canaria",
+      "id": "1734386619939-3bc1fc079d36",
+      "author": "Lorenzo Zunino",
+      "page": "https://unsplash.com/photos/lo2FEmADgMo",
+      "widths": [
+        600,
+        1000,
+        1400
+      ]
+    },
+    {
+      "name": "contacto-costa",
+      "id": "1707822906831-19b1fac8d4ce",
+      "author": "Kevin Charit",
+      "page": "https://unsplash.com/photos/WJ73fqgncJI",
+      "location": "Lanzarote",
+      "widths": [
+        800,
+        1400,
+        2200
+      ]
+    }
+  ]
+}
