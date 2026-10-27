@@ -1,6 +1,8 @@
-// Genera servicios/<slug>/index.html a partir de content/servicios.mjs.
+// Genera servicios/<slug>/index.html a partir de content/servicios.mjs con la maqueta de
+// "detalle de proyecto": cabecera con título, entradilla y foto ancha; ficha lateral fija y
+// cuerpo de artículo; llamada a la acción y otros servicios.
 // Uso: npm run pages (también se ejecuta antes de dev y build).
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { services } from '../content/servicios.mjs';
@@ -9,147 +11,141 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pad = (n) => String(n).padStart(2, '0');
 const attr = (s) => s.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
 const plain = (s) => s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-const letters = 'ABCDEFGH';
-
-// Cuerpo del título (en unidades del contenedor) para que la palabra más larga quepa:
-// en Archivo condensada en mayúsculas cada carácter ocupa ≈ 0,5 em.
-const fit = (name) => {
-  const longest = Math.max(...name.split(' ').map((w) => w.length));
-  return `${Math.min(30, 100 / (longest * 0.5)).toFixed(1)}cqi`;
-};
+const ARROW = '%ARROW%';
 
 const summaries = {
-  'obra-nueva': 'Construcción completa de viviendas y edificios.',
+  'obra-nueva': 'Construcción completa de viviendas y edificios, de la cimentación a los acabados.',
   reformas: 'Reformas integrales y parciales de viviendas y locales.',
   rehabilitacion: 'Recuperación de viviendas y edificios existentes.',
   'reparacion-y-conservacion': 'Atención al desgaste y a los daños del edificio.',
 };
+const tags = {
+  'obra-nueva': ['Viviendas', 'Edificios'],
+  reformas: ['Integral', 'Parcial'],
+  rehabilitacion: ['Existente', 'Tradicional'],
+  'reparacion-y-conservacion': ['Reparación', 'Mantenimiento'],
+};
+// Foto ancha de la cabecera (distinta de la principal para no repetir la del índice).
+const wide = {
+  'obra-nueva': 'n-encofrado',
+  reformas: 'n-salon',
+  rehabilitacion: 'n-muro-piedra',
+  'reparacion-y-conservacion': 'n-enlucido',
+};
 
-/* ---------- Componentes de sección ---------- */
+/* ---------- Bloques del cuerpo ---------- */
 const blocks = {
   cards: (s) => `
-            <ul class="svc-cards" data-stagger>
+                <div class="mini-cards">
 ${s.items
   .map(
-    (it, i) => `              <li class="svc-card">
-                <span class="mono svc-card__key">${letters[i]}</span>
-                <h3 class="svc-card__title">${it.title}</h3>
-                <p>${it.text}</p>
-              </li>`,
+    (it, i) => `                  <article class="mini-card">
+                    <span class="label--orange display">${pad(i + 1)}</span>
+                    <h3>${it.title}</h3>
+                    <p>${it.text}</p>
+                  </article>`,
   )
   .join('\n')}
-            </ul>`,
+                </div>`,
 
   steps: (s) => `
-            <ol class="svc-steps">
+                <ol class="rows">
 ${s.items
   .map(
-    (it, i) => `              <li class="svc-step" data-fade>
-                <span class="svc-step__num" aria-hidden="true">${pad(i + 1)}</span>
-                <div>
-                  <h3 class="svc-step__title">${it.title}</h3>
-                  <p>${it.text}</p>
-                </div>
-              </li>`,
+    (it, i) => `                  <li>
+                    <span class="n" aria-hidden="true">${pad(i + 1)}</span>
+                    <div><h3>${it.title}</h3><p>${it.text}</p></div>
+                  </li>`,
   )
   .join('\n')}
-            </ol>`,
+                </ol>`,
 
   principles: (s) => `
-            <ul class="svc-principles" data-stagger>
+                <div class="mini-cards">
 ${s.items
   .map(
-    (it) => `              <li>
-                <h3 class="svc-principles__title">${it.title}</h3>
-                <p>${it.text}</p>
-              </li>`,
+    (it) => `                  <article class="mini-card">
+                    <h3>${it.title}</h3>
+                    <p>${it.text}</p>
+                  </article>`,
   )
   .join('\n')}
-            </ul>`,
+                </div>`,
 
   compare: (s) => `
-            <div class="svc-compare" data-stagger>
+                <div class="mini-cards">
 ${s.items
   .map(
-    (it) => `              <article class="svc-compare__item">
-                <h3 class="svc-compare__title">${it.title}</h3>
-                <p>${it.text}</p>
-                <p class="mono svc-compare__label">Encaja cuando</p>
-                <ul class="svc-compare__fits">
-${it.fits.map((f) => `                  <li>${f}</li>`).join('\n')}
-                </ul>
-                <p class="svc-compare__note"><strong>Ten en cuenta:</strong> ${it.note}</p>
-              </article>`,
+    (it) => `                  <article class="mini-card">
+                    <h3>${it.title}</h3>
+                    <p>${it.text}</p>
+                    <p class="slash">// Encaja cuando</p>
+                    <ul class="checks">
+${it.fits.map((f) => `                      <li>${f}</li>`).join('\n')}
+                    </ul>
+                    <p><strong>Ten en cuenta:</strong> ${it.note}</p>
+                  </article>`,
   )
   .join('\n')}
-            </div>`,
+                </div>`,
 
   checklist: (s) => `
-            <ul class="svc-check${s.columns ? ' svc-check--cols' : ''}" data-stagger>
-${s.items.map((it) => `              <li>${it}</li>`).join('\n')}
-            </ul>`,
+                <ul class="checks">
+${s.items.map((it) => `                  <li>${it}</li>`).join('\n')}
+                </ul>`,
 
   calendar: (s) => `
-            <ol class="svc-calendar" data-stagger>
+                <ol class="rows">
 ${s.items
   .map(
-    (it) => `              <li>
-                <p class="mono svc-calendar__when">${it.when}</p>
-                <h3 class="svc-calendar__title">${it.title}</h3>
-                <p>${it.text}</p>
-              </li>`,
+    (it) => `                  <li>
+                    <span class="n n--text" aria-hidden="true">·</span>
+                    <div><p class="slash">// ${it.when}</p><h3>${it.title}</h3><p>${it.text}</p></div>
+                  </li>`,
   )
   .join('\n')}
-            </ol>`,
+                </ol>`,
 
   panel: (s) => `
-            <div class="svc-panel__grid">
-              <figure class="svc-panel__media" data-reveal="clip" data-dir="left">
-                <div class="media media--4x5" data-scale>
-                  <img data-pic="${s.image}" sizes="(min-width: 960px) 26vw, 100vw" alt="${attr(s.alt)}" loading="lazy" decoding="async" />
-                </div>
-                <figcaption class="caption">Imagen ilustrativa</figcaption>
-              </figure>
-              <ul class="svc-panel__list" data-stagger>
+                <div class="ctx">
+                  <div class="img"><img data-pic="${s.image}" sizes="(max-width: 809px) 100vw, 200px" alt="${attr(s.alt)}" loading="lazy" decoding="async" /></div>
+                  <ul>
 ${s.items
   .map(
-    (it) => `                <li>
-                  <h3 class="svc-panel__title">${it.title}</h3>
-                  <p>${it.text}</p>
-                </li>`,
+    (it) => `                    <li><h3>${it.title}</h3><p>${it.text}</p></li>`,
   )
   .join('\n')}
-              </ul>
-            </div>`,
+                  </ul>
+                </div>`,
 
   faq: (s) => `
-            <div class="faq">
+                <div class="acc acc--compact" data-acc>
 ${s.items
   .map(
-    (it) => `              <details class="faq__item">
-                <summary><span>${it.q}</span><span class="faq__icon" aria-hidden="true"></span></summary>
-                <div class="faq__answer"><p>${it.a}</p></div>
-              </details>`,
+    (it, i) => `                  <div class="acc__item${i === 0 ? ' is-open' : ''}">
+                    <h3><button class="acc__q" type="button" aria-expanded="${i === 0}">${it.q}<span class="acc__icon" aria-hidden="true"></span></button></h3>
+                    <div class="acc__a"><div><p class="t-body">${it.a}</p></div></div>
+                  </div>`,
   )
   .join('\n')}
-            </div>`,
+                </div>`,
 };
 
 const section = (s, i) => `
-          <section class="svc-sec svc-sec--${s.type}" id="${s.id}" aria-labelledby="${s.id}-t">
-            <p class="label"><span class="label__num">${pad(i + 1)}</span> ${s.toc}</p>
-            <h2 class="svc-sec__title" id="${s.id}-t" data-lines>${s.title}</h2>${
-              s.intro ? `\n            <p class="svc-sec__intro" data-fade>${s.intro}</p>` : ''
-            }${blocks[s.type](s)}${s.note ? `\n            <p class="svc-sec__note" data-fade>${s.note}</p>` : ''}${
-              s.aside
-                ? `
-            <aside class="svc-aside" data-fade>
-              <p class="mono svc-aside__title">${s.aside.title}</p>
-              <p>${s.aside.text}</p>
-            </aside>`
-                : ''
-            }
-          </section>`;
+              <section class="block" id="${s.id}" aria-labelledby="${s.id}-t" data-appear>
+                <p class="label">[${pad(i + 1)} · ${s.toc}]</p>
+                <h2 id="${s.id}-t">${s.title}</h2>${s.intro ? `\n                <p>${s.intro}</p>` : ''}${blocks[s.type](s)}${
+                  s.note ? `\n                <p class="pull">${s.note}</p>` : ''
+                }${
+                  s.aside
+                    ? `
+                <aside class="mini-card">
+                  <p class="slash">// ${s.aside.title}</p>
+                  <p>${s.aside.text}</p>
+                </aside>`
+                    : ''
+                }
+              </section>`;
 
 /* ---------- Datos estructurados ---------- */
 function jsonLd(svc) {
@@ -164,25 +160,13 @@ function jsonLd(svc) {
       description: svc.metaDescription,
       url,
       areaServed: { '@type': 'Place', name: 'Lanzarote' },
-      provider: {
-        '@type': 'GeneralContractor',
-        '@id': '%SITE_URL%/#empresa',
-        name: 'CB Terra Anima',
-        url: '%SITE_URL%/',
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Arrecife',
-          addressRegion: 'Las Palmas',
-          postalCode: '35500',
-          addressCountry: 'ES',
-        },
-      },
+      provider: { '@id': '%SITE_URL%/#empresa' },
     },
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Inicio', item: '%SITE_URL%/' },
-        { '@type': 'ListItem', position: 2, name: 'Servicios', item: '%SITE_URL%/#servicios' },
+        { '@type': 'ListItem', position: 2, name: 'Servicios', item: '%SITE_URL%/servicios/' },
         { '@type': 'ListItem', position: 3, name: svc.name, item: url },
       ],
     },
@@ -205,8 +189,8 @@ function jsonLd(svc) {
 
 /* ---------- Página ---------- */
 function page(svc) {
-  const others = services.filter((o) => o.slug !== svc.slug);
-  const first = svc.sections[0].id;
+  const next = services[(services.indexOf(svc) + 1) % services.length];
+  const contact = `/contacto/?tipo=${encodeURIComponent(svc.select)}`;
   return `<!doctype html>
 <!-- Generado por scripts/build-pages.mjs a partir de content/servicios.mjs. No editar a mano. -->
 <html lang="es">
@@ -223,105 +207,75 @@ ${jsonLd(svc)}
     </script>
   </head>
 
-  <body class="page-service" data-service-type="${attr(svc.select)}">
-    <!-- @include header -->
+  <body class="page-inner page-service">
+    <!-- @include menu -->
 
     <main id="contenido">
       <!-- REVISAR CON EL CLIENTE: contenido redactado a partir del objeto social y de información
            general del sector. Ver REVISION.md. -->
-      <section class="svc-hero" id="top" aria-labelledby="svc-title">
-        <div class="container svc-hero__grid">
-          <div class="svc-hero__text">
-            <nav class="crumbs mono" aria-label="Ruta de navegación" data-intro>
+      <section class="phero" aria-labelledby="page-title">
+        <div class="container">
+          <!-- @include header logo="logo--small" -->
+          <div class="phero__content">
+            <div>
+              <nav class="crumbs label label--orange" aria-label="Ruta de navegación">
+                <a href="/servicios/">Servicios</a> <span aria-hidden="true">/</span> <span aria-current="page">Servicio ${svc.num}</span>
+              </nav>
+              <h1 class="phero__title chars" id="page-title">${svc.name}</h1>
+            </div>
+            <div class="phero__lead-row" data-appear>
+              <p class="phero__lead">${svc.hero.lead}</p>
+              <ul class="tags tags--light">${tags[svc.slug].map((t) => `<li class="tag">${t}</li>`).join('')}</ul>
+            </div>
+            <figure class="phero__fig" data-appear="scale">
+              <div class="img phero__photo phero__photo--tall"><img data-pic="${wide[svc.slug]}" sizes="(max-width: 1440px) 100vw, 1245px" alt="" fetchpriority="high" decoding="async" /></div>
+              <figcaption class="caption">Imagen ilustrativa. No es una obra de CB Terra Anima.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container project">
+          <aside class="project__details" aria-label="Ficha del servicio">
+            <dl class="work__details">
+${svc.hero.facts.map(([dt, dd]) => `              <div><dt class="slash">// ${dt}</dt><dd>${dd}</dd></div>`).join('\n')}
+              <div><dt class="slash">// Zona</dt><dd>Lanzarote</dd></div>
+            </dl>
+            <nav class="toc" aria-label="En esta página">
+              <p class="slash">// En esta página</p>
               <ol>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/#servicios">Servicios</a></li>
-                <li aria-current="page">${svc.name}</li>
+${svc.sections.map((s, i) => `                <li><a href="#${s.id}"><span>${pad(i + 1)}</span>${s.toc}</a></li>`).join('\n')}
               </ol>
             </nav>
-            <h1 class="svc-hero__title" id="svc-title" style="--fit: ${fit(svc.name)}">
-              <span class="line"><span>${svc.name}</span></span>
-              <span class="svc-hero__place" data-intro>${svc.place}</span>
-            </h1>
-            <p class="svc-hero__lead" data-intro>${svc.hero.lead}</p>
-            <div class="svc-hero__ctas" data-intro>
-              <a class="btn btn--primary" href="#contacto">
-                <span class="btn__label">Solicitar valoración</span>
-                <span class="btn__arrow" aria-hidden="true">→</span>
-              </a>
-              <a class="link-arrow" href="#${first}">Ver el detalle <span aria-hidden="true">↓</span></a>
-            </div>
-            <dl class="svc-hero__facts" data-intro>
-${svc.hero.facts
-  .map(
-    ([dt, dd]) => `              <div>
-                <dt>${dt}</dt>
-                <dd>${dd}</dd>
-              </div>`,
-  )
-  .join('\n')}
-            </dl>
-          </div>
-          <figure class="svc-hero__media" data-reveal="clip" data-dir="up">
-            <div class="media media--4x5" data-scale>
-              <img data-pic="${svc.hero.image}" sizes="(min-width: 960px) 40vw, 100vw" alt="${attr(svc.hero.alt)}" fetchpriority="high" decoding="async" />
-            </div>
-            <figcaption class="caption">Imagen ilustrativa · No es una obra de CB Terra Anima</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <div class="svc-body">
-        <div class="container svc-body__grid">
-          <aside class="svc-toc" aria-labelledby="toc-title">
-            <p class="mono svc-toc__title" id="toc-title">En esta página</p>
-            <ol class="svc-toc__list">
-${svc.sections.map((s, i) => `              <li><a href="#${s.id}" data-toc><span class="mono">${pad(i + 1)}</span>${s.toc}</a></li>`).join('\n')}
-            </ol>
-            <a class="btn btn--primary btn--sm svc-toc__cta" href="#contacto">
-              <span class="btn__label">Solicitar valoración</span>
-            </a>
+            <a class="btn" href="${contact}"><span class="btn__label">Solicitar valoración</span>${ARROW}</a>
           </aside>
 
-          <div class="svc-content">${svc.sections.map(section).join('\n')}
-          </div>
-        </div>
-      </div>
+          <div class="project__story">
+            <figure class="project__lead-img" data-appear>
+              <div class="img"><img data-pic="${svc.hero.image}" sizes="(max-width: 1199px) 100vw, 704px" alt="${attr(svc.hero.alt)}" loading="lazy" decoding="async" /></div>
+              <figcaption class="caption">Imagen ilustrativa.</figcaption>
+            </figure>
+${svc.sections.map(section).join('\n')}
 
-      <section class="svc-cta" aria-labelledby="cta-title">
-        <div class="container svc-cta__inner">
-          <h2 class="svc-cta__title" id="cta-title" data-lines>${svc.cta.title}</h2>
-          <div class="svc-cta__body">
-            <p data-fade>${svc.cta.text}</p>
-            <a class="btn btn--light" href="#contacto" data-fade>
-              <span class="btn__label">${svc.cta.button}</span>
-              <span class="btn__arrow" aria-hidden="true">→</span>
-            </a>
+              <section class="svc-cta" aria-labelledby="cta-title" data-appear>
+                <p class="label label--orange">Siguiente paso</p>
+                <h2 id="cta-title">${svc.cta.title}</h2>
+                <p class="t-body">${svc.cta.text}</p>
+                <a class="btn" href="${contact}"><span class="btn__label">${svc.cta.button}</span>${ARROW}</a>
+              </section>
           </div>
         </div>
       </section>
 
-      <nav class="svc-others" aria-labelledby="others-title">
+      <nav class="next section section--top-line" aria-labelledby="next-title">
         <div class="container">
-          <p class="label" id="others-title"><span class="label__num">+</span> Otros servicios</p>
-          <ul class="svc-others__list">
-${others
-  .map(
-    (o) => `            <li>
-              <a href="/servicios/${o.slug}/">
-                <span class="svc-others__num">${o.num}.</span>
-                <span class="svc-others__name">${o.name}</span>
-                <span class="svc-others__desc">${summaries[o.slug]}</span>
-                <span class="svc-others__arrow" aria-hidden="true">→</span>
-              </a>
-            </li>`,
-  )
-  .join('\n')}
-          </ul>
+          <p class="label label--orange">[Siguiente servicio]</p>
+          <h2 class="t-section next__title" id="next-title"><a href="/servicios/${next.slug}/">${next.name}</a></h2>
+          <p class="t-body-l next__desc">${summaries[next.slug]}</p>
+          <a class="link-arrow" href="/servicios/"><span class="btn__label">Ver todos los servicios</span>${ARROW}</a>
         </div>
       </nav>
-
-      <!-- @include contact num=${pad(svc.sections.length + 1)} -->
     </main>
 
     <!-- @include footer -->
@@ -339,7 +293,7 @@ for (const svc of services) {
 
 /* ---------- sitemap.xml y robots.txt ---------- */
 const site = (process.env.VITE_SITE_URL || (await readEnvSite())).replace(/\/$/, '');
-const urls = ['/', ...services.map((s) => `/servicios/${s.slug}/`)];
+const urls = ['/', '/estudio/', '/servicios/', ...services.map((s) => `/servicios/${s.slug}/`), '/contacto/', '/creditos/'];
 const today = new Date().toISOString().slice(0, 10);
 await writeFile(
   join(root, 'public', 'sitemap.xml'),
@@ -353,7 +307,6 @@ await writeFile(join(root, 'public', 'robots.txt'), `User-agent: *\nAllow: /\n\n
 console.log('✓ public/sitemap.xml, public/robots.txt');
 
 async function readEnvSite() {
-  const { readFile } = await import('node:fs/promises');
   try {
     const env = await readFile(join(root, '.env'), 'utf8');
     return env.match(/^VITE_SITE_URL=(.*)$/m)?.[1].trim() ?? '';

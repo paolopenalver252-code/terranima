@@ -1,8 +1,6 @@
-import '@fontsource-variable/archivo/wdth.css';
-import '@fontsource/ibm-plex-mono/latin-400.css';
-import '@fontsource/ibm-plex-mono/latin-500.css';
-import './styles.css';
-import './pages.css';
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import './brx.css';
 
 import images from './images.json';
 import { CONTACT, FORM_ENDPOINT } from './config.js';
@@ -13,520 +11,435 @@ const root = document.documentElement;
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 const clamp = (v, min = 0, max = 1) => Math.min(max, Math.max(min, v));
-const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
-// La clase .rm la decide el script del <head> (preferencia del sistema o ?motion=reduce).
-const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-let reducedMotion = root.classList.contains('rm');
-motionQuery.addEventListener('change', (e) => {
-  reducedMotion = e.matches;
+let reduced = root.classList.contains('rm');
+window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+  reduced = e.matches;
   root.classList.toggle('rm', e.matches);
-  requestTick();
 });
-
-// Modo ligero: sin escalas/parallax ligados al scroll en equipos modestos o con ahorro de datos.
-const lite =
-  navigator.connection?.saveData === true ||
-  (navigator.deviceMemory && navigator.deviceMemory <= 2) ||
-  (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2);
-if (lite) root.classList.add('is-lite');
 
 /* ---------- Entrada ---------- */
 const ready = () => root.classList.add('is-ready');
 requestAnimationFrame(() => requestAnimationFrame(ready));
-setTimeout(ready, 400); // respaldo si rAF se retrasa (pestaña en segundo plano)
+setTimeout(ready, 400);
 
-/* ---------- Cabecera ---------- */
-const header = $('[data-header]');
-const hero = $('[data-hero]');
-let lastY = window.scrollY;
+/* ---------- Enlace activo (navegación, menú y pie) ---------- */
+const here = location.pathname.replace(/index\.html$/, '');
+$$('.nav a, .menu__links a, .footer nav a').forEach((a) => {
+  const path = new URL(a.href).pathname;
+  const active = path === '/' ? here === '/' : here.startsWith(path);
+  if (active) a.setAttribute('aria-current', 'page');
+});
 
-function updateHeader(y) {
-  // Transparente sobre el cielo del hero; sólida cuando la cortina lo ha cubierto.
-  const solidFrom = hero ? hero.offsetHeight - header.offsetHeight : 24;
-  header.classList.toggle('is-solid', y > solidFrom || document.body.classList.contains('menu-open'));
-  if (document.body.classList.contains('menu-open')) return;
-  if (y > solidFrom + 200 && y > lastY + 4) header.classList.add('is-hidden');
-  else if (y < lastY - 4 || y <= solidFrom) header.classList.remove('is-hidden');
-  lastY = y;
-}
-header.addEventListener('focusin', () => header.classList.remove('is-hidden'));
+/* ---------- Texto de los botones: rodillo al pasar el cursor ---------- */
+$$('.btn__label').forEach((label) => {
+  if (label.children.length) return;
+  const text = label.textContent.trim();
+  label.textContent = '';
+  const a = document.createElement('span');
+  a.textContent = text;
+  const b = document.createElement('span');
+  b.textContent = text;
+  b.setAttribute('aria-hidden', 'true');
+  label.append(a, b);
+});
 
 /* ---------- Menú móvil ---------- */
 const menu = $('[data-menu]');
-const toggle = $('[data-menu-toggle]');
-const toggleLabel = $('[data-menu-label]');
-
-function setMenu(open, viaPointer = false) {
-  menu.hidden = !open;
-  toggle.setAttribute('aria-expanded', String(open));
-  toggleLabel.textContent = open ? 'Cerrar menú' : 'Abrir menú';
-  document.body.classList.toggle('menu-open', open);
-  header.classList.remove('is-hidden');
-  updateHeader(window.scrollY);
-  // Con teclado se muestra el anillo de foco; con dedo o ratón, no.
-  if (open) $('a', menu).focus({ focusVisible: !viaPointer });
+const openBtn = $('[data-menu-open]');
+const closeBtn = $('[data-menu-close]');
+function setMenu(open) {
+  if (!menu) return;
+  menu.classList.toggle('is-open', open);
+  openBtn?.setAttribute('aria-expanded', String(open));
+  document.body.style.overflow = open ? 'hidden' : '';
+  if (open) $('a', menu).focus();
+  else openBtn?.focus();
 }
-
-toggle.addEventListener('click', (e) => setMenu(menu.hidden, e.detail > 0));
-menu.addEventListener('click', (e) => {
+openBtn?.addEventListener('click', () => setMenu(true));
+closeBtn?.addEventListener('click', () => setMenu(false));
+menu?.addEventListener('click', (e) => {
   if (e.target.closest('a')) setMenu(false);
 });
 document.addEventListener('keydown', (e) => {
-  if (menu.hidden) return;
-  if (e.key === 'Escape') {
-    setMenu(false);
-    toggle.focus();
-  }
+  if (!menu?.classList.contains('is-open')) return;
+  if (e.key === 'Escape') setMenu(false);
   if (e.key === 'Tab') {
-    const focusables = [toggle, ...$$('a', menu)];
-    const i = focusables.indexOf(document.activeElement);
+    const f = $$('a, button', menu);
+    const i = f.indexOf(document.activeElement);
     const next = e.shiftKey ? i - 1 : i + 1;
-    if (i === -1 || next < 0 || next >= focusables.length) {
+    if (i === -1 || next < 0 || next >= f.length) {
       e.preventDefault();
-      focusables[(next + focusables.length) % focusables.length].focus();
+      f[(next + f.length) % f.length].focus();
     }
   }
 });
-window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
-  if (e.matches && !menu.hidden) setMenu(false);
-});
 
-/* ---------- Enlace activo en la navegación ---------- */
-// Se calcula en el bucle de scroll: el hero es sticky y nunca deja de intersectar,
-// así que un IntersectionObserver no sabría cuándo volver a «ninguno».
-// Solo cuentan los enlaces que apuntan a una sección de la página actual (/#estudio en la
-// portada, #contacto en cualquier página). En las páginas de servicio queda marcado «Servicios».
-const navLinks = $$('.nav__link');
-const navTargets = navLinks.map((a) => {
-  const url = new URL(a.href);
-  return url.pathname === location.pathname && url.hash
-    ? document.getElementById(url.hash.slice(1))
-    : null;
-});
-const isServicePage = document.body.classList.contains('page-service');
-let currentNav;
-function updateNav(vh) {
-  let current = null;
-  navTargets.forEach((target, i) => {
-    if (target && target.getBoundingClientRect().top <= vh * 0.5) current = i;
+/* ---------- Muro de lamas del hero ----------
+   Cada lama es un prisma triangular (tres caras, una por imagen) que gira 120°
+   cada 5 s, de izquierda a derecha con un pequeño desfase. */
+const vane = $('[data-vane]');
+if (vane) {
+  const sources = $$('[data-vane-src]', vane);
+  const STRIP = 72;
+  let rotation = 0;
+  let timer = null;
+  let strips = [];
+  let urls = [];
+
+  const srcOf = (img) =>
+    new Promise((resolve) => {
+      const done = () => resolve(img.currentSrc || img.src);
+      if (img.complete && img.naturalWidth) done();
+      else img.addEventListener('load', done, { once: true });
+    });
+
+  function build() {
+    const width = vane.clientWidth;
+    const count = Math.ceil(width / STRIP) + 1;
+    const apothem = STRIP / (2 * Math.sqrt(3));
+    vane.style.setProperty('--apothem', `${apothem}px`);
+    vane.style.setProperty('--vw', `${width}px`);
+    vane.replaceChildren();
+    strips = [];
+    for (let i = 0; i < count; i++) {
+      const strip = document.createElement('div');
+      strip.className = 'vane__strip';
+      strip.style.width = `${STRIP}px`;
+      const prism = document.createElement('div');
+      prism.className = 'vane__prism';
+      prism.style.setProperty('--delay', `${i * 0.045}s`);
+      prism.style.setProperty('--rot', `${rotation}deg`);
+      urls.forEach((url, f) => {
+        const face = document.createElement('div');
+        face.className = 'vane__face';
+        face.style.setProperty('--face', `${f * 120}deg`);
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = '';
+        img.style.setProperty('--offset', `${-i * STRIP}px`);
+        face.append(img);
+        prism.append(face);
+      });
+      strip.append(prism);
+      vane.append(strip);
+      strips.push(prism);
+    }
+  }
+
+  function turn() {
+    rotation -= 120;
+    strips.forEach((p) => p.style.setProperty('--rot', `${rotation}deg`));
+  }
+  function play() {
+    if (timer || reduced) return;
+    timer = setInterval(turn, 5000);
+  }
+  function stop() {
+    clearInterval(timer);
+    timer = null;
+  }
+
+  // Las URL se toman de las <img> responsivas (AVIF/WebP según el navegador) una vez cargadas
+  Promise.all(sources.map(srcOf)).then((list) => {
+    urls = list;
+    build();
+    new IntersectionObserver(([e]) => (e.isIntersecting ? play() : stop())).observe(vane);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : play()));
   });
-  if (current === currentNav) return;
-  currentNav = current;
-  navLinks.forEach((a, i) => {
-    const active =
-      i === current || (current === null && isServicePage && a.dataset.nav === 'servicios');
-    a.setAttribute('aria-current', String(active));
+  let rw;
+  let lastW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    clearTimeout(rw);
+    rw = setTimeout(() => {
+      if (!urls.length || window.innerWidth === lastW) return;
+      lastW = window.innerWidth;
+      build();
+    }, 250);
   });
 }
 
-/* ---------- Titulares por líneas reales ---------- */
-// Se separan las palabras, se agrupan según su posición y cada línea queda dentro
-// de una máscara. Se recalcula al cambiar el ancho para que los cortes sigan siendo reales.
-function splitLines(el) {
-  const text = el.dataset.text || (el.dataset.text = el.textContent.trim().replace(/\s+/g, ' '));
-  el.textContent = '';
-  const words = text.split(' ').map((word) => {
-    const span = document.createElement('span');
-    span.textContent = word;
-    span.style.display = 'inline-block';
-    el.append(span, ' ');
-    return span;
-  });
-  const lines = [];
-  words.forEach((w) => {
-    const top = Math.round(w.offsetTop);
-    const last = lines[lines.length - 1];
-    if (last && Math.abs(last.top - top) < 4) last.words.push(w.textContent);
-    else lines.push({ top, words: [w.textContent] });
-  });
-  el.textContent = '';
-  lines.forEach((line, i) => {
-    const outer = document.createElement('span');
-    outer.className = 'ln';
-    const inner = document.createElement('span');
-    inner.className = 'ln__in';
-    inner.style.setProperty('--i', i);
-    inner.textContent = line.words.join(' ');
-    // El espacio final mantiene separadas las palabras para los lectores de pantalla.
-    outer.append(inner, ' ');
-    el.append(outer);
-  });
-}
-
-const lineEls = $$('[data-lines]');
-const charEls = $$('[data-chars]');
-charEls.forEach((el) => {
-  const text = el.textContent.trim();
+/* ---------- Títulos letra a letra ---------- */
+$$('.chars').forEach((el) => {
+  const text = el.textContent.trim().replace(/\s+/g, ' ');
   el.setAttribute('aria-label', text);
   el.textContent = '';
-  [...text].forEach((ch, i) => {
-    const span = document.createElement('span');
-    span.className = 'ch';
-    span.textContent = ch;
-    span.style.setProperty('--i', i);
-    el.append(span);
+  let i = 0;
+  text.split(' ').forEach((word, w, arr) => {
+    const wrap = document.createElement('span');
+    wrap.style.display = 'inline-block';
+    wrap.setAttribute('aria-hidden', 'true');
+    [...word].forEach((ch) => {
+      const s = document.createElement('span');
+      s.className = 'ch';
+      s.textContent = ch;
+      s.style.setProperty('--i', i++);
+      wrap.append(s);
+    });
+    el.append(wrap);
+    if (w < arr.length - 1) el.append(' ');
   });
 });
 
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-in');
-      revealObserver.unobserve(entry.target);
-    });
-  },
-  { rootMargin: '0px 0px -10% 0px' },
+/* ---------- Apariciones al entrar en pantalla ---------- */
+const io = new IntersectionObserver(
+  (entries) =>
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-in');
+      io.unobserve(e.target);
+    }),
+  { rootMargin: '0px 0px -12% 0px' },
 );
+$$('[data-appear], .chars').forEach((el) => io.observe(el));
 
-function observeReveals() {
-  [...lineEls, ...charEls, ...$$('[data-fade], [data-stagger], [data-reveal]')].forEach((el) =>
-    revealObserver.observe(el),
-  );
-  $$('[data-stagger]').forEach((group) =>
-    [...group.children].forEach((child, i) => child.style.setProperty('--i', i)),
-  );
-}
-
-// Esperar a las fuentes para medir las líneas con la tipografía definitiva
-// (como mucho 1,5 s: si tardan más, se mide con la tipografía de reserva).
-Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1500))]).then(() => {
-  lineEls.forEach(splitLines);
-  observeReveals();
-});
-let lastWidth = window.innerWidth;
-let resizeTimer;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => {
-    if (window.innerWidth === lastWidth) return;
-    lastWidth = window.innerWidth;
-    lineEls.forEach(splitLines);
-  }, 200);
-});
-
-/* ---------- Texto que se rellena con el scroll ---------- */
-const statement = $('[data-scrub]');
+/* ---------- Párrafo que se rellena con el scroll ---------- */
+const scrub = $('[data-scrub]');
 const words = [];
-if (statement) {
-  const text = statement.textContent.trim().replace(/\s+/g, ' ');
-  statement.textContent = '';
+if (scrub) {
+  const text = scrub.textContent.trim().replace(/\s+/g, ' ');
+  scrub.textContent = '';
   text.split(' ').forEach((word, i, arr) => {
-    const span = document.createElement('span');
-    span.className = 'w';
-    span.textContent = word;
-    statement.append(span, i < arr.length - 1 ? ' ' : '');
-    words.push(span);
+    const s = document.createElement('span');
+    s.className = 'w';
+    s.textContent = word;
+    scrub.append(s, i < arr.length - 1 ? ' ' : '');
+    words.push(s);
   });
 }
-
-/* ---------- Servicios: fila activa ---------- */
-const serviceList = $('[data-services]');
-const services = $$('[data-service]');
-const previewFrame = $('[data-preview-frame]');
-const previews = $$('[data-preview]');
-const previewNum = $('[data-preview-num]');
-let activeService = -1;
-let hoverLock = false;
-
-function setService(index) {
-  if (index === activeService) return;
-  const prev = activeService;
-  activeService = index;
-  services.forEach((s, i) => s.classList.toggle('is-active', i === index));
-  serviceList.classList.add('has-active');
-  if (!previewFrame) return;
-  // La nueva imagen entra desde abajo al avanzar y desde arriba al retroceder
-  previewFrame.dataset.dir = prev > index ? 'up' : 'down';
-  previews.forEach((p, i) => {
-    p.classList.toggle('is-prev', i === prev);
-    p.classList.toggle('is-active', i === index);
-  });
-  previewNum.textContent = String(index + 1).padStart(2, '0');
-}
-
-if (services.length) {
-  setService(0);
-  // Precarga de las vistas previas (solo visibles en escritorio)
-  new IntersectionObserver(
-    (entries, obs) => {
-      if (!entries[0].isIntersecting) return;
-      previews.forEach((p) => ($('img', p).loading = 'eager'));
-      obs.disconnect();
-    },
-    { rootMargin: '600px 0px' },
-  ).observe($('.services__preview'));
-
-  // Al hacer scroll, la fila que cruza la franja central pasa a estar activa
-  const serviceObserver = new IntersectionObserver(
-    (entries) => {
-      if (hoverLock) return;
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setService(Number(entry.target.dataset.service));
-      });
-    },
-    { rootMargin: '-42% 0px -42% 0px' },
-  );
-  services.forEach((s) => {
-    serviceObserver.observe(s);
-    // Ratón: al pasar por encima. Teclado: al enfocar el enlace. En táctil la activa el scroll,
-    // y tocar la fila abre la página del servicio (toda la fila es el enlace).
-    s.addEventListener('pointerenter', (e) => {
-      if (e.pointerType !== 'mouse') return;
-      hoverLock = true;
-      setService(Number(s.dataset.service));
-    });
-    s.addEventListener('focusin', () => setService(Number(s.dataset.service)));
-  });
-  serviceList.addEventListener('pointerleave', () => (hoverLock = false));
-}
-
-/* ---------- Bucle de scroll ---------- */
-const sequence = $('[data-sequence]');
-const frames = sequence ? $$('.frame', sequence) : [];
-const steps = sequence ? $$('[data-step]', sequence) : [];
-const ticks = sequence ? $$('[data-tick]', sequence) : [];
-const seqCount = $('[data-seq-count]');
-const scaleEls = $$('[data-scale]');
-const parallaxEls = $$('[data-parallax]');
 let ticking = false;
-let activeStep = 0;
-
-function updateHero(vh) {
-  if (!hero) return;
-  if (reducedMotion) return hero.style.setProperty('--hp', 0);
-  const p = clamp(window.scrollY / (hero.offsetHeight || vh));
-  hero.style.setProperty('--hp', p.toFixed(4));
-}
-
-function updateStatement(vh) {
+function onScroll() {
+  ticking = false;
   if (!words.length) return;
-  const r = statement.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const r = scrub.getBoundingClientRect();
   if (r.bottom < 0 || r.top > vh) return;
-  const p = reducedMotion ? 1 : clamp((vh * 0.88 - r.top) / (r.height + vh * 0.3));
+  const p = reduced ? 1 : clamp((vh * 0.85 - r.top) / (r.height + vh * 0.25));
   const lit = Math.round(p * words.length);
   words.forEach((w, i) => w.classList.toggle('is-lit', i < lit));
 }
+window.addEventListener(
+  'scroll',
+  () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(onScroll);
+    }
+  },
+  { passive: true },
+);
+onScroll();
 
-function updateSequence(vh) {
-  if (!sequence) return;
-  const r = sequence.getBoundingClientRect();
-  if (r.bottom < -vh || r.top > vh * 2) return;
-  const p = clamp(-r.top / (r.height - vh));
-  const n = frames.length;
-  const seg = 0.84 / (n - 1);
-  let count = 0;
-
-  frames.forEach((frame, k) => {
-    if (k === 0) return;
-    // Cada imagen se abre desde un detalle central hasta ocupar toda la escena
-    const local = clamp((p - (0.08 + (k - 1) * seg)) / (seg - 0.06));
-    const value = reducedMotion ? (local > 0.5 ? 1 : 0) : easeInOut(local);
-    frame.style.setProperty('--k', value.toFixed(4));
-    if (local > 0.5) count = k;
+/* ---------- Servicios: acordeón (cursor, toque o foco) ---------- */
+const svcs = $$('[data-svc]');
+function openSvc(target) {
+  svcs.forEach((s) => s.classList.toggle('is-open', s === target));
+}
+svcs.forEach((s) => {
+  s.addEventListener('pointerenter', (e) => {
+    if (e.pointerType === 'mouse') openSvc(s);
   });
-
-  ticks.forEach((tick, i) => {
-    const t = i === 0 ? clamp(p / (0.08 + seg * 0.5)) : clamp((p - (0.08 + (i - 0.5) * seg)) / seg);
-    tick.style.setProperty('--t', t.toFixed(3));
+  s.addEventListener('click', (e) => {
+    if (!e.target.closest('a')) openSvc(s);
   });
+  s.addEventListener('focusin', () => openSvc(s));
+});
 
-  if (count !== activeStep) {
-    steps.forEach((s, i) => {
-      s.classList.toggle('is-active', i === count);
-      s.classList.toggle('is-past', i < count);
+/* ---------- Proceso: tarjeta activa ---------- */
+$$('[data-steps]').forEach((list) => {
+  const steps = $$('.step', list);
+  steps.forEach((step) =>
+    step.addEventListener('pointerenter', () =>
+      steps.forEach((s) => s.classList.toggle('is-active', s === step)),
+    ),
+  );
+});
+
+/* ---------- Especialidades: lista, tarjeta y foto ---------- */
+const exp = $('[data-exp]');
+if (exp) {
+  const items = $$('[data-exp-item]', exp);
+  const panels = $$('[data-exp-panel]', exp);
+  const photos = $$('[data-exp-photo]', exp);
+  const set = (i) => {
+    items.forEach((it, k) => {
+      it.classList.toggle('is-active', k === i);
+      it.setAttribute('aria-selected', String(k === i));
     });
-    activeStep = count;
-    seqCount.textContent = String(count + 1).padStart(2, '0');
-  }
-}
-
-function updateImages(vh) {
-  if (reducedMotion || lite) return;
-  scaleEls.forEach((el) => {
-    const r = el.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > vh) return;
-    // 1,1 al asomar por abajo → 1 cuando el centro llega a mitad de pantalla
-    const p = clamp((vh - r.top) / (vh / 2 + r.height / 2));
-    $('img', el).style.scale = (1.1 - 0.1 * p).toFixed(4);
-  });
-  parallaxEls.forEach((el) => {
-    const r = el.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > vh) return;
-    const progress = (r.top + r.height / 2 - vh / 2) / vh;
-    $('img', el).style.translate = `0 ${clamp(progress * -8, -5, 5).toFixed(2)}%`;
+    panels.forEach((p, k) => p.classList.toggle('is-active', k === i));
+    photos.forEach((p, k) => p.classList.toggle('is-active', k === i));
+  };
+  items.forEach((it, i) => {
+    it.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && set(i));
+    it.addEventListener('click', () => set(i));
+    it.addEventListener('focus', () => set(i));
   });
 }
 
-// Índice de las páginas de servicio: marca el apartado que se está leyendo
-const tocLinks = $$('[data-toc]');
-const tocTargets = tocLinks.map((a) => document.getElementById(a.hash.slice(1)));
-let currentToc;
-function updateToc(vh) {
-  if (!tocLinks.length) return;
-  let current = -1;
-  tocTargets.forEach((t, i) => {
-    if (t && t.getBoundingClientRect().top <= vh * 0.35) current = i;
+/* ---------- Carrusel "Construir en Lanzarote" ---------- */
+const carousel = $('[data-carousel]');
+if (carousel) {
+  const slides = $$('[data-slide]', carousel);
+  const quotes = $$('[data-quote]', carousel);
+  const factA = $('[data-fact-a]', carousel);
+  const factB = $('[data-fact-b]', carousel);
+  const n = slides.length;
+  let current = 0;
+  const render = () => {
+    slides.forEach((s, i) => {
+      const d = (i - current + n) % n;
+      s.dataset.pos = d === 0 ? '2' : d === 1 ? '1' : d === 2 ? '0' : d === n - 1 ? '3' : '-1';
+    });
+    quotes.forEach((q, i) => q.classList.toggle('is-active', i === current));
+    factA.textContent = quotes[current].dataset.a;
+    factB.textContent = quotes[current].dataset.b;
+  };
+  $('[data-next]', carousel).addEventListener('click', () => {
+    current = (current + 1) % n;
+    render();
   });
-  if (current === currentToc) return;
-  currentToc = current;
-  tocLinks.forEach((a, i) => a.setAttribute('aria-current', String(i === current)));
+  $('[data-prev]', carousel).addEventListener('click', () => {
+    current = (current - 1 + n) % n;
+    render();
+  });
+  render();
 }
 
-function update() {
-  ticking = false;
-  const vh = window.innerHeight;
-  updateHeader(window.scrollY);
-  updateNav(vh);
-  updateToc(vh);
-  updateHero(vh);
-  updateStatement(vh);
-  updateSequence(vh);
-  updateImages(vh);
-}
-function requestTick() {
-  if (!ticking) {
-    ticking = true;
-    requestAnimationFrame(update);
-  }
-}
-window.addEventListener('scroll', requestTick, { passive: true });
-window.addEventListener('resize', requestTick);
-update();
+/* ---------- Preguntas frecuentes ---------- */
+$$('[data-acc]').forEach((acc) => {
+  const items = $$('.acc__item', acc);
+  items.forEach((item) => {
+    const btn = $('.acc__q', item);
+    btn.addEventListener('click', () => {
+      const open = !item.classList.contains('is-open');
+      items.forEach((it) => {
+        const isThis = it === item && open;
+        it.classList.toggle('is-open', isThis);
+        $('.acc__q', it).setAttribute('aria-expanded', String(isThis));
+      });
+    });
+  });
+});
 
 /* ---------- Datos de contacto (solo si están confirmados en config.js) ---------- */
-const details = $('[data-contact-details]');
-const addDetail = (label, text, href) => {
+function addContact(list, label, text, href) {
   const li = document.createElement('li');
-  li.innerHTML = `<span class="mono">${label}</span>`;
   const a = document.createElement('a');
   a.href = href;
   a.textContent = text;
-  if (href.startsWith('http')) {
-    a.target = '_blank';
-    a.rel = 'noopener';
-  }
   li.append(a);
-  details.append(li);
-};
-if (CONTACT.phone) addDetail('Teléfono', CONTACT.phone, `tel:${CONTACT.phone.replace(/\s/g, '')}`);
-if (CONTACT.email) addDetail('Correo', CONTACT.email, `mailto:${CONTACT.email}`);
-if (CONTACT.whatsapp) addDetail('WhatsApp', 'Escribir por WhatsApp', `https://wa.me/${CONTACT.whatsapp}`);
+  list.append(li);
+}
+const footerContact = $('[data-footer-contact]');
+const detailsList = $('[data-details]');
+const extra = [];
+if (CONTACT.phone) extra.push(['Teléfono', CONTACT.phone, `tel:${CONTACT.phone.replace(/\s/g, '')}`]);
+if (CONTACT.email) extra.push(['Correo', CONTACT.email, `mailto:${CONTACT.email}`]);
+if (CONTACT.whatsapp) extra.push(['WhatsApp', 'Escribir por WhatsApp', `https://wa.me/${CONTACT.whatsapp}`]);
+extra.forEach(([label, text, href]) => {
+  if (footerContact) addContact(footerContact, label, text, href);
+  if (detailsList) {
+    const div = document.createElement('div');
+    div.innerHTML = `<dt class="slash">// ${label}</dt>`;
+    const dd = document.createElement('dd');
+    const a = document.createElement('a');
+    a.href = href;
+    a.textContent = text;
+    dd.append(a);
+    div.append(dd);
+    detailsList.append(div);
+  }
+});
 
 /* ---------- Formulario ---------- */
 const form = $('[data-form]');
-const statusBox = $('[data-form-status]');
-const submitBtn = $('[data-submit]');
-let attempted = false;
-
-// En las páginas de servicio, el tipo de obra llega preseleccionado
-const serviceType = document.body.dataset.serviceType;
-const typeSelect = form && form.elements.tipo;
-if (serviceType && typeSelect) typeSelect.value = serviceType;
-
-const rules = {
-  nombre: (v) => (v.trim().length < 2 ? 'Indica tu nombre.' : ''),
-  email: (v) => {
-    if (!v.trim()) return 'Indica tu correo electrónico.';
-    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())
-      ? ''
-      : 'Revisa el formato del correo (por ejemplo, nombre@dominio.es).';
-  },
-  telefono: (v) =>
-    v.trim() && !/^\+?[\d\s().-]{9,}$/.test(v.trim()) ? 'Revisa el número de teléfono.' : '',
-  tipo: (v) => (v ? '' : 'Selecciona el tipo de obra.'),
-  mensaje: (v) => {
-    const n = v.trim().length;
-    if (!n) return 'Cuéntanos brevemente tu proyecto.';
-    return n < 20 ? `Añade algo más de detalle (mínimo 20 caracteres; llevas ${n}).` : '';
-  },
-  consent: (_, el) => (el.checked ? '' : 'Necesitamos tu consentimiento para poder responderte.'),
-};
-
-function validateField(el) {
-  const rule = rules[el.name];
-  if (!rule) return true;
-  const message = rule(el.value, el);
-  el.setAttribute('aria-invalid', String(Boolean(message)));
-  $(`[data-error-for="${el.name}"]`, form).textContent = message;
-  return !message;
+if (form) {
+  const statusBox = $('[data-form-status]');
+  const submitBtn = $('[data-submit]');
+  const tipo = new URLSearchParams(location.search).get('tipo');
+  if (tipo && form.elements.tipo) form.elements.tipo.value = tipo;
+  let attempted = false;
+  const rules = {
+    nombre: (v) => (v.trim().length < 2 ? 'Indica tu nombre.' : ''),
+    email: (v) =>
+      !v.trim()
+        ? 'Indica tu correo electrónico.'
+        : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())
+          ? ''
+          : 'Revisa el formato del correo (por ejemplo, nombre@dominio.es).',
+    telefono: (v) => (v.trim() && !/^\+?[\d\s().-]{9,}$/.test(v.trim()) ? 'Revisa el número de teléfono.' : ''),
+    tipo: (v) => (v ? '' : 'Selecciona el tipo de obra.'),
+    mensaje: (v) => {
+      const n = v.trim().length;
+      if (!n) return 'Cuéntanos brevemente tu proyecto.';
+      return n < 20 ? `Añade algo más de detalle (mínimo 20 caracteres; llevas ${n}).` : '';
+    },
+    consent: (_, el) => (el.checked ? '' : 'Necesitamos tu consentimiento para poder responderte.'),
+  };
+  const validate = (el) => {
+    const rule = rules[el.name];
+    if (!rule) return true;
+    const msg = rule(el.value, el);
+    el.setAttribute('aria-invalid', String(Boolean(msg)));
+    $(`[data-error-for="${el.name}"]`, form).textContent = msg;
+    return !msg;
+  };
+  form.addEventListener('input', (e) => {
+    if (attempted || e.target.getAttribute('aria-invalid') === 'true') validate(e.target);
+  });
+  const show = (title, text) => {
+    statusBox.innerHTML = '';
+    const s = document.createElement('strong');
+    s.textContent = title;
+    statusBox.append(s, document.createTextNode(text));
+  };
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    attempted = true;
+    statusBox.textContent = '';
+    const invalid = $$('input, select, textarea', form).filter((el) => !validate(el));
+    if (invalid.length) {
+      invalid[0].focus();
+      return;
+    }
+    if (!FORM_ENDPOINT) {
+      // Sin backend conectado: no afirmamos que se haya enviado nada.
+      show(
+        'Formulario en modo demostración.',
+        ' Los datos son correctos, pero este formulario todavía no está conectado: tu solicitud no se ha enviado.',
+      );
+      return;
+    }
+    submitBtn.disabled = true;
+    try {
+      const res = await fetch(FORM_ENDPOINT, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      attempted = false;
+      show('Solicitud enviada.', ' Gracias por escribirnos; nos pondremos en contacto contigo.');
+    } catch {
+      show('No se ha podido enviar.', ' Ha ocurrido un error de conexión. Inténtalo de nuevo en unos minutos.');
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
 }
 
-form.addEventListener('input', (e) => {
-  if (attempted || e.target.getAttribute('aria-invalid') === 'true') validateField(e.target);
-});
-form.addEventListener('focusout', (e) => {
-  if (attempted && e.target.name) validateField(e.target);
-});
-
-function showStatus(title, text, tone = 'info') {
-  statusBox.dataset.tone = tone;
-  statusBox.innerHTML = '';
-  const strong = document.createElement('strong');
-  strong.textContent = title;
-  statusBox.append(strong, document.createTextNode(text));
+/* ---------- Créditos de imágenes ---------- */
+const credits = $('[data-credits]');
+if (credits) {
+  const seen = new Set();
+  Object.values(images).forEach(({ author, page }) => {
+    if (seen.has(page)) return;
+    seen.add(page);
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = page;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = author;
+    li.append(a, document.createTextNode(' / Unsplash'));
+    credits.append(li);
+  });
 }
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  attempted = true;
-  statusBox.textContent = '';
-  const fields = $$('input, select, textarea', form);
-  const invalid = fields.filter((el) => !validateField(el));
-  if (invalid.length) {
-    invalid[0].focus();
-    return;
-  }
-
-  if (!FORM_ENDPOINT) {
-    // Sin backend conectado: no afirmamos que se haya enviado nada.
-    showStatus(
-      'Formulario en modo demostración.',
-      ' Los datos son correctos, pero este formulario todavía no está conectado: tu solicitud no se ha enviado.',
-    );
-    return;
-  }
-
-  submitBtn.setAttribute('aria-busy', 'true');
-  submitBtn.disabled = true;
-  try {
-    const res = await fetch(FORM_ENDPOINT, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { Accept: 'application/json' },
-    });
-    if (!res.ok) throw new Error(String(res.status));
-    form.reset();
-    if (serviceType && typeSelect) typeSelect.value = serviceType;
-    attempted = false;
-    showStatus('Solicitud enviada.', ' Gracias por escribirnos; nos pondremos en contacto contigo.', 'success');
-  } catch {
-    showStatus(
-      'No se ha podido enviar.',
-      ' Ha ocurrido un error de conexión. Inténtalo de nuevo en unos minutos.',
-      'error',
-    );
-  } finally {
-    submitBtn.removeAttribute('aria-busy');
-    submitBtn.disabled = false;
-  }
-});
-
-/* ---------- Créditos fotográficos ---------- */
-const creditsList = $('[data-credits]');
-const seen = new Set();
-Object.values(images).forEach(({ author, page }) => {
-  if (seen.has(page)) return;
-  seen.add(page);
-  const li = document.createElement('li');
-  const a = document.createElement('a');
-  a.href = page;
-  a.target = '_blank';
-  a.rel = 'noopener';
-  a.textContent = author;
-  li.append(a, document.createTextNode(' / Unsplash'));
-  creditsList.append(li);
-});
 
 $$('[data-year]').forEach((el) => (el.textContent = new Date().getFullYear()));

@@ -1,8 +1,12 @@
 # CB Terra Anima — web
 
 Web de CB Terra Anima (construcción, reformas, rehabilitación, reparación y conservación en
-Lanzarote): una portada y una página por servicio. HTML + CSS + JavaScript sin frameworks,
-empaquetado con Vite.
+Lanzarote). HTML + CSS + JavaScript sin frameworks, empaquetado con Vite.
+
+La maqueta reproduce la estructura, las proporciones y las animaciones de la plantilla de Framer
+«Brixzon», reconstruidas con código propio. **Brixzon es una plantilla de pago:** antes de publicar
+la web con este diseño conviene comprar su licencia en el marketplace de Framer (ver `REVISION.md`).
+No se ha copiado código, texto ni imagen de la plantilla.
 
 ## Comandos
 
@@ -18,72 +22,63 @@ node scripts/brand-assets.mjs   # regenera apple-touch-icon.png y og-image.jpg
 
 ## Páginas
 
-| URL | Origen |
-| --- | --- |
-| `/` | `index.html` |
-| `/servicios/obra-nueva/` | Generada desde `content/servicios.mjs` |
-| `/servicios/reformas/` | Generada desde `content/servicios.mjs` |
-| `/servicios/rehabilitacion/` | Generada desde `content/servicios.mjs` |
-| `/servicios/reparacion-y-conservacion/` | Generada desde `content/servicios.mjs` |
+| URL | Origen | Página equivalente de la plantilla |
+| --- | --- | --- |
+| `/` | `index.html` | Home |
+| `/estudio/` | `estudio/index.html` | About |
+| `/servicios/` | `servicios/index.html` | Services |
+| `/servicios/obra-nueva/`, `/reformas/`, `/rehabilitacion/`, `/reparacion-y-conservacion/` | Generadas desde `content/servicios.mjs` | Work detail |
+| `/contacto/` | `contacto/index.html` | Contact |
+| `/creditos/` | `creditos/index.html` | — (autoría de las fotos) |
 
 **Para cambiar el texto de un servicio, edita `content/servicios.mjs`** (no los HTML de
-`servicios/`, que se sobrescriben). Cada servicio define su cabecera, sus apartados (tarjetas,
-fases, principios, comparativa, lista de comprobación, panel de Lanzarote, calendario o preguntas
-frecuentes) y su llamada a la acción. Las preguntas frecuentes generan también el JSON-LD
-`FAQPage`, así que el texto visible y los datos estructurados nunca se desincronizan.
+`servicios/<slug>/`, que se sobrescriben). Las preguntas frecuentes generan también el JSON-LD
+`FAQPage`, así que el texto visible y los datos estructurados no se desincronizan.
 
 ## Estructura
 
 | Ruta | Contenido |
 | --- | --- |
-| `index.html` | Portada |
+| `partials/` | Fragmentos compartidos: `head`, `header`, `menu` (menú móvil), `process`, `carousel`, `stats`, `faq`, `illustration`, `footer` |
 | `content/servicios.mjs` | Contenido de las cuatro páginas de servicio |
 | `scripts/build-pages.mjs` | Genera las páginas de servicio, `public/sitemap.xml` y `public/robots.txt` |
-| `partials/` | Fragmentos compartidos: `head`, `header` (con submenú y menú móvil), `contact` y `footer` |
-| `.env` | `VITE_SITE_URL`: URL pública, usada en canonical, Open Graph, JSON-LD y sitemap. **Cambiar al tener dominio definitivo.** |
-| `src/styles.css` | Sistema visual (tokens, tipografía, secciones, animaciones, movimiento reducido) |
-| `src/pages.css` | Submenú, filas de servicio enlazadas y componentes de las páginas de servicio |
-| `src/main.js` | Interacciones: hero, cabecera, menús, apariciones, secuencia del proceso, índice lateral, formulario |
+| `src/brx.css` | Sistema visual completo: tokens, tipografía, secciones, páginas interiores, animaciones y movimiento reducido |
+| `src/main.js` | Interacciones: muro de lamas del hero, menú móvil, títulos letra a letra, apariciones, acordeones, pestañas, carrusel, formulario |
 | `src/config.js` | **Teléfono, correo, WhatsApp y endpoint del formulario** (vacíos hasta que se confirmen) |
 | `src/images.json` | Generado por `npm run images`: anchos, proporción, color dominante y créditos |
-| `scripts/images.manifest.json` | Fotografías seleccionadas, autor y enlace a Unsplash |
-| `vite.config.js` | Build multipágina e inclusión de fragmentos (`<!-- @include nombre clave=valor -->`), `%SITE_URL%` e `<img data-pic>` → `<picture>` AVIF/WebP |
-| `public/` | Imágenes optimizadas, favicon, imagen Open Graph, `sitemap.xml` y `robots.txt` |
+| `scripts/images.manifest.json` | Fotografías seleccionadas (38), autor y enlace a Unsplash |
+| `vite.config.js` | Build multipágina, `<!-- @include nombre clave="valor" -->`, `%SITE_URL%`, `%ARROW%` e `<img data-pic>` → `<picture>` AVIF/WebP |
+| `.env` | `VITE_SITE_URL`: URL pública para canonical, Open Graph, JSON-LD y sitemap. **Cambiar al tener dominio definitivo.** |
 
 ## Imágenes
 
-Las 16 fotografías proceden de Unsplash (Licencia Unsplash: uso comercial gratuito, sin
-atribución obligatoria; aun así se acreditan en el footer). **Son ilustrativas y no son obras de
-CB Terra Anima**: la web lo indica junto a cada una que podría confundirse con una obra y en los
-créditos del footer.
+Las 38 fotografías proceden de Unsplash (Licencia Unsplash: uso comercial gratuito, sin
+atribución obligatoria; aun así se acreditan en `/creditos/`). **Son ilustrativas y no son obras
+de CB Terra Anima**: la web lo indica en las fotos que podrían confundirse con una obra.
 
 Para sustituirlas por fotografía propia: añade el archivo a `assets-src/raw/<nombre>.jpg`, actualiza
-el autor en `scripts/images.manifest.json` y ejecuta `npm run images`. El script solo descarga
-las imágenes que no existen en `assets-src/raw/`.
+el autor en `scripts/images.manifest.json` y ejecuta `npm run images`.
 
 ## Movimiento
 
-Sistema único, sin librerías, controlado desde `src/main.js` y `src/styles.css`:
-
-| Atributo / elemento | Comportamiento |
+| Elemento | Comportamiento |
 | --- | --- |
-| Hero (`.hero`, `sticky`) | Entrada: la foto se abre desde un marco central y las líneas del titular suben tras una máscara. Al hacer scroll, la sección del estudio sube por encima como una cortina mientras la foto escala y se oscurece. |
-| `data-lines` | Titulares: se separan en líneas reales (se recalculan al cambiar el ancho) que emergen de una máscara. |
-| `data-reveal="clip"` + `data-dir="up\|left\|right\|center"` | Imágenes: recorte que se abre en la dirección indicada. |
-| `data-scale` / `data-parallax` | Escala sutil (1,1 → 1) y desplazamiento ligados al scroll. |
-| `data-fade` / `data-stagger` | Textos secundarios: fundido corto, escalonado en grupos. |
-| `data-scrub` | El texto del estudio se rellena palabra a palabra con el scroll. |
-| `data-chars` | El wordmark del footer sube letra a letra. |
-| `data-toc` | Índice lateral de las páginas de servicio: marca el apartado que se está leyendo. |
+| Hero (`[data-vane]`) | Muro de lamas: tiras verticales de 72 px que son prismas triangulares con una foto en cada cara; giran 120° cada 5 s, escalonadas de izquierda a derecha. Se detiene fuera de pantalla y con la pestaña oculta. |
+| `.chars` | Títulos de sección: letra a letra con desenfoque y opacidad. |
+| `data-appear` (`up`, `left`, `right`, `scale`) | Bloques que entran al aparecer en pantalla. |
+| `data-scrub` | El párrafo del estudio se rellena palabra a palabra con el scroll. |
+| Servicios, proceso, expertise | Fila abierta al pasar el cursor (y al tocar o con el foco), tarjeta activa, pestañas con foto. |
+| Carrusel «Construir en Lanzarote» | La miniatura crece a imagen principal y la cita cambia con fundido. |
+| Botones | Rodillo del texto y flecha que avanza al pasar el cursor. |
 
-**Movimiento reducido:** el script del `<head>` añade la clase `rm` si el sistema lo pide. Para
-revisarlo sin cambiar el sistema operativo, abre la página con `?motion=reduce`.
+**Movimiento reducido:** el script del `<head>` añade la clase `rm` si el sistema lo pide; todo queda
+visible y sin desplazamientos. Para revisarlo sin cambiar el sistema operativo, añade `?motion=reduce`.
 
 ## Formulario
 
-El mismo formulario aparece en todas las páginas; en las de servicio, el tipo de obra llega
-preseleccionado (`data-service-type` en `<body>`). Sin backend conectado, valida en el cliente y
-muestra un aviso explícito de que la solicitud **no se ha enviado**. Para activarlo:
+Está en `/contacto/`; desde las páginas de servicio se llega con el tipo de obra preseleccionado
+(`/contacto/?tipo=Reforma`). Sin backend conectado, valida en el cliente y muestra un aviso explícito
+de que la solicitud **no se ha enviado**. Para activarlo:
 
 1. Crear el endpoint (Formspree, Getform, Netlify Forms o una función serverless que reciba
    `multipart/form-data` por POST y responda 2xx).
@@ -92,5 +87,6 @@ muestra un aviso explícito de que la solicitud **no se ha enviado**. Para activ
 
 ## Fuentes
 
-Archivo (variable, con eje de anchura) e IBM Plex Mono, servidas desde el propio proyecto con
-`@fontsource` (sin peticiones a Google Fonts).
+- **Tanker** (Indian Type Foundry), la tipografía de titulares de la plantilla. Se carga desde la API
+  de Fontshare, porque su licencia (ITF Free Font License) no deja claro el autoalojamiento.
+- **Inter** (SIL OFL), servida desde el proyecto con `@fontsource/inter`.

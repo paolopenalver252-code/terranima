@@ -4,19 +4,30 @@ import { defineConfig, loadEnv } from 'vite';
 
 const root = new URL('.', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
 
-// Páginas de servicio: cada carpeta de /servicios con un index.html es una entrada del build.
-function servicePages() {
+// Entradas del build: index.html raíz, las páginas de primer nivel (estudio, servicios,
+// contacto, créditos) y cada carpeta de /servicios con su index.html.
+function pages() {
+  const entries = { main: resolve(root, 'index.html') };
+  for (const name of ['estudio', 'servicios', 'contacto', 'creditos']) {
+    const file = resolve(root, name, 'index.html');
+    if (existsSync(file)) entries[name] = file;
+  }
   const dir = resolve(root, 'servicios');
-  if (!existsSync(dir)) return {};
-  return Object.fromEntries(
-    readdirSync(dir, { withFileTypes: true })
-      .filter((d) => d.isDirectory() && existsSync(resolve(dir, d.name, 'index.html')))
-      .map((d) => [d.name, resolve(dir, d.name, 'index.html')]),
-  );
+  if (existsSync(dir)) {
+    for (const d of readdirSync(dir, { withFileTypes: true })) {
+      const file = resolve(dir, d.name, 'index.html');
+      if (d.isDirectory() && existsSync(file)) entries[`servicio-${d.name}`] = file;
+    }
+  }
+  return entries;
 }
 
+const ARROW =
+  '<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
 // 1) <!-- @include nombre clave=valor --> inserta partials/nombre.html sustituyendo {{clave}}.
-// 2) %SITE_URL% se sustituye por VITE_SITE_URL (.env) para canonical, Open Graph y JSON-LD.
+// 2) %SITE_URL% se sustituye por VITE_SITE_URL (.env) para canonical, Open Graph y JSON-LD;
+//    %ARROW% por el icono de flecha de los botones.
 // 3) <img data-pic="nombre" sizes="..." alt="..."> se convierte en un <picture> AVIF/WebP
 //    responsivo con dimensiones intrínsecas y color de fondo mientras carga (src/images.json).
 function htmlTemplates(siteUrl) {
@@ -58,7 +69,8 @@ function htmlTemplates(siteUrl) {
     name: 'html-templates',
     transformIndexHtml: {
       order: 'pre',
-      handler: (html) => pictures(include(html).replaceAll('%SITE_URL%', siteUrl)),
+      handler: (html) =>
+        pictures(include(html).replaceAll('%SITE_URL%', siteUrl).replaceAll('%ARROW%', ARROW)),
     },
   };
 }
@@ -73,7 +85,7 @@ export default defineConfig(({ mode }) => {
       target: 'es2020',
       cssMinify: true,
       rollupOptions: {
-        input: { main: resolve(root, 'index.html'), ...servicePages() },
+        input: pages(),
       },
     },
   };

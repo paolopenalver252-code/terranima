@@ -174,5 +174,247 @@
     "color": "rgb(40 40 40)",
     "author": "Kevin Charit",
     "page": "https://unsplash.com/photos/WJ73fqgncJI"
+  },
+  "n-hormigon-patio": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.2352,
+    "color": "rgb(88 88 72)",
+    "author": "Ricardo Gomez Angel",
+    "page": "https://unsplash.com/photos/9AjwOAIdsII"
+  },
+  "n-encofrado": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(216 216 216)",
+    "author": "Julia Taubitz",
+    "page": "https://unsplash.com/photos/-NS8rPrmSxs"
+  },
+  "n-obra-grande": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(184 184 184)",
+    "author": "Julia Taubitz",
+    "page": "https://unsplash.com/photos/OKZRUxijthA"
+  },
+  "n-lz-fachada-verde": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 0.6667,
+    "color": "rgb(216 216 216)",
+    "author": "elisadventure photographe",
+    "page": "https://unsplash.com/photos/2js2mzWnD74"
+  },
+  "n-lz-balcon": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 0.6667,
+    "color": "rgb(232 232 216)",
+    "author": "elisadventure photographe",
+    "page": "https://unsplash.com/photos/i4V_YDXymjU"
+  },
+  "n-lz-casa-volcan": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 0.6665,
+    "color": "rgb(232 232 232)",
+    "author": "elisadventure photographe",
+    "page": "https://unsplash.com/photos/e2D4zQE5x78"
+  },
+  "n-lz-balcon-azul": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.5038,
+    "color": "rgb(248 248 248)",
+    "author": "Ferran Feixas",
+    "page": "https://unsplash.com/photos/mYVQfVPj2dM"
+  },
+  "n-lz-blanco-costa": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1.5038,
+    "color": "rgb(248 248 248)",
+    "author": "Ferran Feixas",
+    "page": "https://unsplash.com/photos/11mZ25lx1Us"
+  },
+  "n-lava": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.4994,
+    "color": "rgb(8 8 8)",
+    "author": "Andrea Huls Pareja",
+    "page": "https://unsplash.com/photos/6LGsSlQcbVA"
+  },
+  "n-muro-piedra": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(8 8 8)",
+    "author": "Seb Dean",
+    "page": "https://unsplash.com/photos/Ry00YC7cLkU"
+  },
+  "n-paisaje-terrazas": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1.7772,
+    "color": "rgb(56 56 56)",
+    "author": "Jan Bachor",
+    "page": "https://unsplash.com/photos/Q3TAibFYC7g"
+  },
+  "n-estructura-madera": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.3333,
+    "color": "rgb(184 200 216)",
+    "author": "Daniel Wong",
+    "page": "https://unsplash.com/photos/ygy6koDTctY"
+  },
+  "n-escalera-blanca": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 0.6667,
+    "color": "rgb(216 216 216)",
+    "author": "Alesia Kazantceva",
+    "page": "https://unsplash.com/photos/0B7ijYKaKcE"
+  },
+  "n-interior-luz": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 0.6675,
+    "color": "rgb(216 216 216)",
+    "author": "Suhyeon Choi",
+    "page": "https://unsplash.com/photos/ehxwis6Ltxg"
+  },
+  "n-salon": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.6,
+    "color": "rgb(120 120 104)",
+    "author": "Prydumano Design",
+    "page": "https://unsplash.com/photos/vIbxvHj9m9g"
+  },
+  "n-pasillo": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(136 136 136)",
+    "author": "Frank Zhang",
+    "page": "https://unsplash.com/photos/HHNPLFG5t0c"
+  },
+  "n-enlucido": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(216 200 184)",
+    "author": "Sasun Bughdaryan",
+    "page": "https://unsplash.com/photos/Re1O5byZ8bY"
+  },
+  "n-cocina-obra": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(168 168 168)",
+    "author": "immo RENOVATION",
+    "page": "https://unsplash.com/photos/UqNEbyRQ660"
+  },
+  "n-obra-interior": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(152 152 136)",
+    "author": "Stefan Lehner",
+    "page": "https://unsplash.com/photos/biRt6RXejuk"
+  },
+  "n-osb-luz": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.5055,
+    "color": "rgb(248 248 248)",
+    "author": "Annie Spratt",
+    "page": "https://unsplash.com/photos/FiSI0VQSMSQ"
+  },
+  "n-cocina": {
+    "widths": [
+      600,
+      1000,
+      1600
+    ],
+    "ratio": 1.5003,
+    "color": "rgb(184 184 184)",
+    "author": "GoodLifeConstruction",
+    "page": "https://unsplash.com/photos/pQVP5QmskxM"
+  },
+  "n-villa": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1.3333,
+    "color": "rgb(248 248 248)",
+    "author": "Ярослав Алексеенко",
+    "page": "https://unsplash.com/photos/_TPTXZd9mOo"
   }
 }
