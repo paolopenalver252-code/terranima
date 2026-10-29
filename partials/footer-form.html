@@ -1,0 +1,59 @@
+    <!-- ============ FORMULARIO EN EL PIE ============ -->
+    <!-- Se incluye justo antes del pie en todas las páginas salvo /contacto/, que ya tiene el formulario.
+         FORM_ENDPOINT vacío en src/config.js: valida pero no envía (ver README). -->
+    <section class="footer-form" id="pie-contacto" data-theme="dark" aria-labelledby="pf-title">
+      <div class="wrap footer-form__grid">
+        <div class="footer-form__intro">
+          <p class="label label--toba">Contacto</p>
+          <h2 class="display-3" id="pf-title">Solicitar <em>presupuesto</em></h2>
+          <p>Dinos qué quieres construir, reformar o reparar y dónde está el inmueble. Con esa información estudiamos el caso y te planteamos los siguientes pasos.</p>
+          <p class="footer-form__place">Arrecife, Lanzarote</p>
+        </div>
+        <form class="form form--dark" data-form novalidate>
+          <div class="form__row">
+            <div class="field">
+              <label for="pf-nombre">Nombre *</label>
+              <input id="pf-nombre" name="nombre" type="text" autocomplete="name" required aria-describedby="pe-nombre" />
+              <p class="field__error" id="pe-nombre" data-error-for="nombre" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="pf-telefono">Teléfono</label>
+              <input id="pf-telefono" name="telefono" type="tel" autocomplete="tel" aria-describedby="pe-telefono" />
+              <p class="field__error" id="pe-telefono" data-error-for="telefono" aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="pf-email">Correo electrónico *</label>
+              <input id="pf-email" name="email" type="email" autocomplete="email" required aria-describedby="pe-email" />
+              <p class="field__error" id="pe-email" data-error-for="email" aria-live="polite"></p>
+            </div>
+            <div class="field">
+              <label for="pf-tipo">Tipo de obra *</label>
+              <select id="pf-tipo" name="tipo" required aria-describedby="pe-tipo">
+                <option value="">Selecciona una opción</option>
+                <option>Obra nueva</option>
+                <option>Reforma</option>
+                <option>Rehabilitación</option>
+                <option>Reparación y conservación</option>
+                <option>Otro</option>
+              </select>
+              <p class="field__error" id="pe-tipo" data-error-for="tipo" aria-live="polite"></p>
+            </div>
+          </div>
+          <div class="field">
+            <label for="pf-mensaje">Cuéntanos tu proyecto *</label>
+            <textarea id="pf-mensaje" name="mensaje" rows="4" required placeholder="Dónde está el inmueble, qué te gustaría hacer y en qué punto está el proyecto." aria-describedby="pe-mensaje"></textarea>
+            <p class="field__error" id="pe-mensaje" data-error-for="mensaje" aria-live="polite"></p>
+          </div>
+          <div class="field field--check">
+            <input id="pf-consent" name="consent" type="checkbox" required aria-describedby="pe-consent" />
+            <label for="pf-consent">Acepto que CB Terra Anima use estos datos solo para responder a mi solicitud. *</label>
+            <p class="field__error" id="pe-consent" data-error-for="consent" aria-live="polite"></p>
+          </div>
+          <button class="btn btn--light" type="submit" data-submit><span>Enviar solicitud</span></button>
+          <div class="form__status" data-form-status role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+

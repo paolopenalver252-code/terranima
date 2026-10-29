@@ -1,154 +1,176 @@
-// Genera servicios/<slug>/index.html a partir de content/servicios.mjs con la maqueta de
-// "detalle de proyecto": cabecera con título, entradilla y foto ancha; ficha lateral fija y
-// cuerpo de artículo; llamada a la acción y otros servicios.
+// Genera, a partir de content/:
+// - servicios/<slug>/index.html (content/servicios.mjs);
+// - partials/portfolio.html y proyectos/<slug>/index.html (content/proyectos.mjs);
+// - public/sitemap.xml y public/robots.txt.
 // Uso: npm run pages (también se ejecuta antes de dev y build).
-import { mkdir, writeFile, readFile } from 'node:fs/promises';
+import { mkdir, writeFile, readFile, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { services } from '../content/servicios.mjs';
+import { proyectos, referencias } from '../content/proyectos.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pad = (n) => String(n).padStart(2, '0');
 const attr = (s) => s.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
 const plain = (s) => s.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-const ARROW = '%ARROW%';
+const out = async (path, html) => {
+  await mkdir(dirname(join(root, path)), { recursive: true });
+  await writeFile(join(root, path), html);
+  console.log(`✓ ${path}`);
+};
 
 const summaries = {
-  'obra-nueva': 'Construcción completa de viviendas y edificios, de la cimentación a los acabados.',
+  'obra-nueva': 'Viviendas y edificios de nueva planta, de la cimentación a los acabados.',
   reformas: 'Reformas integrales y parciales de viviendas y locales.',
   rehabilitacion: 'Recuperación de viviendas y edificios existentes.',
-  'reparacion-y-conservacion': 'Atención al desgaste y a los daños del edificio.',
+  'reparacion-y-conservacion': 'Humedades, fisuras, filtraciones y cuidado periódico del edificio.',
 };
-const tags = {
-  'obra-nueva': ['Viviendas', 'Edificios'],
-  reformas: ['Integral', 'Parcial'],
-  rehabilitacion: ['Existente', 'Tradicional'],
-  'reparacion-y-conservacion': ['Reparación', 'Mantenimiento'],
-};
-// Foto ancha de la cabecera (distinta de la principal para no repetir la del índice).
+// Foto ancha de la cabecera de cada servicio.
 const wide = {
-  'obra-nueva': 'n-encofrado',
-  reformas: 'n-salon',
-  rehabilitacion: 'n-muro-piedra',
-  'reparacion-y-conservacion': 'n-enlucido',
+  'obra-nueva': ['seq-4-terminada', 'Vivienda blanca de volúmenes cúbicos con jardín'],
+  reformas: ['n-salon', 'Salón contemporáneo con grandes ventanales y sofá gris'],
+  rehabilitacion: ['intro-cal-y-piedra', 'Muros encalados y piedra volcánica en una construcción tradicional de Lanzarote'],
+  'reparacion-y-conservacion': ['n-lz-fachada-verde', 'Fachada encalada con contraventanas verdes en Lanzarote'],
 };
 
-/* ---------- Bloques del cuerpo ---------- */
+const page = ({ title, description, path, ogTitle, jsonLd = '', body }) => `<!doctype html>
+<!-- Generado por scripts/build-pages.mjs a partir de content/. No editar a mano. -->
+<html lang="es">
+  <head>
+    <!-- @include head -->
+    <title>${title}</title>
+    <meta name="description" content="${attr(description)}" />
+    <link rel="canonical" href="%SITE_URL%${path}" />
+    <meta property="og:url" content="%SITE_URL%${path}" />
+    <meta property="og:title" content="${attr(ogTitle)}" />
+    <meta property="og:description" content="${attr(description)}" />${jsonLd}
+  </head>
+
+  <body>
+    <!-- @include header -->
+
+    <main id="contenido">${body}
+    </main>
+
+    <!-- @include footer-form -->
+    <!-- @include footer -->
+  </body>
+</html>
+`;
+
+const ld = (obj) => `
+    <script type="application/ld+json">
+${JSON.stringify({ '@context': 'https://schema.org', ...obj }, null, 2)
+  .split('\n')
+  .map((l) => `      ${l}`)
+  .join('\n')}
+    </script>`;
+
+/* =====================================================================
+   SERVICIOS
+   ===================================================================== */
+const tiles = (items, render, cols = 2) => `
+              <div class="tiles" data-stagger style="--cols: ${cols}">
+${items.map(render).join('\n')}
+              </div>`;
+
 const blocks = {
-  cards: (s) => `
-                <div class="mini-cards">
-${s.items
-  .map(
-    (it, i) => `                  <article class="mini-card">
-                    <span class="label--orange display">${pad(i + 1)}</span>
-                    <h3>${it.title}</h3>
-                    <p>${it.text}</p>
-                  </article>`,
-  )
-  .join('\n')}
-                </div>`,
-
-  steps: (s) => `
-                <ol class="rows">
-${s.items
-  .map(
-    (it, i) => `                  <li>
-                    <span class="n" aria-hidden="true">${pad(i + 1)}</span>
-                    <div><h3>${it.title}</h3><p>${it.text}</p></div>
-                  </li>`,
-  )
-  .join('\n')}
-                </ol>`,
-
-  principles: (s) => `
-                <div class="mini-cards">
-${s.items
-  .map(
-    (it) => `                  <article class="mini-card">
-                    <h3>${it.title}</h3>
-                    <p>${it.text}</p>
-                  </article>`,
-  )
-  .join('\n')}
-                </div>`,
-
-  compare: (s) => `
-                <div class="mini-cards">
-${s.items
-  .map(
-    (it) => `                  <article class="mini-card">
-                    <h3>${it.title}</h3>
-                    <p>${it.text}</p>
-                    <p class="slash">// Encaja cuando</p>
-                    <ul class="checks">
-${it.fits.map((f) => `                      <li>${f}</li>`).join('\n')}
-                    </ul>
-                    <p><strong>Ten en cuenta:</strong> ${it.note}</p>
-                  </article>`,
-  )
-  .join('\n')}
-                </div>`,
-
-  checklist: (s) => `
-                <ul class="checks">
-${s.items.map((it) => `                  <li>${it}</li>`).join('\n')}
-                </ul>`,
-
-  calendar: (s) => `
-                <ol class="rows">
-${s.items
-  .map(
-    (it) => `                  <li>
-                    <span class="n n--text" aria-hidden="true">·</span>
-                    <div><p class="slash">// ${it.when}</p><h3>${it.title}</h3><p>${it.text}</p></div>
-                  </li>`,
-  )
-  .join('\n')}
-                </ol>`,
-
-  panel: (s) => `
-                <div class="ctx">
-                  <div class="img"><img data-pic="${s.image}" sizes="(max-width: 809px) 100vw, 200px" alt="${attr(s.alt)}" loading="lazy" decoding="async" /></div>
-                  <ul>
-${s.items
-  .map(
-    (it) => `                    <li><h3>${it.title}</h3><p>${it.text}</p></li>`,
-  )
-  .join('\n')}
+  cards: (s) =>
+    tiles(
+      s.items,
+      (it, i) => `                <article class="tile">
+                  <span class="tile__num">${pad(i + 1)}</span>
+                  <h3 class="tile__title">${it.title}</h3>
+                  <p>${it.text}</p>
+                </article>`,
+    ),
+  principles: (s) =>
+    tiles(
+      s.items,
+      (it) => `                <article class="tile">
+                  <h3 class="tile__title">${it.title}</h3>
+                  <p>${it.text}</p>
+                </article>`,
+    ),
+  compare: (s) =>
+    tiles(
+      s.items,
+      (it) => `                <article class="tile">
+                  <h3 class="tile__title">${it.title}</h3>
+                  <p>${it.text}</p>
+                  <p class="tile__label">Encaja cuando</p>
+                  <ul class="checks">
+${it.fits.map((f) => `                    <li>${f}</li>`).join('\n')}
                   </ul>
-                </div>`,
-
+                  <p class="tile__note"><strong>Ten en cuenta:</strong> ${it.note}</p>
+                </article>`,
+    ),
+  calendar: (s) =>
+    tiles(
+      s.items,
+      (it) => `                <article class="tile">
+                  <span class="tile__num">${it.when}</span>
+                  <h3 class="tile__title">${it.title}</h3>
+                  <p>${it.text}</p>
+                </article>`,
+      3,
+    ),
+  steps: (s) => `
+              <ol class="numbered">
+${s.items.map((it) => `                <li><h3>${it.title}</h3><p>${it.text}</p></li>`).join('\n')}
+              </ol>`,
+  checklist: (s) => `
+              <ul class="checks${s.columns ? ' checks--cols' : ''}">
+${s.items.map((it) => `                <li>${it}</li>`).join('\n')}
+              </ul>`,
+  panel: (s) => `
+              <div class="media-row">
+                <figure class="media-row__img">
+                  <div class="ph reveal-img" style="--ar: 4 / 5"><img data-pic="${s.image}" sizes="(max-width: 899px) 100vw, 30vw" alt="${attr(s.alt)}" loading="lazy" decoding="async" /></div>
+                  <figcaption>Imagen ilustrativa.</figcaption>
+                </figure>
+                <dl class="facts facts--stack">
+${s.items.map((it) => `                  <div><dt>${it.title}</dt><dd>${it.text}</dd></div>`).join('\n')}
+                </dl>
+              </div>`,
   faq: (s) => `
-                <div class="acc acc--compact" data-acc>
+              <div class="acc">
 ${s.items
   .map(
-    (it, i) => `                  <div class="acc__item${i === 0 ? ' is-open' : ''}">
-                    <h3><button class="acc__q" type="button" aria-expanded="${i === 0}">${it.q}<span class="acc__icon" aria-hidden="true"></span></button></h3>
-                    <div class="acc__a"><div><p class="t-body">${it.a}</p></div></div>
-                  </div>`,
+    (it) => `                <details class="acc__item" name="faq">
+                  <summary>${it.q}</summary>
+                  <div class="acc__body"><p>${it.a}</p></div>
+                </details>`,
   )
   .join('\n')}
-                </div>`,
+              </div>`,
 };
 
 const section = (s, i) => `
-              <section class="block" id="${s.id}" aria-labelledby="${s.id}-t" data-appear>
-                <p class="label">[${pad(i + 1)} · ${s.toc}]</p>
-                <h2 id="${s.id}-t">${s.title}</h2>${s.intro ? `\n                <p>${s.intro}</p>` : ''}${blocks[s.type](s)}${
-                  s.note ? `\n                <p class="pull">${s.note}</p>` : ''
-                }${
-                  s.aside
-                    ? `
-                <aside class="mini-card">
-                  <p class="slash">// ${s.aside.title}</p>
-                  <p>${s.aside.text}</p>
-                </aside>`
-                    : ''
-                }
-              </section>`;
+      <section class="section${i % 2 ? ' section--sand' : ''}" id="${s.id}" aria-labelledby="${s.id}-t">
+        <div class="wrap block">
+          <header class="block__head" data-reveal>
+            <p class="eyebrow">${pad(i + 1)} · ${s.toc}</p>
+            <h2 class="display-3" id="${s.id}-t">${s.title}</h2>${
+              s.summary ? `\n            <p class="block__summary"><span>En breve</span>${s.summary}</p>` : ''
+            }
+          </header>
+          <div class="block__body">${s.intro ? `\n            <p class="lead">${s.intro}</p>` : ''}${blocks[s.type](s)}${
+            s.note ? `\n            <p class="block__note">${s.note}</p>` : ''
+          }${
+            s.aside
+              ? `
+            <aside class="tile tile--aside">
+              <h3 class="tile__title">${s.aside.title}</h3>
+              <p>${s.aside.text}</p>
+            </aside>`
+              : ''
+          }
+          </div>
+        </div>
+      </section>`;
 
-/* ---------- Datos estructurados ---------- */
-function jsonLd(svc) {
+function serviceLd(svc) {
   const url = `%SITE_URL%/servicios/${svc.slug}/`;
   const faq = svc.sections.find((s) => s.type === 'faq');
   const graph = [
@@ -181,119 +203,200 @@ function jsonLd(svc) {
       })),
     });
   }
-  return JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
-    .split('\n')
-    .map((l) => `      ${l}`)
-    .join('\n');
+  return ld({ '@graph': graph });
 }
 
-/* ---------- Página ---------- */
-function page(svc) {
-  const next = services[(services.indexOf(svc) + 1) % services.length];
+function servicePage(svc) {
+  const others = services.filter((o) => o.slug !== svc.slug);
   const contact = `/contacto/?tipo=${encodeURIComponent(svc.select)}`;
-  return `<!doctype html>
-<!-- Generado por scripts/build-pages.mjs a partir de content/servicios.mjs. No editar a mano. -->
-<html lang="es">
-  <head>
-    <!-- @include head -->
-    <title>${svc.metaTitle}</title>
-    <meta name="description" content="${attr(svc.metaDescription)}" />
-    <link rel="canonical" href="%SITE_URL%/servicios/${svc.slug}/" />
-    <meta property="og:url" content="%SITE_URL%/servicios/${svc.slug}/" />
-    <meta property="og:title" content="${attr(`${svc.name} ${svc.place} — CB Terra Anima`)}" />
-    <meta property="og:description" content="${attr(svc.metaDescription)}" />
-    <script type="application/ld+json">
-${jsonLd(svc)}
-    </script>
-  </head>
-
-  <body class="page-inner page-service">
-    <!-- @include menu -->
-
-    <main id="contenido">
+  const [wideImg, wideAlt] = wide[svc.slug];
+  return page({
+    title: svc.metaTitle,
+    description: svc.metaDescription,
+    path: `/servicios/${svc.slug}/`,
+    ogTitle: `${svc.name} ${svc.place} — CB Terra Anima`,
+    jsonLd: serviceLd(svc),
+    body: `
       <!-- REVISAR CON EL CLIENTE: contenido redactado a partir del objeto social y de información
            general del sector. Ver REVISION.md. -->
-      <section class="phero" aria-labelledby="page-title">
-        <div class="container">
-          <!-- @include header logo="logo--small" -->
-          <div class="phero__content">
-            <div>
-              <nav class="crumbs label label--orange" aria-label="Ruta de navegación">
-                <a href="/servicios/">Servicios</a> <span aria-hidden="true">/</span> <span aria-current="page">Servicio ${svc.num}</span>
-              </nav>
-              <h1 class="phero__title chars" id="page-title">${svc.name}</h1>
+      <section class="phead" aria-labelledby="page-title">
+        <div class="wrap phead__grid">
+          <nav class="crumbs" aria-label="Ruta de navegación">
+            <a href="/">Inicio</a><span aria-hidden="true">/</span><a href="/servicios/">Servicios</a><span aria-hidden="true">/</span><span aria-current="page">${svc.name}</span>
+          </nav>
+          <h1 class="display-1 phead__title" id="page-title">${svc.name} <em>${svc.place}</em></h1>
+          <div class="phead__side">
+            <p class="lead">${svc.hero.lead}</p>
+            <div class="actions">
+              <a class="btn btn--dark" href="${contact}">Solicitar valoración</a>
+              <a class="link" href="#${svc.sections[0].id}">Ver el detalle</a>
             </div>
-            <div class="phero__lead-row" data-appear>
-              <p class="phero__lead">${svc.hero.lead}</p>
-              <ul class="tags tags--light">${tags[svc.slug].map((t) => `<li class="tag">${t}</li>`).join('')}</ul>
-            </div>
-            <figure class="phero__fig" data-appear="scale">
-              <div class="img phero__photo phero__photo--tall"><img data-pic="${wide[svc.slug]}" sizes="(max-width: 1440px) 100vw, 1245px" alt="" fetchpriority="high" decoding="async" /></div>
-              <figcaption class="caption">Imagen ilustrativa. No es una obra de CB Terra Anima.</figcaption>
-            </figure>
           </div>
         </div>
+        <figure class="wrap phead__media">
+          <div class="ph" style="--ar: 21 / 9"><img data-pic="${wideImg}" sizes="(max-width: 1520px) 100vw, 1440px" alt="${attr(wideAlt)}" fetchpriority="high" decoding="async" /></div>
+          <figcaption>Imagen ilustrativa. No es una obra de CB Terra Anima.</figcaption>
+        </figure>
+        <div class="wrap keyfacts">
+          <h2 class="keyfacts__title">En pocas palabras</h2>
+          <dl class="keyfacts__list">
+${svc.hero.facts.map(([dt, dd]) => `            <div><dt>${dt}</dt><dd>${dd}</dd></div>`).join('\n')}
+          </dl>
+        </div>
+      </section>
+
+      <!-- Índice de la página: queda fijo arriba al hacer scroll y marca el apartado que se está leyendo -->
+      <nav class="toc" aria-label="En esta página" data-toc>
+        <div class="wrap toc__inner">
+          <span class="toc__label">En esta página</span>
+          <ol class="toc__list">
+${svc.sections.map((s, i) => `            <li><a href="#${s.id}"><span>${pad(i + 1)}</span>${s.toc}</a></li>`).join('\n')}
+          </ol>
+        </div>
+      </nav>
+${svc.sections.map(section).join('\n')}
+
+      <!-- @include cta img="hero-timanfaya" title="${attr(svc.cta.title)}" text="${attr(svc.cta.text)}" href="${contact}" button="${attr(svc.cta.button)}" -->
+
+      <section class="section" aria-labelledby="others-title">
+        <div class="wrap">
+          <p class="eyebrow" data-reveal>Otros servicios</p>
+          <h2 class="sr-only" id="others-title">Otros servicios</h2>
+          <ol class="index index--compact">
+${others
+  .map(
+    (o) => `            <li class="index__row">
+              <a class="index__link" href="/servicios/${o.slug}/">
+                <span class="index__num">${o.num}</span>
+                <span class="index__name">${o.name}</span>
+                <span class="index__desc">${summaries[o.slug]}</span>
+                <span class="index__arrow" aria-hidden="true"></span>
+              </a>
+            </li>`,
+  )
+  .join('\n')}
+          </ol>
+        </div>
+      </section>`,
+  });
+}
+
+/* =====================================================================
+   PORTFOLIO
+   ===================================================================== */
+// Cada fila: índice, título grande, tipo y miniatura. En escritorio con ratón la miniatura se oculta y
+// una vista previa sigue al cursor (src/main.js); en pantallas táctiles la miniatura se ve en la fila.
+const row = ({ href, img, alt, type, meta, title }, i) => `            <li class="work" data-work="${i}">
+              <a class="work__link" href="${href}">
+                <span class="work__num">${pad(i + 1)}</span>
+                <span class="work__title">${title}</span>
+                <span class="work__meta"><span>${type}</span><span>${meta}</span></span>
+                <span class="work__arrow" aria-hidden="true"></span>
+                <span class="work__thumb ph"><img data-pic="${img}" sizes="(max-width: 899px) 100vw, 30vw" alt="${attr(alt)}" loading="lazy" decoding="async" /></span>
+              </a>
+            </li>`;
+
+const items = () =>
+  proyectos.length
+    ? proyectos.map((p) => ({ href: `/proyectos/${p.slug}/`, img: p.cover, alt: p.alt, type: p.type, meta: p.place, title: p.name }))
+    : referencias.map((r) => ({ href: r.href, img: r.img, alt: r.alt, type: r.type, meta: 'Referencia visual', title: r.title }));
+
+const portfolio = () => {
+  const list = items();
+  return `<!-- Generado por scripts/build-pages.mjs a partir de content/proyectos.mjs. No editar a mano. -->
+      <section class="works" id="proyectos" data-theme="light" data-bg-shift aria-labelledby="proyectos-title">
+        <div class="wrap">
+          <div class="works__head">
+            <div>
+              <p class="label" data-reveal>Proyectos</p>
+              <h2 class="display-2" id="proyectos-title">${proyectos.length ? 'Obras en <em>Lanzarote</em>' : 'Arquitectura que pertenece <em>a la isla</em>'}</h2>
+            </div>
+            <p class="works__note" data-reveal>${
+              proyectos.length
+                ? 'Una selección de obras de CB Terra Anima. Cada ficha recoge el lugar, el tipo de intervención y las fotografías del resultado.'
+                : 'Las obras de CB Terra Anima se publicarán aquí, cada una con su ficha y fotografía propia. Mientras tanto, estas imágenes muestran la arquitectura y el tipo de intervención con los que trabajamos: son <strong>referencias visuales</strong>, no proyectos de la empresa.'
+            }</p>
+          </div>
+          <ol class="works__list" data-works>
+${list.map(row).join('\n')}
+          </ol>
+          <div class="works__preview" data-works-preview aria-hidden="true">
+${list.map((it, i) => `            <div class="works__shot" data-shot="${i}"><img data-pic="${it.img}" sizes="30vw" alt="" loading="lazy" decoding="async" /></div>`).join('\n')}
+          </div>
+        </div>
+      </section>
+`;
+};
+
+function projectPage(p) {
+  return page({
+    title: `${p.name} — Proyecto de CB Terra Anima en ${p.place}`,
+    description: p.summary,
+    path: `/proyectos/${p.slug}/`,
+    ogTitle: `${p.name} — CB Terra Anima`,
+    body: `
+      <section class="phead" aria-labelledby="page-title">
+        <div class="wrap phead__grid">
+          <nav class="crumbs" aria-label="Ruta de navegación">
+            <a href="/">Inicio</a><span aria-hidden="true">/</span><a href="/#proyectos">Proyectos</a><span aria-hidden="true">/</span><span aria-current="page">${p.name}</span>
+          </nav>
+          <h1 class="display-1 phead__title" id="page-title">${p.name}</h1>
+          <div class="phead__side">
+            <p class="eyebrow">${p.type} · ${p.place}${p.year ? ` · ${p.year}` : ''}</p>
+            <p class="lead">${p.summary}</p>
+          </div>
+        </div>
+        <figure class="wrap phead__media">
+          <div class="ph" style="--ar: 16 / 9"><img data-pic="${p.cover}" sizes="(max-width: 1520px) 100vw, 1440px" alt="${attr(p.alt)}" fetchpriority="high" decoding="async" /></div>
+        </figure>
       </section>
 
       <section class="section">
-        <div class="container project">
-          <aside class="project__details" aria-label="Ficha del servicio">
-            <dl class="work__details">
-${svc.hero.facts.map(([dt, dd]) => `              <div><dt class="slash">// ${dt}</dt><dd>${dd}</dd></div>`).join('\n')}
-              <div><dt class="slash">// Zona</dt><dd>Lanzarote</dd></div>
+        <div class="wrap block">
+          <header class="block__head">
+            <p class="eyebrow">La obra</p>
+            <dl class="facts facts--stack">
+              <div><dt>Tipo</dt><dd>${p.type}</dd></div>
+              <div><dt>Lugar</dt><dd>${p.place}</dd></div>
+${(p.facts ?? []).map(([dt, dd]) => `              <div><dt>${dt}</dt><dd>${dd}</dd></div>`).join('\n')}
             </dl>
-            <nav class="toc" aria-label="En esta página">
-              <p class="slash">// En esta página</p>
-              <ol>
-${svc.sections.map((s, i) => `                <li><a href="#${s.id}"><span>${pad(i + 1)}</span>${s.toc}</a></li>`).join('\n')}
-              </ol>
-            </nav>
-            <a class="btn" href="${contact}"><span class="btn__label">Solicitar valoración</span>${ARROW}</a>
-          </aside>
-
-          <div class="project__story">
-            <figure class="project__lead-img" data-appear>
-              <div class="img"><img data-pic="${svc.hero.image}" sizes="(max-width: 1199px) 100vw, 704px" alt="${attr(svc.hero.alt)}" loading="lazy" decoding="async" /></div>
-              <figcaption class="caption">Imagen ilustrativa.</figcaption>
-            </figure>
-${svc.sections.map(section).join('\n')}
-
-              <section class="svc-cta" aria-labelledby="cta-title" data-appear>
-                <p class="label label--orange">Siguiente paso</p>
-                <h2 id="cta-title">${svc.cta.title}</h2>
-                <p class="t-body">${svc.cta.text}</p>
-                <a class="btn" href="${contact}"><span class="btn__label">${svc.cta.button}</span>${ARROW}</a>
-              </section>
+          </header>
+          <div class="block__body">
+${p.body.map((t) => `            <p class="lead">${t}</p>`).join('\n')}
           </div>
         </div>
+        <div class="wrap gallery">
+${(p.gallery ?? [])
+  .map(
+    ([img, alt]) => `          <figure class="ph reveal-img"><img data-pic="${img}" sizes="(max-width: 899px) 100vw, 50vw" alt="${attr(alt)}" loading="lazy" decoding="async" /></figure>`,
+  )
+  .join('\n')}
+        </div>${p.credit ? `\n        <p class="wrap gallery__credit">${p.credit}</p>` : ''}
       </section>
 
-      <nav class="next section section--top-line" aria-labelledby="next-title">
-        <div class="container">
-          <p class="label label--orange">[Siguiente servicio]</p>
-          <h2 class="t-section next__title" id="next-title"><a href="/servicios/${next.slug}/">${next.name}</a></h2>
-          <p class="t-body-l next__desc">${summaries[next.slug]}</p>
-          <a class="link-arrow" href="/servicios/"><span class="btn__label">Ver todos los servicios</span>${ARROW}</a>
-        </div>
-      </nav>
-    </main>
-
-    <!-- @include footer -->
-  </body>
-</html>
-`;
+      <!-- @include cta img="hero-timanfaya" title="¿Tienes un proyecto parecido?" text="Cuéntanos qué quieres construir, reformar o rehabilitar y dónde está el inmueble." href="/contacto/" button="Cuéntanos tu proyecto" -->`,
+  });
 }
 
-for (const svc of services) {
-  const out = join(root, 'servicios', svc.slug, 'index.html');
-  await mkdir(dirname(out), { recursive: true });
-  await writeFile(out, page(svc));
-  console.log(`✓ servicios/${svc.slug}/`);
-}
+/* =====================================================================
+   ESCRITURA
+   ===================================================================== */
+for (const svc of services) await out(`servicios/${svc.slug}/index.html`, servicePage(svc));
 
-/* ---------- sitemap.xml y robots.txt ---------- */
+await out('partials/portfolio.html', portfolio());
+await rm(join(root, 'proyectos'), { recursive: true, force: true });
+for (const p of proyectos) await out(`proyectos/${p.slug}/index.html`, projectPage(p));
+
 const site = (process.env.VITE_SITE_URL || (await readEnvSite())).replace(/\/$/, '');
-const urls = ['/', '/estudio/', '/servicios/', ...services.map((s) => `/servicios/${s.slug}/`), '/contacto/', '/creditos/'];
+const urls = [
+  '/',
+  '/estudio/',
+  '/servicios/',
+  ...services.map((s) => `/servicios/${s.slug}/`),
+  ...proyectos.map((p) => `/proyectos/${p.slug}/`),
+  '/contacto/',
+  '/creditos/',
+];
 const today = new Date().toISOString().slice(0, 10);
 await writeFile(
   join(root, 'public', 'sitemap.xml'),

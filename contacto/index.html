@@ -10,53 +10,47 @@
     <link rel="canonical" href="%SITE_URL%/contacto/" />
     <meta property="og:url" content="%SITE_URL%/contacto/" />
     <meta property="og:title" content="Contacto — CB Terra Anima" />
-    <meta property="og:description" content="Solicita una valoración para tu obra en Lanzarote." />
+    <meta property="og:description" content="Pide una valoración para tu obra en Lanzarote." />
   </head>
 
-  <body class="page-inner page-contact">
-    <!-- @include menu -->
+  <body>
+    <!-- @include header -->
 
     <main id="contenido">
-      <!-- ============ CABECERA ============ -->
-      <section class="phero" aria-labelledby="page-title">
-        <div class="container">
-          <!-- @include header logo="logo--small" -->
-          <div class="phero__content">
-            <div>
-              <p class="label label--orange">[Contacto]</p>
-              <h1 class="phero__title chars" id="page-title">Hablemos de tu obra.</h1>
-            </div>
-            <div class="phero__lead-row" data-appear>
-              <p class="phero__lead">
-                Cuéntanos qué quieres construir, reformar o reparar y dónde está el inmueble. Con esa información
-                estudiamos el caso y te planteamos los siguientes pasos.
-              </p>
-            </div>
+      <section class="phead" aria-labelledby="page-title">
+        <div class="wrap phead__grid">
+          <nav class="crumbs" aria-label="Ruta de navegación"><a href="/">Inicio</a><span aria-hidden="true">/</span><span aria-current="page">Contacto</span></nav>
+          <h1 class="display-1 phead__title" id="page-title">Cuéntanos <em>tu proyecto</em></h1>
+          <div class="phead__side">
+            <p class="lead">
+              Dinos qué quieres construir, reformar o reparar y dónde está el inmueble. Con esa información estudiamos
+              el caso y te planteamos los siguientes pasos.
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- ============ SOLICITUD ============ -->
       <section class="section" aria-labelledby="form-title">
-        <div class="container enquiry">
-          <div class="details" data-appear>
-            <p class="label">[Datos de la empresa]</p>
-            <p class="details__big">Empresa de construcción con sede en Arrecife, para obras en Lanzarote.</p>
+        <div class="wrap contact__grid">
+          <aside class="contact__aside" aria-label="Datos de la empresa">
             <!-- Teléfono, correo y WhatsApp se añaden desde src/config.js cuando estén confirmados. -->
-            <dl class="details__list" data-details>
-              <div><dt class="slash">// Sede</dt><dd>Arrecife, Lanzarote</dd></div>
-              <div><dt class="slash">// Empresa</dt><dd>2-SB Terramanima S.L.</dd></div>
-              <div><dt class="slash">// CIF</dt><dd>B24903155</dd></div>
-              <div><dt class="slash">// Servicios</dt><dd><a href="/servicios/">Ver servicios</a></dd></div>
+            <dl class="facts facts--stack" data-details>
+              <div><dt>Sede</dt><dd>Arrecife, Lanzarote</dd></div>
+              <div><dt>Empresa</dt><dd>2-SB Terramanima S.L. · CIF B24903155</dd></div>
+              <div><dt>Servicios</dt><dd><a class="link" href="/servicios/">Obra nueva, reformas, rehabilitación, reparación y conservación</a></dd></div>
             </dl>
-            <div class="img details__img"><img data-pic="contacto-costa" sizes="(max-width: 1199px) 100vw, 486px" alt="Casa encalada con ventana verde frente al mar y un risco volcánico" loading="lazy" decoding="async" /></div>
-          </div>
-
-          <div class="form-card" data-appear>
-            <div class="form-card__head">
-              <h2 class="t-h3" id="form-title">Solicitar presupuesto</h2>
-              <p class="t-body">Los campos marcados con * son obligatorios.</p>
+            <div>
+              <p class="eyebrow">Qué nos ayuda a valorar tu obra</p>
+              <ul class="checks">
+                <li><strong>Dónde está:</strong> el municipio y, si puedes, la zona.</li>
+                <li><strong>Qué quieres hacer:</strong> obra nueva, reforma, rehabilitación o reparación, y si es una vivienda, un local o un edificio.</li>
+                <li><strong>Qué documentación tienes:</strong> proyecto, planos, licencia o unas fotos del estado actual. Si aún no tienes nada, también podemos hablar.</li>
+              </ul>
             </div>
+          </aside>
+
+          <div>
+            <h2 class="display-3" id="form-title" style="margin-bottom: 2rem">Solicitar presupuesto</h2>
             <!-- FORM_ENDPOINT vacío en src/config.js: el formulario valida pero no envía (ver README). -->
             <form class="form" data-form novalidate>
               <div class="form__row">
@@ -66,16 +60,16 @@
                   <p class="field__error" id="e-nombre" data-error-for="nombre" aria-live="polite"></p>
                 </div>
                 <div class="field">
-                  <label for="f-email">Correo electrónico *</label>
-                  <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email" />
-                  <p class="field__error" id="e-email" data-error-for="email" aria-live="polite"></p>
+                  <label for="f-telefono">Teléfono</label>
+                  <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" aria-describedby="e-telefono" />
+                  <p class="field__error" id="e-telefono" data-error-for="telefono" aria-live="polite"></p>
                 </div>
               </div>
               <div class="form__row">
                 <div class="field">
-                  <label for="f-telefono">Teléfono</label>
-                  <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" aria-describedby="e-telefono" />
-                  <p class="field__error" id="e-telefono" data-error-for="telefono" aria-live="polite"></p>
+                  <label for="f-email">Correo electrónico *</label>
+                  <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="e-email" />
+                  <p class="field__error" id="e-email" data-error-for="email" aria-live="polite"></p>
                 </div>
                 <div class="field">
                   <label for="f-tipo">Tipo de obra *</label>
@@ -91,8 +85,8 @@
                 </div>
               </div>
               <div class="field">
-                <label for="f-mensaje">Cuéntanos tu obra *</label>
-                <textarea id="f-mensaje" name="mensaje" rows="5" required placeholder="Dónde está el inmueble, qué te gustaría hacer y en qué punto está el proyecto." aria-describedby="e-mensaje"></textarea>
+                <label for="f-mensaje">Cuéntanos tu proyecto *</label>
+                <textarea id="f-mensaje" name="mensaje" rows="6" required placeholder="Dónde está el inmueble, qué te gustaría hacer y en qué punto está el proyecto." aria-describedby="e-mensaje"></textarea>
                 <p class="field__error" id="e-mensaje" data-error-for="mensaje" aria-live="polite"></p>
               </div>
               <div class="field field--check">
@@ -100,44 +94,19 @@
                 <label for="f-consent">Acepto que CB Terra Anima use estos datos solo para responder a mi solicitud. *</label>
                 <p class="field__error" id="e-consent" data-error-for="consent" aria-live="polite"></p>
               </div>
-              <button class="btn" type="submit" data-submit><span class="btn__label">Enviar solicitud</span>%ARROW%</button>
+              <button class="btn btn--dark" type="submit" data-submit>Enviar solicitud</button>
               <div class="form__status" data-form-status role="status" aria-live="polite"></div>
             </form>
           </div>
         </div>
       </section>
 
-      <!-- ============ QUÉ NOS AYUDA A VALORAR ============ -->
-      <section class="section section--top-line" aria-labelledby="valorar-title">
-        <div class="container">
-          <div class="sec-head sec-head--split">
-            <h2 class="t-section chars" id="valorar-title">Para valorar tu obra</h2>
-            <p class="t-body-l" data-appear>Tres datos que nos ayudan a orientarte desde el primer mensaje.</p>
-          </div>
-          <div class="cards cards--3">
-            <article class="ncard ncard--media" data-appear style="--d: 0s">
-              <div class="img ncard__img"><img data-pic="n-lz-balcon-azul" sizes="(max-width: 809px) 100vw, 33vw" alt="Balcón de madera azul en una casa blanca de Lanzarote" loading="lazy" decoding="async" /></div>
-              <span class="ncard__num">01</span>
-              <h3 class="ncard__title">Dónde está</h3>
-              <p class="t-body">El municipio y, si puedes, la zona. En Lanzarote el terreno y la normativa cambian de un lugar a otro.</p>
-            </article>
-            <article class="ncard ncard--media" data-appear style="--d: 0.1s">
-              <div class="img ncard__img"><img data-pic="n-cocina-obra" sizes="(max-width: 809px) 100vw, 33vw" alt="Cocina en reforma con los muebles protegidos con plástico" loading="lazy" decoding="async" /></div>
-              <span class="ncard__num">02</span>
-              <h3 class="ncard__title">Qué quieres hacer</h3>
-              <p class="t-body">Obra nueva, reforma, rehabilitación o reparación, y si es una vivienda, un local o un edificio.</p>
-            </article>
-            <article class="ncard ncard--media" data-appear style="--d: 0.2s">
-              <div class="img ncard__img"><img data-pic="n-pasillo" sizes="(max-width: 809px) 100vw, 33vw" alt="Pasillo blanco iluminado por tres ventanas estrechas" loading="lazy" decoding="async" /></div>
-              <span class="ncard__num">03</span>
-              <h3 class="ncard__title">Qué documentación tienes</h3>
-              <p class="t-body">Proyecto, planos, licencia o unas fotos del estado actual. Si aún no tienes nada, también podemos hablar.</p>
-            </article>
-          </div>
-        </div>
+      <section class="section section--sand" aria-label="Lanzarote">
+        <figure class="wrap">
+          <div class="ph reveal-img" style="--ar: 21 / 8"><img data-pic="n-lz-blanco-costa" sizes="(max-width: 1520px) 100vw, 1440px" alt="Edificios blancos frente al mar en un paseo de Lanzarote" loading="lazy" decoding="async" /></div>
+          <figcaption>Lanzarote. Imagen ilustrativa.</figcaption>
+        </figure>
       </section>
-
-      <!-- @include faq -->
     </main>
 
     <!-- @include footer -->

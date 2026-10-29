@@ -110,6 +110,179 @@ No se mencionan oficios, materiales, técnicas, plazos, precios, garantías, equ
 | Desbordamiento horizontal | Ninguno a 1440, 390 y 320 px en las 5 páginas (corregido el botón de la banda final, que desbordaba a 390 px) |
 | Movimiento reducido (`?motion=reduce`) en página de servicio | Titulares, tarjetas e imágenes visibles sin transformaciones ni recortes |
 
+## Iteración 7: rediseño con foco en movimiento (28–29/10/2026)
+
+La iteración 6 se parecía demasiado a la primera demo y se sentía estática. Esta versión cambia la
+composición, el color y, sobre todo, el movimiento. La versión 6 queda en una copia comprimida fuera
+del repositorio.
+
+### Qué se observó en las referencias (navegador integrado, 1440×900)
+
+| Web | Observado en funcionamiento | Qué se ha tomado como idea (sin copiar) |
+| --- | --- | --- |
+| MAD Proyect | Elementor con entradas `fadeInLeft/Right/Up` en unos 30 elementos, palabra gigante semitransparente en el hero, carruseles Swiper | Palabra gigante de fondo, pero en contorno y desplazada con el scroll |
+| Reformas Abel | Código propio sin librerías: degradados del hero que derivan despacio, cabecera que pasa de transparente a sólida, riel horizontal de proyectos; las secciones **no** tienen animación de entrada | Concentrar el movimiento en pocos momentos fuertes; cabecera que cambia de tono |
+| Cosendra | Vídeo en el hero, paneles de servicios recorridos con el scroll, testimonios con fundido de 1 s; sin librerías de animación | Servicios como recorrido horizontal ligado al scroll |
+
+No se ha copiado estructura, textos, fotos, marca ni código.
+
+### Qué fallaba en la iteración 6
+
+- Composición centrada y simétrica en casi todas las secciones, con el mismo ritmo de titular + texto.
+- Paleta clara casi uniforme: el verde de acento apenas aparecía.
+- Movimiento limitado a fundidos de opacidad y una máscara en las fotos.
+- Proyectos y servicios presentados como rejillas estáticas.
+
+### Decisiones
+
+- **Color con intención:** basalto (oscuro volcánico) y cal alternan por secciones; el almagre (tierra
+  roja) es el acento sobre claro y el toba sobre oscuro. La sección de proyectos pasa de oscuro a claro
+  con el scroll.
+- **Tipografía:** Bricolage Grotesque estrecha (78 %) para titulares y texto; Instrument Serif cursiva
+  solo para las palabras destacadas. Sustituye a Instrument Serif + Manrope.
+- **Portada:** hero oscuro con la foto a la derecha y el texto superpuesto en móvil, manifiesto
+  asimétrico, servicios en horizontal, proyectos en lista con vista previa, materiales, proceso con
+  raíl, empresa con tarjeta superpuesta, contacto y pie con la marca a gran tamaño.
+- **Sistema de movimiento:** documentado en `README.md` (duraciones, curvas, distancias, escalonado y
+  comportamiento con movimiento reducido).
+- **Favicon, `theme-color` e imagen Open Graph** pasados a basalto y almagre.
+
+### Pendiente de validar con el cliente (nuevo)
+
+- [ ] Los textos de la sección «Materiales» (cal, piedra volcánica, picón) y de «El terreno / El clima /
+  El paisaje» son información general de Lanzarote, no técnicas propias de la empresa.
+- [ ] El proceso en cuatro pasos sigue siendo **orientativo** y así se indica en la web.
+- [ ] Los proyectos siguen siendo **referencias visuales** rotuladas como tales; no hay obras propias.
+
+### Verificaciones realizadas
+
+| Comprobación | Resultado |
+| --- | --- |
+| `npm run build` | Sin errores; 9 páginas; JS 5,5 KB y CSS 9,7 KB comprimidos |
+| Marcadores sin sustituir, referencias a webs de referencia o versiones anteriores, secretos en `dist/` | Ninguno |
+| Un `h1` por página, IDs únicos, `alt` en todas las imágenes, enlaces y `srcset` existentes, anclas, JSON-LD válido | Sí, en las 9 páginas |
+| Desbordamiento horizontal y elementos recortados | Ninguno en 9 páginas × 8 anchos (320, 375, 390, 430, 768, 1024, 1440, 1920 px). Corregido el dato del proyecto que desbordaba 2 px a 320 px |
+| Contraste de los colores del sistema | ≥ 4,81:1 en los pares de texto (el gris secundario sobre arena, 4,16:1, no se usa: la arena solo es fondo de foto) |
+| Hero (escritorio y móvil) | La secuencia de entrada se ve completa; los enlaces responden desde el principio |
+| Servicios fijados (1440×900) | El scroll vertical desplaza los cuatro paneles con contador y barra; ningún panel se sale de la pantalla; con el teclado, el foco en el cuarto panel lo trae a la vista. En móvil, fila deslizable nativa |
+| Cambio de fondo y tono de la cabecera | El fondo de proyectos pasa de basalto a claro; la cabecera cambia de tono sobre cada fondo |
+| Proyectos con cursor | La fila activa se desplaza, las demás se atenúan y la vista previa muestra la foto correcta |
+| Materiales, proceso, empresa, contacto, pie | Revisados al hacer scroll en escritorio y a 375 px |
+| Menú móvil (375 px) | Abre, foco en «Cerrar», bloquea el scroll, Escape cierra y devuelve el foco |
+| Submenú de servicios | Se abre con el botón; Escape lo cierra y devuelve el foco |
+| Formulario | Errores en línea en los cinco campos obligatorios, foco en el primero, sin envío simulado |
+| Movimiento reducido (`?motion=reduce`) | Sin fijado ni transformaciones; todo visible salvo la vista previa del cursor, que es decorativa |
+| Consola (servidor de desarrollo) | Sin errores |
+
+Defectos encontrados al recorrer la web y corregidos: nombres de la cabecera ilegibles sobre el cielo
+del hero, titular del hero invadiendo la foto, paneles de servicios más altos que la pantalla, vista
+previa de proyectos tapando los títulos, etiqueta del hero en móvil tapada por el titular, foto de
+«La empresa» que podía quedarse oculta tras un salto brusco de scroll, pie de foto tapado por la
+tarjeta en móvil y dato de proyecto desbordando a 320 px.
+
+**No comprobado:** Safari/iOS, Firefox, dispositivos táctiles reales (el deslizamiento de servicios se
+ha probado por código, no con el dedo), lectores de pantalla, `prefers-reduced-motion` desde el
+sistema operativo (sí con `?motion=reduce`) y rendimiento medido con herramientas de perfilado (sí se
+ha limitado a `transform`, `opacity` y `clip-path` y a un único bucle de scroll).
+
+## Iteración 6: rediseño premium editorial (28/10/2026)
+
+Nueva dirección propia a partir de seis referencias (Cosendra, Alibaz, Reformas Abel, MAD Proyect,
+Llull Sastre y Edificam, revisadas en el navegador). Las secciones de la iteración 5 describen la
+versión anterior, de la que hay copia fuera del repositorio.
+
+### Decisiones
+
+- **Paleta mineral:** cal y arena para las superficies, basalto para los contrastes y el verde de la
+  carpintería tradicional de Lanzarote como acento puntual.
+- **Tipografía:** Instrument Serif (titulares) + Manrope (resto), ambas OFL y alojadas en el proyecto.
+- **Hero:** casa encalada al pie de un volcán (Lanzarote real), con el titular «Construir con sentido.
+  Integrar con el entorno.» sobre el cielo. La entradilla y los botones van en una banda bajo la foto
+  para no tapar nunca la arquitectura. Encuadre vertical propio en móvil.
+- **Portfolio:** composición editorial asimétrica alimentada por `content/proyectos.mjs`. **No hay
+  obras de la empresa**: se muestran cuatro referencias visuales rotuladas como tales y un texto que lo
+  explica. La plantilla de ficha de proyecto está lista y se ha probado con una entrada temporal (luego
+  retirada).
+
+### Pendiente de validar con el cliente (nuevo)
+
+- [ ] Titular del hero y su entradilla.
+- [ ] Sección «Forma de trabajar» (cuatro pasos) y la frase de «La empresa» sobre explicar cada obra con
+  un presupuesto que se entienda: describen una forma de trabajar **provisional**.
+- [ ] Marca: el logotipo («CB» + «Terra Anima» en serif) y el favicon («TA») son provisionales.
+- [ ] **Fotografía propia de obras:** es lo que más mejoraría la web. Con dos o tres obras documentadas
+  el portfolio pasa a mostrar proyectos reales sin tocar la maqueta.
+
+### Verificaciones realizadas (build de producción y servidor de desarrollo, Chromium integrado)
+
+| Comprobación | Resultado |
+| --- | --- |
+| `npm run build` | Sin errores; 9 páginas |
+| Marcadores sin sustituir, referencias a webs de referencia o versiones anteriores, secretos en `dist/` | Ninguno |
+| Consola, errores de JavaScript y red (9 páginas) | Sin errores; ninguna petición fallida; solo se descargan los subconjuntos latinos de las fuentes |
+| Un `h1` por página, IDs únicos, sin saltos de encabezado, `alt`, `width`/`height` en todas las imágenes, etiquetas en todos los campos, JSON-LD válido, canonical y Open Graph | Sí, en las 9 páginas |
+| Enlaces internos y anclas | 31 URL distintas, todas 200, anclas existentes |
+| Desbordamiento horizontal y elementos recortados | Ninguno en 9 páginas × 10 anchos (320, 360, 375, 390, 430, 768, 1024, 1280, 1440, 1920 px) |
+| Texto al 200 % (tamaño de letra del navegador) | Sin desbordamientos en 5 páginas a 375 y 1280 px |
+| Contraste de los colores del sistema | ≥ 4,66:1 en todos los pares medidos |
+| Contraste del texto del hero sobre la foto (medido en píxeles, percentil 5) | ≥ 13,8:1 en escritorio y móvil |
+| Hero: titular libre de la casa | Comprobado a 1920×1080, 1440×900, 1366×768, 1024×768, 768×1024 y en móvil de 320 a 430 px |
+| Formulario | Errores en línea, foco en el primero, tipo preseleccionado, aviso de que no se envía |
+| Menú móvil | Abre, foco en «Cerrar», tabulación dentro del menú, Escape cierra y devuelve el foco, bloquea el scroll |
+| Submenú de servicios | Se abre con el botón; Escape lo cierra y devuelve el foco |
+| Movimiento reducido (`?motion=reduce`) | Los 22 elementos animados de la portada se ven completos |
+| Fichas de proyecto | Generación y build probados con un proyecto temporal |
+
+**No comprobado:** Safari/iOS, Firefox, dispositivos táctiles reales, lectores de pantalla reales y
+`prefers-reduced-motion` desde el sistema operativo (sí con `?motion=reduce`).
+
+## Iteración 5: rediseño con Armalutx como referencia (27/10/2026)
+
+Rediseño completo con una dirección luminosa y editorial. Referencia estudiada: armalutx.com (portada,
+página de servicio, quiénes somos y contacto, en escritorio y a 375 px). La versión anterior (Brixzon)
+queda en la rama `version-brixzon`; las secciones de la iteración 4 describen esa versión.
+
+### Qué se ha tomado de la referencia y qué no
+
+| De la referencia | Adaptación |
+| --- | --- |
+| Estructura: hero a pantalla completa con texto centrado → presentación a dos columnas con lista desplegable de servicios y carrusel ancho → bloques de servicio con lista y foto → «por qué elegirnos» con mosaico → bloque editorial → artículos → preguntas frecuentes → banda final con foto → pie de cuatro columnas | Misma secuencia con contenido de CB Terra Anima |
+| Una sola familia (Poppins), titulares de peso 400, cuerpo 300, titulares con línea vertical de acento, botones en píldora | Igual |
+| Fondos carbón escalonados y acento dorado | **Invertido a claro** (marfil, arena, piedra) por petición del cliente; el oscuro se reserva para la banda de contacto y el pie. Acento en tierra volcánica en lugar de dorado |
+| Páginas interiores: H1 con línea, foto ancha, apartados con titular y texto + imagen o tarjetas con borde | Igual |
+| Logotipo, textos, fotos, botón de WhatsApp, selector de idioma | **No** se han copiado ni reproducido |
+
+### Fotografía
+
+- 21 fotos en uso (antes 38). Se han retirado las de obra en curso (ferralla, encofrados, obra grande…) porque no encajan con la nueva dirección.
+- Nuevas: **hero-villa** (John Fornander, villa blanca con piedra y piscina) y **n-salon-calido** (Puscas Adryan, salón luminoso). Ninguna es de Lanzarote ni obra de la empresa; se indica «Imagen ilustrativa» donde podrían confundirse.
+- [ ] Sustituir por fotografía propia en cuanto exista, empezando por el hero y los bloques de obra nueva y reformas.
+
+### Pendiente de validar con el cliente (nuevo)
+
+- [ ] Titular del hero «Construimos y reformamos tu casa en Lanzarote» y su entradilla.
+- [ ] Bloque «¿Por qué elegir CB Terra Anima?»: los tres primeros puntos son hechos registrales; «Presupuestos por partidas» y «Cambios acordados antes de ejecutarlos» describen una forma de trabajar **provisional**.
+- [ ] Marca: el logotipo (cono volcánico + «TERRA ANIMA / CONSTRUCCIÓN · LANZAROTE») es provisional.
+
+### Verificaciones realizadas (build de producción y servidor de desarrollo, Chromium integrado)
+
+| Comprobación | Resultado |
+| --- | --- |
+| `npm run build` | Sin errores; 9 páginas |
+| Marcadores sin sustituir, referencias a Armalutx o a la plantilla anterior, secretos en `dist/` | Ninguno |
+| Consola y red (9 páginas) | Sin mensajes; todas las peticiones 200/304 |
+| Un `h1` por página, IDs únicos, sin saltos de nivel en los encabezados, `alt` en todas las imágenes, JSON-LD válido | Sí |
+| Enlaces internos y anclas | 30 URL distintas, todas 200, anclas existentes |
+| Desbordamiento horizontal y elementos recortados | Ninguno en 9 páginas × 8 anchos (320–1440 px) |
+| Contraste (texto, acento, gris, pie, errores, texto de ejemplo) | ≥ 4,6:1 en todos los pares medidos |
+| Formulario | Errores en línea, foco en el primero, tipo preseleccionado, aviso de que no se envía |
+| Menú móvil | Abre, bloquea el scroll, cierra con Escape y devuelve el foco |
+| Submenú de servicios | Se abre con el botón y con el cursor; Escape lo cierra y devuelve el foco (corregido: antes quedaba abierto) |
+| Cabecera | Transparente sobre el hero, sólida al hacer scroll; sólida desde el inicio en las páginas interiores |
+| Movimiento reducido (`?motion=reduce`) | Los 20 bloques con aparición se ven completos y sin desplazamiento |
+
+**No comprobado:** Safari/iOS, Firefox, dispositivos táctiles reales y `prefers-reduced-motion` activado desde el sistema operativo (sí con `?motion=reduce`). El contraste del texto del hero sobre la foto se ha revisado a ojo en capturas, no medido.
+
 ## Iteración 4: reconstrucción con la maqueta de Brixzon (26/10/2026)
 
 La web se ha rehecho siguiendo la estructura, las medidas y las animaciones de la plantilla de

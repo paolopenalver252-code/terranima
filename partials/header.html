@@ -1,16 +1,65 @@
-        <header class="navbar" data-header>
-          <a class="logo {{logo}}" href="/" aria-label="CB Terra Anima, ir al inicio">
-            <span class="logo__name">Terra Anima</span>
-            <span class="logo__mark" aria-hidden="true">CB</span>
-          </a>
-          <nav class="nav" aria-label="Principal">
-            <a href="/">Inicio</a>
-            <a href="/estudio/">Estudio</a>
-            <a href="/servicios/">Servicios</a>
-            <a href="/contacto/">Contacto</a>
-          </nav>
-          <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-open>
-            <span class="sr-only">Abrir menú</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18" /></svg>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <header class="site-header" data-header>
+      <div class="wrap site-header__bar">
+        <a class="brand" href="/" aria-label="CB Terra Anima, ir al inicio">
+          <span class="brand__cb" aria-hidden="true">CB</span>
+          <span class="brand__name">Terra Anima</span>
+        </a>
+
+        <nav class="nav" aria-label="Principal">
+          <ul class="nav__list">
+            <li class="nav__drop" data-drop>
+              <a href="/servicios/">Servicios</a>
+              <button class="nav__drop-btn" type="button" aria-expanded="false" aria-controls="submenu-servicios">
+                <span class="sr-only">Mostrar servicios</span>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" /></svg>
+              </button>
+              <ul class="nav__sub" id="submenu-servicios">
+                <li><a href="/servicios/obra-nueva/">Obra nueva</a></li>
+                <li><a href="/servicios/reformas/">Reformas</a></li>
+                <li><a href="/servicios/rehabilitacion/">Rehabilitación</a></li>
+                <li><a href="/servicios/reparacion-y-conservacion/">Reparación y conservación</a></li>
+              </ul>
+            </li>
+            <li><a href="/#proyectos">Proyectos</a></li>
+            <li><a href="/estudio/">Empresa</a></li>
+            <li><a href="/contacto/">Contacto</a></li>
+          </ul>
+          <a class="btn btn--line btn--sm" href="/contacto/">Pide presupuesto</a>
+        </nav>
+
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-open>
+          <span class="menu-btn__label">Menú</span>
+          <span class="menu-btn__lines" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="menu" id="menu" data-menu role="dialog" aria-modal="true" aria-label="Menú">
+      <div class="wrap menu__inner">
+        <div class="menu__top">
+          <span class="brand"><span class="brand__cb" aria-hidden="true">CB</span><span class="brand__name">Terra Anima</span></span>
+          <button class="menu__close" type="button" data-menu-close>
+            <span>Cerrar</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
           </button>
-        </header>
+        </div>
+        <nav class="menu__nav" aria-label="Menú móvil">
+          <a href="/">Inicio</a>
+          <a href="/servicios/">Servicios</a>
+          <ul class="menu__sub">
+            <li><a href="/servicios/obra-nueva/">Obra nueva</a></li>
+            <li><a href="/servicios/reformas/">Reformas</a></li>
+            <li><a href="/servicios/rehabilitacion/">Rehabilitación</a></li>
+            <li><a href="/servicios/reparacion-y-conservacion/">Reparación y conservación</a></li>
+          </ul>
+          <a href="/#proyectos">Proyectos</a>
+          <a href="/estudio/">Empresa</a>
+          <a href="/contacto/">Contacto</a>
+        </nav>
+        <div class="menu__foot">
+          <p>Arrecife, Lanzarote</p>
+          <a class="btn btn--dark" href="/contacto/">Pide presupuesto</a>
+        </div>
+      </div>
+    </div>

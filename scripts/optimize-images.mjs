@@ -31,22 +31,24 @@ async function download(url, name, attempts = 4) {
 }
 const meta = {};
 
+// "source" reutiliza el original de otra entrada y "extract" ({ left, top, width, height } en
+// píxeles del original) recorta un encuadre distinto, p. ej. horizontal y vertical del hero.
 for (const img of images) {
-  const rawPath = join(rawDir, `${img.name}.jpg`);
+  const rawPath = join(rawDir, `${img.source ?? img.name}.jpg`);
   if (!(await exists(rawPath))) {
     const url = `https://images.unsplash.com/photo-${img.id}?fm=jpg&q=90&w=2600`;
     await writeFile(rawPath, await download(url, img.name));
   }
 
-  const source = sharp(rawPath);
-  const { width, height } = await source.metadata();
-  const { dominant } = await source.stats();
+  const load = () => (img.extract ? sharp(rawPath).extract(img.extract) : sharp(rawPath));
+  const { width, height } = img.extract ?? (await sharp(rawPath).metadata());
+  const { dominant } = await load().stats();
 
   for (const w of img.widths) {
     const target = Math.min(w, width);
     const base = join(outDir, `${img.name}-${w}`);
-    await sharp(rawPath).resize({ width: target }).avif({ quality: img.quality ?? 52, effort: 5 }).toFile(`${base}.avif`);
-    await sharp(rawPath).resize({ width: target }).webp({ quality: img.quality ? img.quality + 22 : 74 }).toFile(`${base}.webp`);
+    await load().resize({ width: target }).avif({ quality: img.quality ?? 52, effort: 5 }).toFile(`${base}.avif`);
+    await load().resize({ width: target }).webp({ quality: img.quality ? img.quality + 22 : 74 }).toFile(`${base}.webp`);
   }
 
   meta[img.name] = {

@@ -5,7 +5,7 @@
     <title>CB Terra Anima — Construcción, reformas y rehabilitación en Lanzarote</title>
     <meta
       name="description"
-      content="Empresa de construcción en Arrecife (Lanzarote): obra nueva, reformas integrales y parciales, rehabilitación, reparación y conservación de viviendas, locales y edificios. Solicita presupuesto."
+      content="Empresa de construcción con sede en Arrecife (Lanzarote): obra nueva, reformas integrales y parciales, rehabilitación, reparación y conservación de viviendas, locales y edificios."
     />
     <link rel="canonical" href="%SITE_URL%/" />
     <meta property="og:url" content="%SITE_URL%/" />
@@ -22,6 +22,7 @@
         "url": "%SITE_URL%/",
         "image": "%SITE_URL%/og-image.jpg",
         "address": { "@type": "PostalAddress", "addressLocality": "Arrecife", "addressRegion": "Las Palmas", "postalCode": "35500", "addressCountry": "ES" },
+        "areaServed": { "@type": "Place", "name": "Lanzarote" },
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
           "name": "Servicios",
@@ -36,324 +37,232 @@
     </script>
   </head>
 
-  <body class="page-home">
-    <!-- @include menu -->
+  <body class="has-hero">
+    <!-- @include header -->
 
     <main id="contenido">
-      <!-- ============ HERO (fijo: la sección siguiente sube por encima) ============ -->
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="vane" data-vane aria-hidden="true">
-          <img data-pic="seq-3-estructura" data-vane-src sizes="100vw" alt="" fetchpriority="high" />
-          <img data-pic="hero-timanfaya" data-vane-src sizes="100vw" alt="" />
-          <img data-pic="n-villa" data-vane-src sizes="100vw" alt="" />
+      <!-- ============ HERO: vídeo a pantalla completa con el contenido centrado ============ -->
+      <!-- El vídeo se configura en src/config.js (HERO_VIDEO). Mientras carga, o con movimiento
+           reducido, el hero queda sobre fondo de basalto. -->
+      <section class="hero" data-theme="dark" data-hero aria-labelledby="hero-title">
+        <div class="hero__media" aria-hidden="true">
+          <div class="hero__frame">
+            <video class="hero__video" data-hero-video muted loop playsinline preload="none" disablepictureinpicture tabindex="-1"></video>
+          </div>
         </div>
-        <div class="hero__overlay"></div>
-        <div class="hero__inner container">
-          <!-- @include header logo="" -->
-          <div class="hero__content">
-            <div class="hero__card img">
-              <img data-pic="n-lz-casa-volcan" sizes="360px" alt="Casa encalada con contraventanas verdes junto a un volcán en Lanzarote" />
-            </div>
-            <div class="hero__copy">
-              <p class="label label--orange hero__label">Construcción, reforma y rehabilitación · Lanzarote</p>
-              <h1 class="hero__headline" id="hero-title">
-                CB Terra Anima <span class="dim">construye</span>, <span class="dim">reforma</span> y
-                <span class="dim">rehabilita</span> viviendas y edificios en Lanzarote con orden,
-                <span class="dim">cuidado</span> y respeto por <span class="dim">el paisaje</span> de la isla.
-              </h1>
-              <div class="hero__buttons">
-                <a class="btn" href="/contacto/"><span class="btn__label">Solicitar presupuesto</span>%ARROW%</a>
-                <a class="btn btn--ghost" href="/servicios/"><span class="btn__label">Ver servicios</span>%ARROW%</a>
-              </div>
-            </div>
+        <div class="hero__text">
+          <p class="label hero__label" data-intro>Construcción · Reforma · Rehabilitación</p>
+          <h1 class="hero__title" id="hero-title">
+            <span class="mask"><span>Construir con sentido.</span></span>
+            <span class="mask"><span><em>Integrar con el entorno.</em></span></span>
+          </h1>
+          <p class="hero__lead" data-intro>Obra nueva, reformas y rehabilitación de viviendas y edificios en Lanzarote, desde Arrecife.</p>
+          <div class="actions" data-intro>
+            <a class="btn btn--light" href="/contacto/"><span>Cuéntanos tu proyecto</span></a>
+            <a class="link link--light" href="/servicios/">Ver servicios</a>
+          </div>
+        </div>
+        <p class="hero__caption" data-intro>Vídeo ilustrativo</p>
+        <a class="scroll-cue" href="#empresa" data-intro><span>Desliza</span><i aria-hidden="true"></i></a>
+      </section>
+
+      <!-- ============ LA EMPRESA (manifiesto) ============ -->
+      <!-- REVISAR CON EL CLIENTE: redacción basada en el objeto social inscrito. -->
+      <section class="manifest" id="empresa" data-theme="light" aria-labelledby="manifest-title">
+        <p class="ghost" aria-hidden="true" data-drift="-0.35">Lanzarote</p>
+        <div class="wrap manifest__grid" data-reveal-group>
+          <div class="manifest__head">
+            <p class="label" data-reveal>CB Terra Anima</p>
+            <h2 class="display-2" id="manifest-title">Una constructora de Arrecife <em>que trabaja con lo que la isla ofrece.</em></h2>
+          </div>
+          <figure class="manifest__img">
+            <div class="ph reveal-img" data-from="left" style="--ar: 4 / 5"><img data-pic="mat-volumen-blanco" sizes="(max-width: 899px) 70vw, 26vw" alt="Volumen encalado con chimenea recortado contra el cielo azul" loading="lazy" decoding="async" /></div>
+          </figure>
+          <!-- Segunda foto escalonada: solo en tableta horizontal y ordenador, rellena la columna central -->
+          <figure class="manifest__img2" data-parallax="-0.06">
+            <div class="ph reveal-img" style="--ar: 3 / 4"><img data-pic="n-lz-fachada-verde" sizes="20vw" alt="Fachada encalada con contraventanas verdes en Lanzarote" loading="lazy" decoding="async" /></div>
+            <figcaption>Arquitectura tradicional de Lanzarote</figcaption>
+          </figure>
+          <div class="manifest__body">
+            <p class="lead" data-reveal>
+              Un suelo volcánico que cambia de una parcela a otra, sol y viento casi constantes y una arquitectura que se
+              integra en el paisaje. Cada obra empieza por estudiar el lugar y planificar el trabajo antes de levantar el
+              primer muro.
+            </p>
+            <dl class="facts" data-reveal data-stagger>
+              <div><dt>Sede</dt><dd>Arrecife, Lanzarote</dd></div>
+              <div><dt>Edificación</dt><dd>Viviendas, locales y edificios</dd></div>
+              <div><dt>Inicio de actividad</dt><dd>2025</dd></div>
+            </dl>
+            <a class="link" href="/estudio/" data-reveal>Conoce la empresa</a>
           </div>
         </div>
       </section>
 
-      <!-- ============ SOBRE TERRA ANIMA ============ -->
-      <!-- REVISAR CON EL CLIENTE: texto redactado a partir del objeto social inscrito. -->
-      <section class="about section" id="estudio" aria-labelledby="about-label">
-        <div class="container">
-          <div class="about__intro">
-            <div class="about__labelcol">
-              <p class="label" id="about-label">[Sobre Terra Anima]</p>
-              <!-- @include illustration -->
-            </div>
-            <div class="about__copy">
-              <p class="statement" data-scrub>
-                CB Terra Anima es una empresa de construcción con sede en Arrecife. Nos dedicamos a la
-                obra nueva, la reforma, la rehabilitación y la conservación de edificios residenciales y
-                no residenciales en Lanzarote. Entendemos que construir en la isla es dialogar con su
-                paisaje: la cal, la piedra volcánica, el viento y la luz. Por eso cada obra empieza por
-                escuchar, estudiar el lugar y planificar antes de levantar el primer muro.
-              </p>
-              <a class="btn" href="/estudio/" data-appear><span class="btn__label">Más sobre nosotros</span>%ARROW%</a>
-            </div>
-          </div>
-          <div class="about__images">
-            <div class="img" data-appear="scale" style="--d: 0s"><img data-pic="n-hormigon-patio" sizes="(max-width: 809px) 100vw, 33vw" alt="Patio interior de hormigón visto" loading="lazy" decoding="async" /></div>
-            <div class="img" data-appear="scale" style="--d: 0.1s"><img data-pic="intro-cal-y-piedra" sizes="(max-width: 809px) 100vw, 33vw" alt="Muros encalados y piedra volcánica en una construcción tradicional de Lanzarote" loading="lazy" decoding="async" /></div>
-            <div class="img" data-appear="scale" style="--d: 0.2s"><img data-pic="seq-4-terminada" sizes="(max-width: 809px) 100vw, 33vw" alt="Vivienda blanca de volúmenes cúbicos" loading="lazy" decoding="async" /></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ SERVICIOS (acordeón) ============ -->
-      <!-- Servicios extraídos del objeto social inscrito. Textos: REVISAR CON EL CLIENTE. -->
-      <section class="services section" id="servicios" aria-labelledby="servicios-title">
-        <div class="container">
-          <div class="sec-head sec-head--center">
-            <h2 class="t-section chars" id="servicios-title">Del cimiento al acabado.</h2>
-            <p class="t-body-l" data-appear>De la obra nueva a la reparación, intervenimos en viviendas, locales y edificios de Lanzarote con planificación, oficio y atención al detalle.</p>
-          </div>
-
-          <ul class="svc-list" data-svc-list>
-            <li class="svc is-open" data-svc data-appear>
-              <div class="svc__grid">
-                <div class="svc__copy">
-                  <span class="svc__num">01.</span>
-                  <h3 class="svc__title"><a href="/servicios/obra-nueva/">Obra nueva</a></h3>
-                  <p class="svc__desc t-body">Construcción completa de viviendas y edificios, de la cimentación a los acabados, con la planificación como punto de partida.</p>
-                  <div class="svc__open svc__more-wrap"><div><a class="link-arrow" href="/servicios/obra-nueva/"><span class="btn__label">Ver el servicio</span>%ARROW%</a></div></div>
-                </div>
-                <div class="svc__side">
-                  <ul class="tags"><li class="tag">Viviendas</li><li class="tag">Edificios</li></ul>
-                  <div class="svc__open" style="width: 100%"><div>
-                    <div class="svc__images">
-                      <div class="img"><img data-pic="srv-obra-nueva" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-encofrado" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="seq-2-ferralla" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-estructura-madera" sizes="180px" alt="" loading="lazy" /></div>
-                    </div>
-                  </div></div>
-                </div>
-              </div>
-            </li>
-            <li class="svc" data-svc data-appear>
-              <div class="svc__grid">
-                <div class="svc__copy">
-                  <span class="svc__num">02.</span>
-                  <h3 class="svc__title"><a href="/servicios/reformas/">Reformas</a></h3>
-                  <p class="svc__desc t-body">Reformas integrales o parciales de viviendas y locales, estudiando el inmueble antes de cerrar el alcance de la obra.</p>
-                  <div class="svc__open svc__more-wrap"><div><a class="link-arrow" href="/servicios/reformas/"><span class="btn__label">Ver el servicio</span>%ARROW%</a></div></div>
-                </div>
-                <div class="svc__side">
-                  <ul class="tags"><li class="tag">Integral</li><li class="tag">Parcial</li></ul>
-                  <div class="svc__open" style="width: 100%"><div>
-                    <div class="svc__images">
-                      <div class="img"><img data-pic="n-salon" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-cocina-obra" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-interior-luz" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-cocina" sizes="180px" alt="" loading="lazy" /></div>
-                    </div>
-                  </div></div>
-                </div>
-              </div>
-            </li>
-            <li class="svc" data-svc data-appear>
-              <div class="svc__grid">
-                <div class="svc__copy">
-                  <span class="svc__num">03.</span>
-                  <h3 class="svc__title"><a href="/servicios/rehabilitacion/">Rehabilitación</a></h3>
-                  <p class="svc__desc t-body">Recuperación de viviendas y edificios existentes: se evalúa su estado y se actúa sobre lo que lo necesita, respetando su carácter.</p>
-                  <div class="svc__open svc__more-wrap"><div><a class="link-arrow" href="/servicios/rehabilitacion/"><span class="btn__label">Ver el servicio</span>%ARROW%</a></div></div>
-                </div>
-                <div class="svc__side">
-                  <ul class="tags"><li class="tag">Existente</li><li class="tag">Tradicional</li></ul>
-                  <div class="svc__open" style="width: 100%"><div>
-                    <div class="svc__images">
-                      <div class="img"><img data-pic="srv-rehabilitacion" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-lz-fachada-verde" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-lz-balcon" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-lz-balcon-azul" sizes="180px" alt="" loading="lazy" /></div>
-                    </div>
-                  </div></div>
-                </div>
-              </div>
-            </li>
-            <li class="svc" data-svc data-appear>
-              <div class="svc__grid">
-                <div class="svc__copy">
-                  <span class="svc__num">04.</span>
-                  <h3 class="svc__title"><a href="/servicios/reparacion-y-conservacion/">Reparación y conservación</a></h3>
-                  <p class="svc__desc t-body">Atención al desgaste y a los daños del edificio, empezando por entender su causa, para evitar que los problemas crezcan.</p>
-                  <div class="svc__open svc__more-wrap"><div><a class="link-arrow" href="/servicios/reparacion-y-conservacion/"><span class="btn__label">Ver el servicio</span>%ARROW%</a></div></div>
-                </div>
-                <div class="svc__side">
-                  <ul class="tags"><li class="tag">Reparación</li><li class="tag">Mantenimiento</li></ul>
-                  <div class="svc__open" style="width: 100%"><div>
-                    <div class="svc__images">
-                      <div class="img"><img data-pic="srv-conservacion" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-enlucido" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="n-muro-piedra" sizes="180px" alt="" loading="lazy" /></div>
-                      <div class="img"><img data-pic="mat-cal-y-cactus" sizes="180px" alt="" loading="lazy" /></div>
-                    </div>
-                  </div></div>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- @include process -->
-
-      <!-- ============ ESPECIALIDADES ============ -->
-      <!-- REVISAR CON EL CLIENTE: fases redactadas sin plazos. -->
-      <section class="expertise section" aria-label="Tipos de intervención">
-        <div class="container exp__grid" data-exp>
-          <div>
-            <div class="exp__list" role="tablist" aria-label="Tipos de intervención">
-              <button class="exp__item is-active" type="button" role="tab" aria-selected="true" data-exp-item="0">%ARROW%Obra nueva</button>
-              <button class="exp__item" type="button" role="tab" aria-selected="false" data-exp-item="1">%ARROW%Reforma integral</button>
-              <button class="exp__item" type="button" role="tab" aria-selected="false" data-exp-item="2">%ARROW%Reforma parcial</button>
-              <button class="exp__item" type="button" role="tab" aria-selected="false" data-exp-item="3">%ARROW%Rehabilitación</button>
-              <button class="exp__item" type="button" role="tab" aria-selected="false" data-exp-item="4">%ARROW%Reparación</button>
-              <button class="exp__item" type="button" role="tab" aria-selected="false" data-exp-item="5">%ARROW%Conservación</button>
-            </div>
-            <div class="exp__card" data-appear>
-              <div class="exp__panel is-active" role="tabpanel" data-exp-panel="0">
-                <p class="t-body-l">Construimos viviendas y edificios desde el terreno hasta la entrega, con el proyecto técnico como guía y la obra organizada por fases.</p>
-                <div class="exp__phases"><ul class="t-body"><li>Fase 1: Estudio del proyecto y presupuesto</li><li>Fase 2: Ejecución por fases y entrega</li></ul><span class="display">Lanzarote</span></div>
-              </div>
-              <div class="exp__panel" role="tabpanel" data-exp-panel="1">
-                <p class="t-body-l">Renovamos el inmueble completo a la vez: distribución, instalaciones y acabados, estudiando antes lo que no se ve.</p>
-                <div class="exp__phases"><ul class="t-body"><li>Fase 1: Visita, toma de datos y alcance</li><li>Fase 2: Obra ordenada de lo oculto al acabado</li></ul><span class="display">Lanzarote</span></div>
-              </div>
-              <div class="exp__panel" role="tabpanel" data-exp-panel="2">
-                <p class="t-body-l">Intervenimos en una zona o un elemento concreto, cuidando cómo enlaza con el resto de la vivienda o del local.</p>
-                <div class="exp__phases"><ul class="t-body"><li>Fase 1: Revisión de la zona y su entorno</li><li>Fase 2: Obra localizada y remates</li></ul><span class="display">Lanzarote</span></div>
-              </div>
-              <div class="exp__panel" role="tabpanel" data-exp-panel="3">
-                <p class="t-body-l">Recuperamos edificios existentes evaluando primero su estado y conservando lo que todavía funciona y tiene valor.</p>
-                <div class="exp__phases"><ul class="t-body"><li>Fase 1: Diagnóstico y prioridades</li><li>Fase 2: Intervención por elementos</li></ul><span class="display">Lanzarote</span></div>
-              </div>
-              <div class="exp__panel" role="tabpanel" data-exp-panel="4">
-                <p class="t-body-l">Resolvemos los daños empezando por su origen, para que la reparación no tenga que repetirse al cabo de un tiempo.</p>
-                <div class="exp__phases"><ul class="t-body"><li>Fase 1: Revisión y diagnóstico de la causa</li><li>Fase 2: Reparación y comprobación</li></ul><span class="display">Lanzarote</span></div>
-              </div>
-              <div class="exp__panel" role="tabpanel" data-exp-panel="5">
-                <p class="t-body-l">Revisamos y mantenemos el edificio para atender el desgaste antes de que se convierta en un daño mayor.</p>
-                <div class="exp__phases"><ul class="t-body"><li>Fase 1: Revisión del estado general</li><li>Fase 2: Actuaciones priorizadas</li></ul><span class="display">Lanzarote</span></div>
-              </div>
-            </div>
-          </div>
-          <div class="exp__photos" data-appear="scale" aria-hidden="true">
-            <div class="exp__photo is-active" data-exp-photo="0"><img data-pic="srv-obra-nueva" sizes="(max-width: 1199px) 100vw, 500px" alt="" loading="lazy" /></div>
-            <div class="exp__photo" data-exp-photo="1"><img data-pic="n-salon" sizes="(max-width: 1199px) 100vw, 500px" alt="" loading="lazy" /></div>
-            <div class="exp__photo" data-exp-photo="2"><img data-pic="n-cocina" sizes="(max-width: 1199px) 100vw, 500px" alt="" loading="lazy" /></div>
-            <div class="exp__photo" data-exp-photo="3"><img data-pic="n-lz-balcon" sizes="(max-width: 1199px) 100vw, 500px" alt="" loading="lazy" /></div>
-            <div class="exp__photo" data-exp-photo="4"><img data-pic="n-enlucido" sizes="(max-width: 1199px) 100vw, 500px" alt="" loading="lazy" /></div>
-            <div class="exp__photo" data-exp-photo="5"><img data-pic="mat-cal-y-cactus" sizes="(max-width: 1199px) 100vw, 500px" alt="" loading="lazy" /></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ REFERENCIAS (composición de "Featured works") ============ -->
-      <!-- No hay obras propias confirmadas: referencias ilustrativas de Lanzarote, sin atribuirlas a la empresa. -->
-      <section class="works section" id="referencias" aria-labelledby="referencias-title">
-        <div class="container">
-          <div class="sec-head sec-head--row">
+      <!-- ============ SERVICIOS: carril horizontal ligado al scroll ============ -->
+      <section class="hs" data-theme="dark" data-hscroll aria-labelledby="servicios-title">
+        <div class="hs__sticky">
+          <div class="wrap hs__head">
             <div>
-              <h2 class="t-section chars" id="referencias-title">Referencias</h2>
-              <p class="t-body-l" data-appear>Lanzarote como referencia: paisaje, materiales y arquitectura. Imágenes ilustrativas, no son obras de CB Terra Anima.</p>
+              <p class="label label--toba">Servicios</p>
+              <h2 class="display-2" id="servicios-title">Cuatro formas de <em>intervenir</em></h2>
             </div>
-            <a class="btn" href="/servicios/" data-appear><span class="btn__label">Ver servicios</span>%ARROW%</a>
+            <div class="hs__meter" aria-hidden="true">
+              <span class="hs__count"><b data-hs-index>01</b> / 04</span>
+              <span class="hs__bar"><i data-hs-bar></i></span>
+            </div>
           </div>
-
-          <article class="work">
-            <a class="work__card" href="/servicios/obra-nueva/#lanzarote" data-appear>
-              <div class="img"><img data-pic="n-paisaje-terrazas" sizes="(max-width: 1199px) 100vw, 725px" alt="Paisaje volcánico de Lanzarote con campos cercados y conos" loading="lazy" decoding="async" /></div>
-              <div class="work__foot">
-                <h3 class="work__title">Paisaje volcánico</h3>
-                <ul class="tags"><li class="tag">Picón</li><li class="tag">Piedra seca</li></ul>
-              </div>
-            </a>
-            <dl class="work__details" data-appear>
-              <div><dt class="slash">// Lugar</dt><dd>Lanzarote</dd></div>
-              <div><dt class="slash">// Material</dt><dd>Suelo volcánico</dd></div>
-              <div><dt class="slash">// Relación</dt><dd>Obra nueva</dd></div>
-              <div><dt class="slash">// Imagen</dt><dd>Ilustrativa</dd></div>
-            </dl>
-          </article>
-
-          <article class="work work--flip">
-            <a class="work__card" href="/servicios/rehabilitacion/" data-appear>
-              <div class="img"><img data-pic="mat-escalera-canaria" sizes="(max-width: 1199px) 100vw, 725px" alt="Edificio blanco con contraventanas verdes y escalera exterior" loading="lazy" decoding="async" /></div>
-              <div class="work__foot">
-                <h3 class="work__title">Arquitectura tradicional</h3>
-                <ul class="tags"><li class="tag">Cal</li><li class="tag">Carpintería</li></ul>
-              </div>
-            </a>
-            <dl class="work__details" data-appear>
-              <div><dt class="slash">// Lugar</dt><dd>Lanzarote</dd></div>
-              <div><dt class="slash">// Material</dt><dd>Muro encalado</dd></div>
-              <div><dt class="slash">// Relación</dt><dd>Rehabilitación</dd></div>
-              <div><dt class="slash">// Imagen</dt><dd>Ilustrativa</dd></div>
-            </dl>
-          </article>
-
-          <article class="work">
-            <a class="work__card" href="/servicios/obra-nueva/" data-appear>
-              <div class="img"><img data-pic="mat-hormigon" sizes="(max-width: 1199px) 100vw, 725px" alt="Techo de hormigón visto con casetones y vigas oscuras" loading="lazy" decoding="async" /></div>
-              <div class="work__foot">
-                <h3 class="work__title">Hormigón visto</h3>
-                <ul class="tags"><li class="tag">Estructura</li><li class="tag">Textura</li></ul>
-              </div>
-            </a>
-            <dl class="work__details" data-appear>
-              <div><dt class="slash">// Lugar</dt><dd>Referencia</dd></div>
-              <div><dt class="slash">// Material</dt><dd>Hormigón</dd></div>
-              <div><dt class="slash">// Relación</dt><dd>Obra nueva</dd></div>
-              <div><dt class="slash">// Imagen</dt><dd>Ilustrativa</dd></div>
-            </dl>
-          </article>
-        </div>
-      </section>
-
-      <!-- @include carousel -->
-
-      <!-- @include stats -->
-
-      <!-- ============ GUÍAS (composición de "News & insights") ============ -->
-      <section class="news section" id="guias" aria-labelledby="guias-title">
-        <div class="container">
-          <div class="sec-head sec-head--center">
-            <h2 class="t-section chars" id="guias-title">Guías prácticas</h2>
-            <p class="t-body-l" data-appear>Información útil antes de construir, reformar o rehabilitar en Lanzarote.</p>
-          </div>
-          <div class="posts">
-            <a class="post" href="/servicios/reformas/#tipos" data-appear style="--d: 0s">
-              <div class="img"><img data-pic="n-osb-luz" sizes="(max-width: 809px) 100vw, 33vw" alt="Vivienda en obra con la luz entrando entre tabiques" loading="lazy" decoding="async" /></div>
-              <div class="post__copy">
-                <h3 class="post__title">Reforma integral o parcial: cómo decidir</h3>
-                <p class="t-body">Qué implica cada opción, cuándo encaja una y otra y qué conviene revisar del inmueble antes de elegir.</p>
-                <div class="post__foot"><span class="link-arrow"><span class="btn__label">Leer más</span>%ARROW%</span><span class="t-body">Reformas</span></div>
-              </div>
-            </a>
-            <a class="post" href="/servicios/reparacion-y-conservacion/#senales" data-appear style="--d: 0.1s">
-              <div class="img"><img data-pic="n-obra-interior" sizes="(max-width: 809px) 100vw, 33vw" alt="Estancia en obra con puntales y escombros" loading="lazy" decoding="async" /></div>
-              <div class="post__copy">
-                <h3 class="post__title">Señales de que tu edificio necesita revisión</h3>
-                <p class="t-body">Fisuras, humedades, óxido o filtraciones: qué vigilar y por qué conviene actuar antes de que los daños crezcan.</p>
-                <div class="post__foot"><span class="link-arrow"><span class="btn__label">Leer más</span>%ARROW%</span><span class="t-body">Conservación</span></div>
-              </div>
-            </a>
-            <a class="post" href="/servicios/obra-nueva/#lanzarote" data-appear style="--d: 0.2s">
-              <div class="img"><img data-pic="hero-timanfaya" sizes="(max-width: 809px) 100vw, 33vw" alt="Conos volcánicos de Lanzarote" loading="lazy" decoding="async" /></div>
-              <div class="post__copy">
-                <h3 class="post__title">Construir en Lanzarote: terreno y clima</h3>
-                <p class="t-body">Suelo volcánico, sol, viento y salitre, y una normativa que cuida el paisaje: lo que conviene saber antes de construir.</p>
-                <div class="post__foot"><span class="link-arrow"><span class="btn__label">Leer más</span>%ARROW%</span><span class="t-body">Obra nueva</span></div>
-              </div>
-            </a>
+          <div class="hs__track" data-hs-track>
+            <article class="panel">
+              <a class="panel__link" href="/servicios/obra-nueva/">
+                <div class="panel__img"><img data-pic="seq-4-terminada" sizes="(max-width: 1023px) 85vw, 46vw" alt="Vivienda blanca de volúmenes cúbicos con jardín" loading="lazy" decoding="async" /></div>
+                <div class="panel__body">
+                  <span class="panel__num">01</span>
+                  <h3 class="panel__title">Obra nueva</h3>
+                  <p>Viviendas y edificios de nueva planta, de la cimentación a los acabados, con el proyecto técnico como guía.</p>
+                  <span class="more">Ver el servicio</span>
+                </div>
+              </a>
+            </article>
+            <article class="panel">
+              <a class="panel__link" href="/servicios/reformas/">
+                <div class="panel__img"><img data-pic="n-salon-calido" sizes="(max-width: 1023px) 85vw, 46vw" alt="Salón luminoso con estantería de madera que separa el comedor" loading="lazy" decoding="async" /></div>
+                <div class="panel__body">
+                  <span class="panel__num">02</span>
+                  <h3 class="panel__title">Reformas</h3>
+                  <p>Integrales o parciales, de viviendas y locales, estudiando el inmueble antes de cerrar el alcance.</p>
+                  <span class="more">Ver el servicio</span>
+                </div>
+              </a>
+            </article>
+            <article class="panel">
+              <a class="panel__link" href="/servicios/rehabilitacion/">
+                <div class="panel__img"><img data-pic="srv-rehabilitacion" sizes="(max-width: 1023px) 85vw, 46vw" alt="Casa tradicional encalada con puerta y ventana verdes en Lanzarote" loading="lazy" decoding="async" /></div>
+                <div class="panel__body">
+                  <span class="panel__num">03</span>
+                  <h3 class="panel__title">Rehabilitación</h3>
+                  <p>Recuperar viviendas y edificios existentes, también de arquitectura tradicional, decidiendo qué se conserva.</p>
+                  <span class="more">Ver el servicio</span>
+                </div>
+              </a>
+            </article>
+            <article class="panel">
+              <a class="panel__link" href="/servicios/reparacion-y-conservacion/">
+                <div class="panel__img"><img data-pic="srv-conservacion" sizes="(max-width: 1023px) 85vw, 46vw" alt="Detalle de un muro encalado con un hueco en sombra" loading="lazy" decoding="async" /></div>
+                <div class="panel__body">
+                  <span class="panel__num">04</span>
+                  <h3 class="panel__title">Reparación y conservación</h3>
+                  <p>Humedades, fisuras, filtraciones u óxido, y el cuidado periódico que alarga la vida del edificio.</p>
+                  <span class="more">Ver el servicio</span>
+                </div>
+              </a>
+            </article>
+            <div class="panel panel--end">
+              <p>Cada servicio se puede contratar por separado.</p>
+              <a class="btn btn--light" href="/servicios/"><span>Todos los servicios</span></a>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- @include faq -->
+      <!-- @include portfolio -->
+
+      <!-- ============ VENTANA FOTOGRÁFICA (la foto queda fija y la banda la descubre) ============ -->
+      <figure class="vista" data-theme="dark" data-vista>
+        <div class="vista__img">
+          <img data-pic="n-salon" sizes="(orientation: portrait) 170vh, 100vw" alt="Salón amplio abierto a la luz natural" fetchpriority="low" decoding="async" />
+        </div>
+        <figcaption class="vista__cap">Imagen ilustrativa</figcaption>
+      </figure>
+
+      <!-- ============ MATERIALES Y LUGAR ============ -->
+      <section class="materials" data-theme="dark" aria-labelledby="materiales-title">
+        <div class="wrap">
+          <div class="materials__head">
+            <p class="label label--toba" data-reveal>Materiales y lugar</p>
+            <h2 class="display-2" id="materiales-title">Cal, piedra volcánica <em>y luz</em></h2>
+            <p class="lead" data-reveal>
+              En Lanzarote cada parcela tiene sus propias condiciones. Influyen en la cimentación, en la elección de
+              materiales y en cómo envejece la obra.
+            </p>
+          </div>
+          <div class="materials__row">
+            <figure class="mat" data-parallax="-0.06">
+              <div class="ph reveal-img" style="--ar: 3 / 4"><img data-pic="mat-cal-y-cactus" sizes="(max-width: 899px) 80vw, 28vw" alt="Muro encalado con un cactus a contraluz" loading="lazy" decoding="async" /></div>
+              <figcaption><span class="mat__name">Cal</span>Los muros encalados reflejan el sol y forman parte de la arquitectura tradicional de la isla.</figcaption>
+            </figure>
+            <figure class="mat mat--low" data-parallax="0.05">
+              <div class="ph reveal-img" style="--ar: 4 / 5"><img data-pic="seq-1-piedra" sizes="(max-width: 899px) 80vw, 28vw" alt="Muro de piedra volcánica oscura" loading="lazy" decoding="async" /></div>
+              <figcaption><span class="mat__name">Piedra volcánica</span>El basalto está presente en muros, mampostería y pavimentos de la isla.</figcaption>
+            </figure>
+            <figure class="mat" data-parallax="-0.1">
+              <div class="ph reveal-img" style="--ar: 3 / 4"><img data-pic="mat-la-geria" sizes="(max-width: 899px) 80vw, 28vw" alt="Viñedo sobre picón volcánico con muros de piedra seca" loading="lazy" decoding="async" /></div>
+              <figcaption><span class="mat__name">Picón</span>El lapilli volcánico cubre buena parte del suelo y condiciona el terreno de cada parcela.</figcaption>
+            </figure>
+          </div>
+          <dl class="conditions" data-reveal data-stagger>
+            <div><dt>El terreno</dt><dd>Picón, coladas de lava y rellenos pueden convivir a poca distancia. El estudio geotécnico del proyecto indica cómo resolver la cimentación.</dd></div>
+            <div><dt>El clima</dt><dd>Sol intenso, viento casi constante y, cerca de la costa, ambiente salino. Pesan en las protecciones y en los acabados exteriores.</dd></div>
+            <div><dt>El paisaje</dt><dd>El planeamiento insular y las ordenanzas municipales pueden regular alturas, volúmenes y colores de fachada y carpintería.</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- ============ FORMA DE TRABAJAR: línea de progreso ligada al scroll ============ -->
+      <!-- REVISAR CON EL CLIENTE: proceso orientativo, sin plazos ni garantías. -->
+      <section class="process" data-theme="light" data-bg-shift aria-labelledby="proceso-title">
+        <div class="wrap process__grid">
+          <div class="process__head">
+            <p class="label" data-reveal>Forma de trabajar</p>
+            <h2 class="display-2" id="proceso-title">Del primer encuentro <em>a la entrega</em></h2>
+            <p class="process__note" data-reveal>Proceso orientativo: cada encargo se plantea según su alcance y la documentación disponible.</p>
+          </div>
+          <ol class="steps" data-steps>
+            <li class="step">
+              <span class="step__num">01</span>
+              <div><h3>Conocer el lugar</h3><p>Vemos el inmueble o la parcela y escuchamos qué necesitas antes de proponer nada.</p></div>
+            </li>
+            <li class="step">
+              <span class="step__num">02</span>
+              <div><h3>Definir el alcance</h3><p>Concretamos qué se hace y con qué materiales, en un presupuesto desglosado por partidas.</p></div>
+            </li>
+            <li class="step">
+              <span class="step__num">03</span>
+              <div><h3>Ejecutar por fases</h3><p>Cada fase se revisa antes de pasar a la siguiente y los cambios se acuerdan antes de hacerlos.</p></div>
+            </li>
+            <li class="step">
+              <span class="step__num">04</span>
+              <div><h3>Revisar y entregar</h3><p>Repasamos el conjunto y entregamos la obra terminada, lista para usar.</p></div>
+            </li>
+            <li class="steps__rail" aria-hidden="true"><i data-steps-fill></i></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ============ LA EMPRESA: foto + tarjeta superpuesta ============ -->
+      <section class="about" data-theme="light" aria-labelledby="about-title">
+        <div class="wrap about__grid">
+          <figure class="about__media" data-parallax="0.04">
+            <div class="ph reveal-img" data-from="left" style="--ar: 4 / 5"><img data-pic="contacto-costa" sizes="(max-width: 899px) 100vw, 50vw" alt="Casa encalada con ventana verde frente al mar y un risco volcánico" loading="lazy" decoding="async" /></div>
+            <figcaption>Lanzarote. Imagen ilustrativa.</figcaption>
+          </figure>
+          <div class="about__card" data-reveal>
+            <p class="label label--toba">La empresa</p>
+            <h2 class="display-3" id="about-title">Una empresa joven, con los pies en Lanzarote</h2>
+            <p>
+              CB Terra Anima es el nombre comercial de 2-SB Terramanima S.L., una empresa de construcción con sede en
+              Arrecife que comenzó su actividad en 2025. Construimos, reformamos, rehabilitamos y conservamos, y
+              explicamos cada obra con un presupuesto que se entienda antes de empezar.
+            </p>
+            <a class="link link--light" href="/estudio/">Quiénes somos</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- @include cta img="n-lz-blanco-costa" title="Hablemos de tu obra" text="Cuéntanos qué quieres construir, reformar o reparar y dónde está el inmueble. Con esa información estudiamos el caso y te planteamos los siguientes pasos." href="/contacto/" button="Cuéntanos tu proyecto" -->
     </main>
 
+    <!-- @include footer-form -->
     <!-- @include footer -->
   </body>
 </html>

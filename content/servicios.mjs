@@ -37,6 +37,7 @@ export const services = [
       {
         id: 'cuando',
         toc: 'Cuándo encaja',
+        summary: 'Si tienes una parcela, un proyecto o una actividad que necesita un edificio, o si todavía estás valorando construir.',
         title: 'Para quién es una obra nueva',
         type: 'cards',
         items: [
@@ -61,6 +62,7 @@ export const services = [
       {
         id: 'fases',
         toc: 'Fases de la obra',
+        summary: 'Seis fases, cada una apoyada en la anterior: del terreno a la entrega de la obra terminada.',
         title: 'Qué abarca una construcción completa',
         intro:
           'Una obra nueva recorre una secuencia que no admite atajos: cada fase se apoya en la anterior. Este es, a grandes rasgos, el recorrido de un edificio de nueva planta. El alcance concreto de cada encargo se define en el presupuesto, a partir del proyecto.',
@@ -95,6 +97,7 @@ export const services = [
       {
         id: 'planificacion',
         toc: 'Planificación',
+        summary: 'Definir y coordinar todo antes de empezar es lo que evita retrasos, sobrecostes y trabajos que hay que deshacer.',
         title: 'Planificar es la mitad de la obra',
         intro:
           'La mayoría de los problemas de una obra —retrasos, sobrecostes, trabajos que hay que deshacer— se originan antes de empezar, cuando algo no se ha definido o no se ha coordinado. Por eso la planificación no es un trámite: es parte del trabajo.',
@@ -122,6 +125,7 @@ export const services = [
       {
         id: 'lanzarote',
         toc: 'Construir en Lanzarote',
+        summary: 'El terreno volcánico, el clima y la normativa de la isla se tienen en cuenta desde el principio del proyecto.',
         title: 'Construir en Lanzarote',
         intro:
           'Cada parcela de la isla tiene sus propias condiciones, y conviene tenerlas en cuenta desde el principio del proyecto.',
@@ -146,6 +150,7 @@ export const services = [
       {
         id: 'antes',
         toc: 'Antes de empezar',
+        summary: 'Cinco cuestiones que conviene resolver antes de empezar: parcela, proyecto, licencia, presupuesto y plazos.',
         title: 'Qué conviene tener claro antes de empezar',
         type: 'checklist',
         items: [
@@ -159,6 +164,7 @@ export const services = [
       {
         id: 'preguntas',
         toc: 'Preguntas frecuentes',
+        summary: 'Proyecto, coste, plazos, tipos de edificio y presupuesto sin licencia: respuestas breves.',
         title: 'Preguntas frecuentes sobre obra nueva',
         type: 'faq',
         items: [
@@ -218,6 +224,7 @@ export const services = [
       {
         id: 'tipos',
         toc: 'Integral o parcial',
+        summary: 'Integral o parcial: la elección depende de lo que necesitas y del estado del inmueble.',
         title: 'Dos maneras de reformar',
         type: 'compare',
         items: [
@@ -247,6 +254,7 @@ export const services = [
       {
         id: 'estudio',
         toc: 'Estudiar el inmueble',
+        summary: 'Revisar el estado real del inmueble antes de cerrar el alcance evita buena parte de las sorpresas.',
         title: 'Antes de presupuestar, entender el inmueble',
         intro:
           'Las reformas se complican sobre todo por lo que no se ve. Revisar el estado real del inmueble antes de cerrar el alcance evita buena parte de las sorpresas.',
@@ -273,6 +281,7 @@ export const services = [
       {
         id: 'fases',
         toc: 'Cómo se ordena',
+        summary: 'Seis pasos en el orden correcto, para no tener que deshacer lo que ya está terminado.',
         title: 'Cómo se ordena una reforma',
         intro:
           'El orden de los trabajos importa tanto como su calidad: hacer las cosas en la secuencia correcta evita deshacer lo que ya está terminado.',
@@ -307,6 +316,7 @@ export const services = [
       {
         id: 'lanzarote',
         toc: 'Reformar en Lanzarote',
+        summary: 'Edificios de distintas épocas, ambiente marino, luz y ventilación: lo que conviene atender en la isla.',
         title: 'Reformar en Lanzarote',
         intro: 'Las viviendas y locales de la isla tienen sus particularidades, y una reforma es buen momento para atenderlas.',
         type: 'panel',
@@ -330,6 +340,7 @@ export const services = [
       {
         id: 'preguntas',
         toc: 'Preguntas frecuentes',
+        summary: 'Vivir en casa durante la obra, licencias, imprevistos, locales y reformar por partes: respuestas breves.',
         title: 'Preguntas frecuentes sobre reformas',
         type: 'faq',
         items: [
@@ -389,6 +400,7 @@ export const services = [
       {
         id: 'cuando',
         toc: 'Cuándo plantearla',
+        summary: 'Cuando el deterioro ya no es puntual, los daños se repiten o hay una casa o un edificio que recuperar.',
         title: 'Cuándo plantear una rehabilitación',
         type: 'cards',
         items: [
@@ -417,6 +429,7 @@ export const services = [
       {
         id: 'evaluar',
         toc: 'Evaluar antes de intervenir',
+        summary: 'Primero se entiende qué le pasa al edificio y por qué; después se decide qué hacer y en qué orden.',
         title: 'Primero, el diagnóstico',
         intro:
           'En un edificio existente, decidir qué hacer exige saber qué le pasa y por qué. Una buena evaluación distingue lo urgente de lo que puede esperar y evita invertir en arreglos que no atacan el origen del problema.',
@@ -443,6 +456,7 @@ export const services = [
       {
         id: 'elementos',
         toc: 'Sobre qué se actúa',
+        summary: 'Cubierta, fachadas, estructura, carpinterías e instalaciones: el alcance se define tras la evaluación.',
         title: 'Los elementos de un edificio',
         intro: 'Una rehabilitación puede abarcar uno o varios de estos elementos. El alcance concreto se define tras la evaluación.',
         type: 'cards',
@@ -472,6 +486,7 @@ export const services = [
       {
         id: 'criterio',
         toc: 'Mejorar sin borrar',
+        summary: 'Que el edificio funcione como se necesita hoy, que dure y que conserve lo que tiene valor.',
         title: 'Mejorar sin borrar',
         intro:
           'Rehabilitar bien es encontrar el equilibrio entre tres cosas: que el edificio funcione como se necesita hoy, que dure, y que conserve lo que tiene valor.',
@@ -494,6 +509,7 @@ export const services = [
       {
         id: 'lanzarote',
         toc: 'Rehabilitar en Lanzarote',
+        summary: 'La arquitectura tradicional, los edificios protegidos y el clima de la isla condicionan cómo rehabilitar.',
         title: 'Rehabilitar en Lanzarote',
         intro: 'La arquitectura de la isla tiene una identidad muy reconocible, y rehabilitarla exige conocerla.',
         type: 'panel',
@@ -517,6 +533,7 @@ export const services = [
       {
         id: 'preguntas',
         toc: 'Preguntas frecuentes',
+        summary: 'Diferencia con una reforma, rehabilitar por fases, ayudas y casas tradicionales: respuestas breves.',
         title: 'Preguntas frecuentes sobre rehabilitación',
         type: 'faq',
         items: [
@@ -572,6 +589,7 @@ export const services = [
       {
         id: 'valor',
         toc: 'Por qué conservar',
+        summary: 'Aplazar una reparación casi nunca la abarata: los daños crecen y pueden afectar a la seguridad.',
         title: 'Lo que cuesta no hacer nada',
         intro:
           'Aplazar una reparación casi nunca la abarata. El mantenimiento tiene poco brillo, pero es lo que permite que un edificio llegue en buen estado a sus próximas décadas.',
@@ -594,6 +612,7 @@ export const services = [
       {
         id: 'senales',
         toc: 'Señales de alerta',
+        summary: 'Seis señales que no indican por sí solas la gravedad, pero merecen una revisión antes de que avancen.',
         title: 'Señales que conviene revisar',
         type: 'checklist',
         columns: true,
@@ -610,6 +629,7 @@ export const services = [
       {
         id: 'proceso',
         toc: 'Cómo lo abordamos',
+        summary: 'Primero se busca la causa y después se repara, para no tener que volver a reparar al cabo de un tiempo.',
         title: 'Primero la causa, después la reparación',
         intro:
           'Reparar el síntoma sin resolver su origen suele significar volver a reparar al cabo de un tiempo. Por eso el trabajo empieza antes de coger la herramienta.',
@@ -640,6 +660,7 @@ export const services = [
       {
         id: 'lanzarote',
         toc: 'El desgaste en Lanzarote',
+        summary: 'Salitre, sol, viento y lluvias escasas pero intensas: lo que más desgasta los edificios de la isla.',
         title: 'El desgaste en Lanzarote',
         intro: 'El clima de la isla es amable para vivir, pero exigente con los edificios.',
         type: 'panel',
@@ -663,6 +684,7 @@ export const services = [
       {
         id: 'calendario',
         toc: 'Qué revisar y cuándo',
+        summary: 'Una guía orientativa: antes de las lluvias, una vez al año y cuando ocurra algo.',
         title: 'Qué revisar y cuándo',
         type: 'calendar',
         items: [
@@ -687,6 +709,7 @@ export const services = [
       {
         id: 'preguntas',
         toc: 'Preguntas frecuentes',
+        summary: 'Grietas, reparar o rehabilitar, qué información hace falta y cada cuánto revisar: respuestas breves.',
         title: 'Preguntas frecuentes sobre reparación y conservación',
         type: 'faq',
         items: [

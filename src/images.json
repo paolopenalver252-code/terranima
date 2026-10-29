@@ -1,15 +1,4 @@
 {
-  "hero-timanfaya": {
-    "widths": [
-      800,
-      1400,
-      2200
-    ],
-    "ratio": 1.332,
-    "color": "rgb(8 24 24)",
-    "author": "JP Files",
-    "page": "https://unsplash.com/photos/waBgf2zb2JQ"
-  },
   "intro-cal-y-piedra": {
     "widths": [
       700,
@@ -20,39 +9,6 @@
     "color": "rgb(216 216 216)",
     "author": "Andrea Huls Pareja",
     "page": "https://unsplash.com/photos/1Zx7QminapQ"
-  },
-  "seq-1-piedra": {
-    "widths": [
-      800,
-      1400,
-      2200
-    ],
-    "ratio": 1.4977,
-    "color": "rgb(8 8 8)",
-    "author": "Gavin Allanwood",
-    "page": "https://unsplash.com/photos/9hKZvlqire4"
-  },
-  "seq-2-ferralla": {
-    "widths": [
-      800,
-      1400,
-      2200
-    ],
-    "ratio": 1.5003,
-    "color": "rgb(248 248 248)",
-    "author": "Vadym Alyekseyenko",
-    "page": "https://unsplash.com/photos/qb4ja-lUA8w"
-  },
-  "seq-3-estructura": {
-    "widths": [
-      800,
-      1400,
-      2200
-    ],
-    "ratio": 1.2987,
-    "color": "rgb(184 216 248)",
-    "author": "Divaris Shirichena",
-    "page": "https://unsplash.com/photos/wQ27Z81wHNk"
   },
   "seq-4-terminada": {
     "widths": [
@@ -142,17 +98,6 @@
     "author": "fabian jones",
     "page": "https://unsplash.com/photos/gOjk0OeJH0g"
   },
-  "mat-hormigon": {
-    "widths": [
-      700,
-      1200,
-      1800
-    ],
-    "ratio": 1.5003,
-    "color": "rgb(24 24 8)",
-    "author": "Declan Sun",
-    "page": "https://unsplash.com/photos/HfVCzTL5eZk"
-  },
   "mat-escalera-canaria": {
     "widths": [
       600,
@@ -186,28 +131,6 @@
     "author": "Ricardo Gomez Angel",
     "page": "https://unsplash.com/photos/9AjwOAIdsII"
   },
-  "n-encofrado": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 1.5003,
-    "color": "rgb(216 216 216)",
-    "author": "Julia Taubitz",
-    "page": "https://unsplash.com/photos/-NS8rPrmSxs"
-  },
-  "n-obra-grande": {
-    "widths": [
-      800,
-      1400,
-      2200
-    ],
-    "ratio": 1.5003,
-    "color": "rgb(184 184 184)",
-    "author": "Julia Taubitz",
-    "page": "https://unsplash.com/photos/OKZRUxijthA"
-  },
   "n-lz-fachada-verde": {
     "widths": [
       600,
@@ -218,39 +141,6 @@
     "color": "rgb(216 216 216)",
     "author": "elisadventure photographe",
     "page": "https://unsplash.com/photos/2js2mzWnD74"
-  },
-  "n-lz-balcon": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 0.6667,
-    "color": "rgb(232 232 216)",
-    "author": "elisadventure photographe",
-    "page": "https://unsplash.com/photos/i4V_YDXymjU"
-  },
-  "n-lz-casa-volcan": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 0.6665,
-    "color": "rgb(232 232 232)",
-    "author": "elisadventure photographe",
-    "page": "https://unsplash.com/photos/e2D4zQE5x78"
-  },
-  "n-lz-balcon-azul": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 1.5038,
-    "color": "rgb(248 248 248)",
-    "author": "Ferran Feixas",
-    "page": "https://unsplash.com/photos/mYVQfVPj2dM"
   },
   "n-lz-blanco-costa": {
     "widths": [
@@ -263,158 +153,72 @@
     "author": "Ferran Feixas",
     "page": "https://unsplash.com/photos/11mZ25lx1Us"
   },
-  "n-lava": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 1.4994,
-    "color": "rgb(8 8 8)",
-    "author": "Andrea Huls Pareja",
-    "page": "https://unsplash.com/photos/6LGsSlQcbVA"
-  },
-  "n-muro-piedra": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 1.5003,
-    "color": "rgb(8 8 8)",
-    "author": "Seb Dean",
-    "page": "https://unsplash.com/photos/Ry00YC7cLkU"
-  },
-  "n-paisaje-terrazas": {
-    "widths": [
-      800,
-      1400,
-      2200
-    ],
-    "ratio": 1.7772,
-    "color": "rgb(56 56 56)",
-    "author": "Jan Bachor",
-    "page": "https://unsplash.com/photos/Q3TAibFYC7g"
-  },
-  "n-estructura-madera": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 1.3333,
-    "color": "rgb(184 200 216)",
-    "author": "Daniel Wong",
-    "page": "https://unsplash.com/photos/ygy6koDTctY"
-  },
-  "n-escalera-blanca": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 0.6667,
-    "color": "rgb(216 216 216)",
-    "author": "Alesia Kazantceva",
-    "page": "https://unsplash.com/photos/0B7ijYKaKcE"
-  },
-  "n-interior-luz": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 0.6675,
-    "color": "rgb(216 216 216)",
-    "author": "Suhyeon Choi",
-    "page": "https://unsplash.com/photos/ehxwis6Ltxg"
-  },
   "n-salon": {
     "widths": [
       600,
       1000,
-      1600
+      1600,
+      2400
     ],
     "ratio": 1.6,
     "color": "rgb(120 120 104)",
     "author": "Prydumano Design",
     "page": "https://unsplash.com/photos/vIbxvHj9m9g"
   },
-  "n-pasillo": {
+  "n-salon-calido": {
     "widths": [
       600,
       1000,
       1600
     ],
-    "ratio": 1.5003,
-    "color": "rgb(136 136 136)",
-    "author": "Frank Zhang",
-    "page": "https://unsplash.com/photos/HHNPLFG5t0c"
+    "ratio": 0.8,
+    "color": "rgb(200 168 136)",
+    "author": "Puscas Adryan",
+    "page": "https://unsplash.com/photos/2cfj0Y5ch00"
   },
-  "n-enlucido": {
+  "hero-lz": {
+    "widths": [
+      1000,
+      1600,
+      2200,
+      2600
+    ],
+    "ratio": 1.5476,
+    "color": "rgb(232 232 232)",
+    "author": "elisadventure photographe",
+    "page": "https://unsplash.com/photos/e2D4zQE5x78"
+  },
+  "hero-lz-m": {
     "widths": [
       600,
-      1000,
-      1600
+      900,
+      1300
     ],
-    "ratio": 1.5003,
-    "color": "rgb(216 200 184)",
-    "author": "Sasun Bughdaryan",
-    "page": "https://unsplash.com/photos/Re1O5byZ8bY"
+    "ratio": 0.6665,
+    "color": "rgb(232 232 232)",
+    "author": "elisadventure photographe",
+    "page": "https://unsplash.com/photos/e2D4zQE5x78"
   },
-  "n-cocina-obra": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 1.5003,
-    "color": "rgb(168 168 168)",
-    "author": "immo RENOVATION",
-    "page": "https://unsplash.com/photos/UqNEbyRQ660"
-  },
-  "n-obra-interior": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 1.5003,
-    "color": "rgb(152 152 136)",
-    "author": "Stefan Lehner",
-    "page": "https://unsplash.com/photos/biRt6RXejuk"
-  },
-  "n-osb-luz": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 1.5055,
-    "color": "rgb(248 248 248)",
-    "author": "Annie Spratt",
-    "page": "https://unsplash.com/photos/FiSI0VQSMSQ"
-  },
-  "n-cocina": {
-    "widths": [
-      600,
-      1000,
-      1600
-    ],
-    "ratio": 1.5003,
-    "color": "rgb(184 184 184)",
-    "author": "GoodLifeConstruction",
-    "page": "https://unsplash.com/photos/pQVP5QmskxM"
-  },
-  "n-villa": {
+  "seq-1-piedra": {
     "widths": [
       800,
       1400,
       2200
     ],
-    "ratio": 1.3333,
-    "color": "rgb(248 248 248)",
-    "author": "Ярослав Алексеенко",
-    "page": "https://unsplash.com/photos/_TPTXZd9mOo"
+    "ratio": 1.4977,
+    "color": "rgb(8 8 8)",
+    "author": "Gavin Allanwood",
+    "page": "https://unsplash.com/photos/9hKZvlqire4"
+  },
+  "hero-timanfaya": {
+    "widths": [
+      800,
+      1400,
+      2200
+    ],
+    "ratio": 1.332,
+    "color": "rgb(8 24 24)",
+    "author": "JP Files",
+    "page": "https://unsplash.com/photos/waBgf2zb2JQ"
   }
 }

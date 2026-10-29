@@ -2,18 +2,6 @@
   "_note": "Fotografías ilustrativas con Licencia Unsplash (https://unsplash.com/license). NO son obras de CB Terra Anima. Sustituir por fotografía propia cuando exista.",
   "images": [
     {
-      "name": "hero-timanfaya",
-      "id": "1574934282053-bf4d8c4b98ea",
-      "author": "JP Files",
-      "page": "https://unsplash.com/photos/waBgf2zb2JQ",
-      "location": "Lanzarote",
-      "widths": [
-        800,
-        1400,
-        2200
-      ]
-    },
-    {
       "name": "intro-cal-y-piedra",
       "id": "1776427035754-25c6ef85b6fc",
       "author": "Andrea Huls Pareja",
@@ -23,41 +11,6 @@
         700,
         1200,
         1800
-      ]
-    },
-    {
-      "name": "seq-1-piedra",
-      "quality": 38,
-      "id": "1521411771005-560244a0c8ce",
-      "author": "Gavin Allanwood",
-      "page": "https://unsplash.com/photos/9hKZvlqire4",
-      "widths": [
-        800,
-        1400,
-        2200
-      ]
-    },
-    {
-      "name": "seq-2-ferralla",
-      "quality": 42,
-      "id": "1783753445561-91f3d4fe9118",
-      "author": "Vadym Alyekseyenko",
-      "page": "https://unsplash.com/photos/qb4ja-lUA8w",
-      "widths": [
-        800,
-        1400,
-        2200
-      ]
-    },
-    {
-      "name": "seq-3-estructura",
-      "id": "1787672357923-ab85681ab58c",
-      "author": "Divaris Shirichena",
-      "page": "https://unsplash.com/photos/wQ27Z81wHNk",
-      "widths": [
-        800,
-        1400,
-        2200
       ]
     },
     {
@@ -151,17 +104,6 @@
       ]
     },
     {
-      "name": "mat-hormigon",
-      "id": "1780362508232-606e0b8fffa4",
-      "author": "Declan Sun",
-      "page": "https://unsplash.com/photos/HfVCzTL5eZk",
-      "widths": [
-        700,
-        1200,
-        1800
-      ]
-    },
-    {
       "name": "mat-escalera-canaria",
       "id": "1734386619939-3bc1fc079d36",
       "author": "Lorenzo Zunino",
@@ -196,28 +138,6 @@
       ]
     },
     {
-      "name": "n-encofrado",
-      "id": "1784392087865-669ffdfc71ff",
-      "author": "Julia Taubitz",
-      "page": "https://unsplash.com/photos/-NS8rPrmSxs",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
-      "name": "n-obra-grande",
-      "id": "1769284013173-47150b8c7e51",
-      "author": "Julia Taubitz",
-      "page": "https://unsplash.com/photos/OKZRUxijthA",
-      "widths": [
-        800,
-        1400,
-        2200
-      ]
-    },
-    {
       "name": "n-lz-fachada-verde",
       "id": "1680169274585-c501f059b8fc",
       "author": "elisadventure photographe",
@@ -228,41 +148,6 @@
         1600
       ],
       "location": "Lanzarote"
-    },
-    {
-      "name": "n-lz-balcon",
-      "id": "1680169253819-1226894ebd87",
-      "author": "elisadventure photographe",
-      "page": "https://unsplash.com/photos/i4V_YDXymjU",
-      "widths": [
-        600,
-        1000,
-        1600
-      ],
-      "location": "Lanzarote"
-    },
-    {
-      "name": "n-lz-casa-volcan",
-      "id": "1680169156592-b1fa9c5716ea",
-      "author": "elisadventure photographe",
-      "page": "https://unsplash.com/photos/e2D4zQE5x78",
-      "widths": [
-        600,
-        1000,
-        1600
-      ],
-      "location": "Lanzarote"
-    },
-    {
-      "name": "n-lz-balcon-azul",
-      "id": "1588611075232-1a7e1bd9e2d2",
-      "author": "Ferran Feixas",
-      "page": "https://unsplash.com/photos/mYVQfVPj2dM",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
     },
     {
       "name": "n-lz-blanco-costa",
@@ -276,72 +161,6 @@
       ]
     },
     {
-      "name": "n-lava",
-      "id": "1643727230494-84671df76705",
-      "author": "Andrea Huls Pareja",
-      "page": "https://unsplash.com/photos/6LGsSlQcbVA",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
-      "name": "n-muro-piedra",
-      "id": "1788343279234-4602aaa0f257",
-      "author": "Seb Dean",
-      "page": "https://unsplash.com/photos/Ry00YC7cLkU",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
-      "name": "n-paisaje-terrazas",
-      "id": "1771267174954-4ec5eff03aa2",
-      "author": "Jan Bachor",
-      "page": "https://unsplash.com/photos/Q3TAibFYC7g",
-      "widths": [
-        800,
-        1400,
-        2200
-      ]
-    },
-    {
-      "name": "n-estructura-madera",
-      "id": "1666796776547-5c25a077d9af",
-      "author": "Daniel Wong",
-      "page": "https://unsplash.com/photos/ygy6koDTctY",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
-      "name": "n-escalera-blanca",
-      "id": "1601993957728-1e56ab70c5a8",
-      "author": "Alesia Kazantceva",
-      "page": "https://unsplash.com/photos/0B7ijYKaKcE",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
-      "name": "n-interior-luz",
-      "id": "1583329550487-0fa300a4cd1a",
-      "author": "Suhyeon Choi",
-      "page": "https://unsplash.com/photos/ehxwis6Ltxg",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
       "name": "n-salon",
       "id": "1724582586529-62622e50c0b3",
       "author": "Prydumano Design",
@@ -349,14 +168,16 @@
       "widths": [
         600,
         1000,
-        1600
+        1600,
+        2400
       ]
     },
     {
-      "name": "n-pasillo",
-      "id": "1544475918-c8049b783892",
-      "author": "Frank Zhang",
-      "page": "https://unsplash.com/photos/HHNPLFG5t0c",
+      "name": "n-salon-calido",
+      "id": "1772797583328-f83bc3f94f80",
+      "author": "Puscas Adryan",
+      "page": "https://unsplash.com/photos/2cfj0Y5ch00",
+      "location": "Ksamil, Albania",
       "widths": [
         600,
         1000,
@@ -364,65 +185,56 @@
       ]
     },
     {
-      "name": "n-enlucido",
-      "id": "1768839725085-829e6ac7ac26",
-      "author": "Sasun Bughdaryan",
-      "page": "https://unsplash.com/photos/Re1O5byZ8bY",
+      "name": "hero-lz",
+      "id": "1680169156592-b1fa9c5716ea",
+      "author": "elisadventure photographe",
+      "page": "https://unsplash.com/photos/e2D4zQE5x78",
+      "widths": [
+        1000,
+        1600,
+        2200,
+        2600
+      ],
+      "location": "Lanzarote",
+      "source": "n-lz-casa-volcan",
+      "extract": {
+        "left": 0,
+        "top": 1100,
+        "width": 2600,
+        "height": 1680
+      }
+    },
+    {
+      "name": "hero-lz-m",
+      "id": "1680169156592-b1fa9c5716ea",
+      "author": "elisadventure photographe",
+      "page": "https://unsplash.com/photos/e2D4zQE5x78",
       "widths": [
         600,
-        1000,
-        1600
+        900,
+        1300
+      ],
+      "location": "Lanzarote",
+      "source": "n-lz-casa-volcan"
+    },
+    {
+      "name": "seq-1-piedra",
+      "quality": 38,
+      "id": "1521411771005-560244a0c8ce",
+      "author": "Gavin Allanwood",
+      "page": "https://unsplash.com/photos/9hKZvlqire4",
+      "widths": [
+        800,
+        1400,
+        2200
       ]
     },
     {
-      "name": "n-cocina-obra",
-      "id": "1618832515490-e181c4794a45",
-      "author": "immo RENOVATION",
-      "page": "https://unsplash.com/photos/UqNEbyRQ660",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
-      "name": "n-obra-interior",
-      "id": "1634586648651-f1fb9ec10d90",
-      "author": "Stefan Lehner",
-      "page": "https://unsplash.com/photos/biRt6RXejuk",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
-      "name": "n-osb-luz",
-      "id": "1783587354630-3300699c053c",
-      "author": "Annie Spratt",
-      "page": "https://unsplash.com/photos/FiSI0VQSMSQ",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
-      "name": "n-cocina",
-      "id": "1771371854543-bb274762389e",
-      "author": "GoodLifeConstruction",
-      "page": "https://unsplash.com/photos/pQVP5QmskxM",
-      "widths": [
-        600,
-        1000,
-        1600
-      ]
-    },
-    {
-      "name": "n-villa",
-      "id": "1580587771525-78b9dba3b914",
-      "author": "Ярослав Алексеенко",
-      "page": "https://unsplash.com/photos/_TPTXZd9mOo",
+      "name": "hero-timanfaya",
+      "id": "1574934282053-bf4d8c4b98ea",
+      "author": "JP Files",
+      "page": "https://unsplash.com/photos/waBgf2zb2JQ",
+      "location": "Lanzarote",
       "widths": [
         800,
         1400,
